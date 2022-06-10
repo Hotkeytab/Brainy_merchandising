@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id = "@+id/swiperefreshlayout"
+        android:layout_width = "match_parent"
+        android:layout_height = "match_parent">
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/stat_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ajouter une visite"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:textSize="@dimen/_16sdp"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="@dimen/_100sdp"
+                />
+
+            <com.google.android.material.progressindicator.LinearProgressIndicator
+                android:id="@+id/progress_indicator"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:indicatorColor="@color/white"
+                android:indeterminate="true"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:visibility="invisible"
+                app:layout_constraintTop_toBottomOf="@+id/stat_text"
+                app:layout_constraintBottom_toTopOf="@id/search_bar"/>
+
+            <LinearLayout
+                android:visibility="gone"
+                android:id="@+id/search_bar"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                app:layout_constraintTop_toBottomOf="@id/progress_indicator"
+                app:layout_constraintBottom_toTopOf="@id/getstorerecycle"
+                android:background="@drawable/corned_transparent_white"
+                android:orientation="horizontal"
+                >
+
+                <ImageView
+                    android:layout_width="@dimen/_30sdp"
+                    android:layout_height="@dimen/_30sdp"
+                    android:src="@drawable/ic_baseline_search_24"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:layout_gravity="center"/>
+
+                <EditText
+                    android:id="@+id/search_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hint="Chercher une boutique"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:textColorLink="@color/white"
+                    android:textCursorDrawable="@null"
+                    android:background="@null"
+                    android:maxLines="1"/>
+
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/getstorerecycle"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:maxHeight="@dimen/_500sdp"
+                app:layout_constraintTop_toBottomOf="@id/search_bar"
+                app:layout_constraintVertical_bias="0"
+                android:background="@drawable/corned_transparent_white"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_5sdp"/>
+
+
+
+            <LinearLayout
+                android:id="@+id/confirm_cancel_linear"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@id/getstorerecycle"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_marginTop="@dimen/_20sdp">
+
+                <Button
+                    android:id="@+id/cancel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Annuler"
+                    android:textAllCaps="false"
+                    android:backgroundTint="@color/blue" />
+
+
+            </LinearLayout>
+
+
+
+
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+
+</layout>

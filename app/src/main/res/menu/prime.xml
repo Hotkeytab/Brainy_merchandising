@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/Display"
+        android:orderInCategory="100"
+        android:title="@string/Choix_menu_display"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/Stock"
+        android:orderInCategory="100"
+        android:title="@string/Choix_menu_stock"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/Order"
+        android:orderInCategory="100"
+        android:title="@string/Choix_menu_order"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/BA"
+        android:orderInCategory="100"
+        android:title="@string/Choix_menu_BA"
+        app:showAsAction="never" />
+
+</menu>
