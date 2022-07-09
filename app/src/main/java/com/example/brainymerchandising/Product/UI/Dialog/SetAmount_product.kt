@@ -13,7 +13,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.dialog_set_amount.*
 
 @AndroidEntryPoint
-class SetAmount_product (
+class SetAmount_produc (
         position: Int,
         liste_product: ArrayList<ProductRef>)
         : DialogFragment() {
