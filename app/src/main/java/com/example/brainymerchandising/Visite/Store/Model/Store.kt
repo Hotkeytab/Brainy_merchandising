@@ -14,8 +14,8 @@ data class Store(
     val phone_number: String,
     val postal_code: Int,
     val type: String,
-    val updatedAt: String
-
+    val updatedAt: String,
+    val storeGroupId : Int
 
 ){
 

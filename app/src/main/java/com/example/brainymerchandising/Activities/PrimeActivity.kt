@@ -21,8 +21,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
+import com.example.brainymerchandising.Display.Adapter.Image_Adapter
+import com.example.brainymerchandising.Display.Model.Image
+import com.example.brainymerchandising.Display.Model.Post.CustomFieldValue
 import com.example.brainymerchandising.R
 import com.example.brainymerchandising.Visite.UI.MainVisiteFragment
+import com.example.brainymerchandising.baseNav.Base_nav
 import com.example.brainymerchandising.databinding.ActivityPrimeBinding
 
 import dagger.hilt.android.AndroidEntryPoint
@@ -44,7 +48,9 @@ class PrimeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
     //private lateinit var user: User
     private var picture: String? = null
 
-
+    var tab_Image: ArrayList<Image>? = ArrayList<Image>()
+    var tab_CustomFieldValues: ArrayList<CustomFieldValue>? = ArrayList<CustomFieldValue>()
+     lateinit var adapterImage: Image_Adapter
 
 
     //Current fragment
@@ -67,7 +73,7 @@ class PrimeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
         //Get Profile Service
         supportFragmentManager.beginTransaction().replace(
             R.id.nav_acceuil_fragment,
-            MainVisiteFragment()
+            Base_nav()
         ).commit()
 
 

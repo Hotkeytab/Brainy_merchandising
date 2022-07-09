@@ -180,7 +180,7 @@ class Add_visite_dialog (
             //Prepare visitePost Object
           //  Log.d("meher1",date_now)
 
-            val visitePost = VisitPost(null, date_now, 0, taskId, userId, false)
+            val visitePost = VisitPost(null, date_now, 0, taskId, userId, false ,null,null)
             val arayListViste = ArrayList<VisitPost>()
             arayListViste.add(visitePost)
 

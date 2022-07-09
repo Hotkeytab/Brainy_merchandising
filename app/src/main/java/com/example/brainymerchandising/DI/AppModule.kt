@@ -3,8 +3,10 @@ package com.example.brainymerchandising.DI
 import android.content.Context
 import android.content.SharedPreferences
 import com.example.brainymerchandising.BuildConfig
+import com.example.brainymerchandising.Display.Repository.Display_Service
 import com.example.brainymerchandising.Login.Repository.AuthService
 import com.example.brainymerchandising.R
+import com.example.brainymerchandising.Product.Repository.Product_Service
 import com.example.brainymerchandising.Utils.Token.AuthInterceptor
 import com.example.brainymerchandising.Utils.Token.EncodeInterceptors
 import com.example.brainymerchandising.Utils.Token.SessionManager
@@ -107,6 +109,14 @@ object AppModule {
     @Provides
     fun provideStoreService(@Named("Normal") retrofit: Retrofit): StoreService =
         retrofit.create(StoreService::class.java)
+
+    @Provides
+    fun provideDisplayService(@Named("Normal") retrofit: Retrofit): Display_Service =
+        retrofit.create(Display_Service::class.java)
+
+    @Provides
+    fun provideProductService(@Named("Normal") retrofit: Retrofit): Product_Service =
+        retrofit.create(Product_Service::class.java)
 
 
 

@@ -22,5 +22,5 @@
         android:background="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:menu="@menu/bottom_nav_menu"
-        tools:visibility="gone" />
+      />
 </androidx.constraintlayout.widget.ConstraintLayout>

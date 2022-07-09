@@ -3,11 +3,37 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/visite_nav"
-    app:startDestination="@id/mainVisite">
-
-
+    app:startDestination="@id/mainVisiteFragment">
     <fragment
-        android:id="@+id/mainVisite"
-        android:name="com.example.brainymerchandising.Visite.UI.MainVisite"
-        android:label="MainVisite" />
+        android:id="@+id/mainVisiteFragment"
+        android:name="com.example.brainymerchandising.Visite.UI.MainVisiteFragment"
+        android:label="MainVisiteFragment"
+        tools:layout="@layout/fragment_main_visite" >
+        <action
+            android:id="@+id/action_mainVisiteFragment_to_display_Fragment2"
+            app:destination="@id/display_Fragment2" />
+        <action
+            android:id="@+id/action_mainVisiteFragment_to_productFragment"
+            app:destination="@id/productFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/display_Fragment2"
+        android:name="com.example.brainymerchandising.Display.Display_Fragment"
+        android:label="fragment_display_"
+        tools:layout="@layout/fragment_display_" >
+        <action
+            android:id="@+id/action_display_Fragment2_to_mainVisiteFragment"
+            app:destination="@id/mainVisiteFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/productFragment"
+        android:name="com.example.brainymerchandising.Product.UI.ProductFragment"
+        android:label="ProductFragment"
+        tools:layout="@layout/fragment_store" >
+
+
+        <action
+            android:id="@+id/action_productFragment_to_mainVisiteFragment"
+            app:destination="@id/mainVisiteFragment" />
+    </fragment>
 </navigation>

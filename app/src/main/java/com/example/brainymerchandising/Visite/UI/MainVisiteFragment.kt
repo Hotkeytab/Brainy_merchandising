@@ -7,7 +7,6 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
-import android.location.GpsStatus
 import android.location.Location
 import android.location.LocationManager
 import android.net.Uri
@@ -19,7 +18,6 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -29,6 +27,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -40,14 +39,13 @@ import com.example.brainymerchandising.Utils.resources.Server_date.Model.Get_dat
 import com.example.brainymerchandising.Utils.resources.Server_date.ViewModel.Date_ViewModel
 import com.example.brainymerchandising.Utils.resources.Server_date.ViewModel.Date_time_provider
 import com.example.brainymerchandising.Visite.UI.Dialog.Add_visite_dialog
+import com.example.brainymerchandising.Visite.UI.Dialog.CheckIn.Check_In_Dialog
 import com.example.brainymerchandising.Visite.visite.Model.ListVisiteGet
 import com.example.brainymerchandising.Visite.visite.Model.Visite
 import com.example.brainymerchandising.Visite.visite.ViewModel.VisiteViewModel
 import com.example.brainymerchandising.databinding.FragmentMainVisiteBinding
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationCallback
-import com.google.android.gms.location.LocationRequest
-import com.google.android.gms.location.LocationResult
+import com.google.android.gms.location.*
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.fragment_main_visite.*
@@ -55,7 +53,6 @@ import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
-import java.time.LocalDate
 import kotlin.math.atan2
 import kotlin.math.cos
 import kotlin.math.sin
@@ -63,7 +60,7 @@ import kotlin.math.sqrt
 
 
 @AndroidEntryPoint
-class MainVisiteFragment : Fragment(),MainVisiteAdapter.VisiteItemListener , RecyclerItemTouchHelper.RecyclerItemTouchHelperListener {
+class MainVisiteFragment : Fragment(),MainVisiteAdapter.VisiteItemListener {
     private lateinit var binding: FragmentMainVisiteBinding
 
 
@@ -85,6 +82,8 @@ class MainVisiteFragment : Fragment(),MainVisiteAdapter.VisiteItemListener , Rec
     private val REQUEST_CODE = 2
     private lateinit var locationManager: LocationManager
     private var GpsStatus = false
+    private lateinit var visite_interne: Visite
+
 
 
 
@@ -157,7 +156,9 @@ class MainVisiteFragment : Fragment(),MainVisiteAdapter.VisiteItemListener , Rec
 
             //init Nav Controller
 
-            //navController = NavHostFragment.findNavController(this)
+            navController = NavHostFragment.findNavController(this)
+
+
             binding.AddVisiteButton.setOnClickListener {
 
                 //Init Visite Dialog and SHow it
@@ -178,6 +179,20 @@ class MainVisiteFragment : Fragment(),MainVisiteAdapter.VisiteItemListener , Rec
 
 
     }
+
+    override fun onStart() {
+        super.onStart()
+
+        //If Fragment is Added and Activity not null
+        if (isAdded && activity != null) {
+            //Set Location Fused Listener
+            LocationValueListener.locationOn = true
+            fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
+
+            //Ask Permission GPS
+            askForPermissions()
+        }}
+
 
     @DelicateCoroutinesApi
     private fun getVisites() {
@@ -205,7 +220,8 @@ class MainVisiteFragment : Fragment(),MainVisiteAdapter.VisiteItemListener , Rec
 
     private fun setupRecycleViewPredictionDetail() {
 
-        main_viste_adapter = MainVisiteAdapter(this, requireActivity(), activity as PrimeActivity, lista_de_visite)
+        main_viste_adapter = MainVisiteAdapter(this, requireActivity(),
+            activity as PrimeActivity, lista_de_visite,navController)
         binding.taskRecycleview.isMotionEventSplittingEnabled = false
         binding.taskRecycleview.layoutManager = LinearLayoutManager(requireContext())
         binding.taskRecycleview.layoutManager = LinearLayoutManager(
@@ -215,10 +231,50 @@ class MainVisiteFragment : Fragment(),MainVisiteAdapter.VisiteItemListener , Rec
         )
         binding.taskRecycleview.adapter = main_viste_adapter
         main_viste_adapter.setVisite(lista_de_visite)
-        val itemTouchHelperCallback: ItemTouchHelper.SimpleCallback =
-            RecyclerItemTouchHelper(0, ItemTouchHelper.LEFT, this)
-        ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(binding.taskRecycleview)
 
+
+        ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                // this method is called
+                // when the item is moved.
+                return false
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                // this method is called when we swipe our item to right direction.
+                // on below line we are getting the item at a particular position.
+                val deletedCourse: Visite =
+                    lista_de_visite.get(viewHolder.adapterPosition)
+
+                // below line is to get the position
+                // of the item at that position.
+                val position = viewHolder.adapterPosition
+
+                // this method is called when item is swiped.
+                // below line is to remove item from our array list.
+                lista_de_visite.removeAt(viewHolder.adapterPosition)
+
+                // below line is to notify our item is removed from adapter.
+                main_viste_adapter.notifyItemRemoved(viewHolder.adapterPosition)
+
+                // below line is to display our snackbar with action.
+                Snackbar.make(  binding.taskRecycleview, "deletedCourse.id", Snackbar.LENGTH_LONG)
+                    .setAction("Undo",
+                        View.OnClickListener { // adding on click listener to our action of snack bar.
+                            // below line is to add our item to array list with a position.
+                            lista_de_visite.add(position, deletedCourse)
+
+                            // below line is to notify item is
+                            // added to our adapter class.
+                            main_viste_adapter.notifyItemInserted(position)
+                        }).show()
+            } // at last we are adding this
+            // to our recycler view.
+        }).attachToRecyclerView( binding.taskRecycleview)
     }
 
 
@@ -229,7 +285,6 @@ class MainVisiteFragment : Fragment(),MainVisiteAdapter.VisiteItemListener , Rec
                 val a :Date_time_provider = Date_time_provider()
                 Log.d("maher",a.getDatee(responseDate.data!!.Date))
                 Log.d("maher",a.getTime(responseDate.data!!.Date))
-
                 date =   a.getDatee(responseDate.data!!.Date)
                 time  = a.getTime(responseDate.data!!.Date)
 
@@ -242,14 +297,6 @@ class MainVisiteFragment : Fragment(),MainVisiteAdapter.VisiteItemListener , Rec
 
 
 
-    object StaticMapClicked {
-    var mapIsRunning = false
-}
-
-object LocationValueListener {
-    lateinit var myLocation: Location
-    var locationOn = true
-}
 
     override fun onClickedVisite(
         taskId: Int,
@@ -257,12 +304,26 @@ object LocationValueListener {
         visite: Visite,
         theDistance: Float
     ) {
+        if (theDistance > 250) {
+            visite_interne = visite
+
+            //Ask for GPS Permission
+            askForPermissionsDialog()
+
+            //Put StoreId in sharedPref
+            sharedPref =
+                requireContext().getSharedPreferences(
+                    R.string.app_name.toString(),
+                    Context.MODE_PRIVATE
+                )!!
+            with(sharedPref.edit()) {
+                this?.putInt("storeId", taskId)
+            }?.commit()
+        }
 
     }
 
-    override fun onSwiped(viewHolder: RecyclerView.ViewHolder?, direction: Int, position: Int) {
-        TODO("Not yet implemented")
-    }
+
 
     //Calculate Distance from Lat and Lng
     fun distance(lat_a: Float, lng_a: Float, lat_b: Float, lng_b: Float): Float {
@@ -277,6 +338,63 @@ object LocationValueListener {
         val meterConversion = 1609
         return (distance * meterConversion.toFloat()).toFloat()
     }
+
+    //SHow the Dialog of Ask Permissions( Like GPS)
+    fun askForPermissionsDialog(): Boolean {
+        if (!isPermissionsAllowed()) {
+            if (shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)) {
+                showPermissionDeniedDialog()
+            } else {
+
+                requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), REQUEST_CODE)
+            }
+            return false
+        } else {
+            if (CheckGpsStatus())
+            // SurveyCheckDialog(latitude, Longitude,navController).show(fm, "SurveyDialog")
+            {
+
+
+                Log.d("maher22",visite_interne.start.toString())
+                Log.d("maher22",visite_interne.end.toString())
+
+
+                if (visite_interne.start==null && visite_interne.end == null) {
+                    Check_In_Dialog(
+                        this,
+                        navController,
+                        1,
+                        requireView(),
+                        main_viste_adapter,
+                        lista_de_visite,
+                        visite_interne
+                    ).show(fm!!, "SurveyDialog")
+
+                } else {
+                    /*
+                                      if (visite_interne.end == null)
+
+
+                                          Check_In_Dialog(
+                                              this,
+                                              navController,
+                                              2,
+                                              requireView(),
+                                              main_viste_adapter,
+                                              lista_de_visite,
+                                              visite_interne
+                                          ).show(fm!!, "SurveyDialog")
+
+                  */
+                }
+
+            } else {
+                showPermissionDeniedGPS()
+            }
+        }
+        return true
+    }
+
 
     private fun setUpLocationListener() {
 
@@ -404,12 +522,20 @@ object LocationValueListener {
             .show()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        LocationValueListener.locationOn = false
+        fm = null
+    }
 
-
+    override fun onClosedCheckDialog() {
+        getVisites()
+    }
 
 
 
 }
+
 object StaticMapClicked {
     var mapIsRunning = false
 }
@@ -418,4 +544,3 @@ object LocationValueListener {
     lateinit var myLocation: Location
     var locationOn = true
 }
-

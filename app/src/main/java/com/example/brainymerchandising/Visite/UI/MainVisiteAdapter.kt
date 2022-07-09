@@ -1,37 +1,41 @@
 package com.example.brainymerchandising.Visite.UI
 
-import android.content.ClipData.Item
 import android.content.Context
 import android.content.SharedPreferences
 import android.graphics.Color
 import android.view.*
 import androidx.core.view.isVisible
 import androidx.fragment.app.FragmentActivity
+import androidx.navigation.NavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.brainymerchandising.Activities.PrimeActivity
 import com.example.brainymerchandising.R
 import com.example.brainymerchandising.Visite.UI.Dialog.Position.PositionMapDialog
 import com.example.brainymerchandising.Visite.visite.Model.Visite
 import com.example.brainymerchandising.databinding.ItemMagasinBinding
+import kotlinx.android.synthetic.main.dialog_position_map.*
 import kotlin.math.atan2
 import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.math.sqrt
 
 
-class MainVisiteAdapter (
+class MainVisiteAdapter(
     private val listener: MainVisiteFragment,
     activity: FragmentActivity,
     activityDrawer2: PrimeActivity,
-    listeVisite : ArrayList<Visite>
-
+    listeVisite: ArrayList<Visite>,
+    navController: NavController
 ) : RecyclerView.Adapter<MainVisiteViewHolder>() {
     private val activityIns = activity
     private val activityDrawer = activityDrawer2
     private val liste_visite_Recycle_adapter = listeVisite
+    private val  navController= navController
 
     interface VisiteItemListener {
-        fun onClickedVisite(taskId: Int, distance: String, visite: Visite, theDistance: Float)}
+        fun onClickedVisite(taskId: Int, distance: String, visite: Visite, theDistance: Float)
+        fun onClosedCheckDialog()
+   }
 
     private val visite = ArrayList<Visite>()
 
@@ -53,7 +57,8 @@ class MainVisiteAdapter (
             parent,
             activityDrawer,
             this,
-            liste_visite_Recycle_adapter,visite
+            liste_visite_Recycle_adapter,visite,
+                    navController
         )
 
     }
@@ -86,15 +91,16 @@ class MainVisiteViewHolder(
     private val parent: ViewGroup,
     private val activityDrawer: PrimeActivity,
     private val taskAdapter: MainVisiteAdapter,
-    private val items : ArrayList<Visite>,
-    private val items2: ArrayList<Visite>
+    private val items: ArrayList<Visite>,
+    private val items2: ArrayList<Visite>,
+    navController: NavController
 ):RecyclerView.ViewHolder(itemBinding.root),
     View.OnClickListener {
     private lateinit var visiteResponse: Visite
     lateinit var sharedPref: SharedPreferences
     private var finalDistance = ""
     private var theDistance = 0f
-
+    private var  nav = navController
     init {
         itemBinding.root.setOnClickListener(this)
     }
@@ -111,13 +117,17 @@ class MainVisiteViewHolder(
             visiteResponse,
             theDistance
         )
+
+
+        if(visiteResponse.start != null && visiteResponse.end ==null ){
+
         if(itemBinding.MenuNavigationItem1.isVisible)
         itemBinding.MenuNavigationItem1.visibility= (View.GONE)
         else
             itemBinding.MenuNavigationItem1.visibility= (View.VISIBLE)
 
 
-
+        }
     }
 
     //calculate Distance
@@ -157,26 +167,29 @@ class MainVisiteViewHolder(
     }
 
 
-    fun bind(visite: Visite) { this.visiteResponse = visite
+    fun bind(visite: Visite) {
+
+        this.visiteResponse = visite
 
 
 
         // Mettre la CardView à jour si le poinatge s'est lancé
         if(visite.start != null){
             itemBinding.rowDebutViste.setBackgroundColor(Color.parseColor("#009688"))
-            itemBinding.debut.text = "Commencé en : $(visite.start)} "
+            itemBinding.debut.text = "Commencé en : ${visite.start}"
             itemBinding.debut.setSelected(true)
 
         } else {
             itemBinding.rowDebutViste.setBackgroundColor(Color.parseColor("#DF0B0B"))
             itemBinding.debut.text = "pas encore commencé "
+
         }
         // Mettre la CardView à jour si le poinatge si s'est terminer
 
         if(visite.end != null) {
             itemBinding.rowFinViste.setBackgroundColor(Color.parseColor("#009688"))
-            itemBinding.finVisite.text = "Fin      : ${visite.end}"
-            itemBinding.debut.setSelected(true)
+            itemBinding.finVisite.text = "Fin en : ${visite.end}"
+            itemBinding.finVisite.setSelected(true)
         } else {
             itemBinding.rowFinViste.setBackgroundColor(Color.parseColor("#DF0B0B"))
             itemBinding.finVisite.text = "pas encore Terminer" }
@@ -199,11 +212,41 @@ class MainVisiteViewHolder(
         )
 
 
+        //If Distance Good set Item Clickable
+        if (theDistance > 250) {
 
+            finalDistance = theDistance.toInt().toString() + " m"
+            //itemBinding.cardviewColorEnable.setCardBackgroundColor(Color.rgb(255, 255, 255))
+            itemBinding.imageView2.setOnClickListener {
+                putStoreName(visite.store.name)
+                putVisiteId(visite.id)
+                listener.onClickedVisite(
+                    visiteResponse.id,
+                    finalDistance,
+                    visite,
+                    theDistance
+                )
+            }
 
+            itemBinding.name.setOnClickListener {
+                putStoreName(visite.store.name)
+                putVisiteId(visite.id)
+                listener.onClickedVisite(
+                    visiteResponse.id,
+                    finalDistance,
+                    visite,
+                    theDistance
+                )
 
+            }
+        } else {
+            finalDistance = (theDistance.toInt() / 1000).toString() + " km"
 
+           // itemBinding.cardviewColorEnable.setCardBackgroundColor(Color.rgb(220, 220, 220))
+        }
 
+        itemBinding.distance.visibility = View.VISIBLE
+        itemBinding.distance.text = finalDistance
 
         itemBinding.showMap.setOnClickListener {
 
@@ -214,15 +257,19 @@ class MainVisiteViewHolder(
                     visite.store.lat,
                     visite.store.lng,
                     visite.store.name
-                ).show(activityIns.supportFragmentManager, "PositionMapDialog")
-            }}
+                ).show(activityIns.supportFragmentManager, "PositionMapDialog")}}
+
+        itemBinding.navNewDisplay.setOnClickListener {
+
+            nav.navigate(R.id.action_mainVisiteFragment_to_display_Fragment2) }
 
 
+        itemBinding.navNewProduct.setOnClickListener {
 
-
-
-
+            nav.navigate(R.id.action_mainVisiteFragment_to_productFragment) }
     }
+
+
 
 
 

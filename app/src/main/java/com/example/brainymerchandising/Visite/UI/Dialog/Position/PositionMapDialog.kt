@@ -10,6 +10,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import androidx.fragment.app.DialogFragment
 import com.example.brainymerchandising.R
 import com.example.brainymerchandising.Visite.UI.MainVisiteFragment
+import com.example.brainymerchandising.Visite.UI.StaticMapClicked
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
@@ -50,7 +51,7 @@ class PositionMapDialog(
 
     override fun onDestroy() {
         super.onDestroy()
-        MainVisiteFragment.StaticMapClicked.mapIsRunning = false}
+      StaticMapClicked.mapIsRunning = false}
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
