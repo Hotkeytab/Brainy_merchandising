@@ -70,7 +70,7 @@ class ProductFragment : Fragment() , adapter_Product_base.Base_ProductListener{
 
     private fun setupRecycleView() {
 
-        adapter_Product_base = adapter_Product_base(this, requireActivity(),liste_product_ref,binding.amount)
+        adapter_Product_base = adapter_Product_base(this, requireActivity(),liste_product_ref,binding.amount,requireActivity())
 
         binding.listeProductRecycle.isMotionEventSplittingEnabled = false
         binding.listeProductRecycle.layoutManager = LinearLayoutManager(requireContext())

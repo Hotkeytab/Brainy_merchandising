@@ -7,19 +7,32 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.viewModels
+import com.example.brainymerchandising.Product.Model.POST.productPost
+import com.example.brainymerchandising.Product.Model.Product
 import com.example.brainymerchandising.Product.Model.ProductRef
+import com.example.brainymerchandising.Product.ViewModel.Product_ViewModel
 import com.example.brainymerchandising.R
+import com.example.brainymerchandising.Utils.resources.ConstModele.SuccessResponse
+import com.example.brainymerchandising.Utils.resources.Resource
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.dialog_add_visite.*
 import kotlinx.android.synthetic.main.dialog_set_amount.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class SetAmount_product (
         position: Int,
-        liste_product: ArrayList<ProductRef>)
-        : DialogFragment() {
+        product: ProductRef,
+        )
 
+        : DialogFragment() {
+        private val viewModel: Product_ViewModel by viewModels()
+        private lateinit var responseAdd: Resource<SuccessResponse>
         private var position = position
-        private val liste_product = liste_product
+        private val product = product
         override fun onCreateView(
                 inflater: LayoutInflater,
                 container: ViewGroup?,
@@ -41,13 +54,37 @@ class SetAmount_product (
         override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
                 super.onViewCreated(view, savedInstanceState)
 
-                if (!val_quantite.text.isEmpty()){
+
+                ok_amount.setOnClickListener {
+                        progress_indicatorproduct.visibility = View.VISIBLE
+
+                        if (!val_quantite.text.isEmpty()) {
+                                val Postproduct = productPost(
+                                        0, product.productId, product.storeId,
+                                        val_quantite.text.toString().toInt(), false
+                                )
+                                GlobalScope.launch(Dispatchers.Main) {
+                                        responseAdd = viewModel.updateStock(Postproduct)
 
 
-                }
+                                if (responseAdd.responseCode == 201) {
+                                        dialog!!.setCancelable(true)
+                                        cancel.isEnabled = true
+                                        dialog!!.dismiss()
+
+                                } else {
+                                        dialog!!.setCancelable(true)
+                                        cancel.isEnabled = true
+                                        progress_indicatorproduct.visibility = View.GONE
+                                }
+
+
+                        }
+
+                        }
 
 
         }
 
 
-        }
+        }}

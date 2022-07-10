@@ -9,6 +9,17 @@
         android:layout_height="match_parent">
 
 
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:id="@+id/progress_indicatorproduct"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:indeterminate="true"
+            android:visibility="invisible"
+            app:indicatorColor="@color/white"
+            app:layout_constraintBottom_toTopOf="@+id/val_quantite"
+            app:layout_constraintTop_toBottomOf="@+id/stat_text" />
+
         <ImageView
             android:id="@+id/cancel_amount"
             android:layout_width="@dimen/_30sdp"
