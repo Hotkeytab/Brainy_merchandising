@@ -11,7 +11,6 @@ import com.example.brainymerchandising.Product.Model.ProductRef
 import com.example.brainymerchandising.Product.UI.Dialog.SetAmount_product
 import com.example.brainymerchandising.Product.UI.ProductFragment
 import com.example.brainymerchandising.databinding.ItemProductBinding
-import hilt_aggregated_deps._com_example_brainymerchandising_Product_UI_Dialog_SetAmount_product_GeneratedInjector
 
 
 class adapter_Product_base(
@@ -85,7 +84,6 @@ class ProductViewHolder(
                 itemBinding.quantite.visibility = View.GONE
                 amount.visibility = View.GONE
             }  */
- Log.d("yoo","clicked")
             SetAmount_product(position,item).show(activityIns.supportFragmentManager, "updateProduct")
 
         }
