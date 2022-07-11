@@ -16,6 +16,6 @@ interface Product_Service {
     suspend fun getRefProduct(@Path("storeId") storeId: Int?) : Response<GetRefProduct_Response>
 
     @POST("/stock")
-    suspend fun updateStock(@Body product_post: productPost) : Response<SuccessResponse>
+    suspend fun updateStock(@Body product_post: List<productPost>) : Response<SuccessResponse>
 
 }

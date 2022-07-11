@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import com.example.brainymerchandising.Product.Model.POST.productPost
-import com.example.brainymerchandising.Product.Model.Product
 import com.example.brainymerchandising.Product.Model.ProductRef
 import com.example.brainymerchandising.Product.ViewModel.Product_ViewModel
 import com.example.brainymerchandising.R
@@ -33,6 +32,7 @@ class SetAmount_product (
         private lateinit var responseAdd: Resource<SuccessResponse>
         private var position = position
         private val product = product
+        private  var product_update = ArrayList<productPost>()
         override fun onCreateView(
                 inflater: LayoutInflater,
                 container: ViewGroup?,
@@ -60,21 +60,23 @@ class SetAmount_product (
 
                         if (!val_quantite.text.isEmpty()) {
                                 val Postproduct = productPost(
-                                        0, product.productId, product.storeId,
-                                        val_quantite.text.toString().toInt(), false
+                                        product.product, product.store,
+                                        product.storeId, product.productId,val_quantite.text.toString().toInt(),
+                                        false,60
                                 )
+                                product_update.add(Postproduct)
                                 GlobalScope.launch(Dispatchers.Main) {
-                                        responseAdd = viewModel.updateStock(Postproduct)
+                                        responseAdd = viewModel.updateStock(product_update)
 
 
                                 if (responseAdd.responseCode == 201) {
                                         dialog!!.setCancelable(true)
-                                        cancel.isEnabled = true
+                                        cancel_amount.isEnabled = true
                                         dialog!!.dismiss()
 
                                 } else {
                                         dialog!!.setCancelable(true)
-                                        cancel.isEnabled = true
+                                        cancel_amount.isEnabled = true
                                         progress_indicatorproduct.visibility = View.GONE
                                 }
 

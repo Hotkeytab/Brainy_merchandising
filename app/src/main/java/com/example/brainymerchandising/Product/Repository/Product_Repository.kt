@@ -9,7 +9,7 @@ class Store_Repository @Inject constructor(
 ) : BaseRemoteDataSource() {
 
     suspend fun getRefProduct(storeId : Int) = getResult { productservice.getRefProduct(storeId) }
-    suspend fun updateStock(product_post : productPost) = getResult { productservice.updateStock(product_post) }
+    suspend fun updateStock(product_post : List<productPost>) = getResult { productservice.updateStock(product_post) }
 
 
 
