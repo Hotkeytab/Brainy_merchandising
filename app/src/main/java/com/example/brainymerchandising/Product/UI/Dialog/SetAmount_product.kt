@@ -81,12 +81,6 @@ class SetAmount_product (
                                 }
 
 
-                        }
-
-                        }
-
-
-        }
-
-
+                        }}
+                }
         }}

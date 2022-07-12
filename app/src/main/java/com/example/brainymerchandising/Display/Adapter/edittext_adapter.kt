@@ -2,6 +2,7 @@ package com.example.brainymerchandising.Display.Adapter
 
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,12 +18,14 @@ class edittext_adapter(
     private val
     liste_display: ArrayList<DisplayCustomFields>,
     displayTypeId: Int,
-    displayFragment: Display_Fragment
+    displayFragment: Display_Fragment,
+    position: Int
 )
     : RecyclerView.Adapter<edittext_ViewHolder>() {
     private val liste_display_Recycle_adapter = liste_display
     private val displayTypeId = displayTypeId
     private val displayFragment = displayFragment
+    private val position = position
 
 
     interface edittext_adapterListener {
@@ -61,7 +64,7 @@ class edittext_adapter(
         return edittext_ViewHolder(
             binding,
             parent,
-            liste_display_Recycle_adapter,displayTypeId,displayFragment
+            liste_display_Recycle_adapter,displayTypeId,displayFragment, position
 
             )}
 
@@ -76,10 +79,12 @@ class edittext_ViewHolder(
     private var parent: ArrayList<DisplayCustomFields>,
     displayTypeId: Int,
     displayFragment: Display_Fragment,
+    position14: Int,
 
     ) : RecyclerView.ViewHolder(itemBinding.root),
     View.OnClickListener {
     private lateinit var customFieldValue : CustomFieldValue
+    private  var position14 = position14
 
     val displayTypeId = displayTypeId
 val displayFragment = displayFragment
@@ -90,6 +95,7 @@ val displayFragment = displayFragment
     fun bind(item: DisplayCustomFields) {
         itemBinding.edittextIsplay.hint = item.name
 
+
         itemBinding.edittextIsplay.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
 
@@ -97,6 +103,7 @@ val displayFragment = displayFragment
             }
 
             override fun afterTextChanged(editable: Editable) {
+                Log.d(position14.toString(),"parent")
 
                 customFieldValue = CustomFieldValue(position,editable.toString()
                     ,"2022","2022",item.displaySectionId,displayTypeId)
@@ -107,8 +114,9 @@ val displayFragment = displayFragment
 
                 }else{
                     var trouver : Boolean = false
-
+                       var i =0
                     for ( j in 0..(displayFragment.activity as PrimeActivity).tab_CustomFieldValues!!.size-1){
+                        i=j
                     if ((displayFragment.activity as PrimeActivity)
                             .tab_CustomFieldValues!!.get(j).id == position){
                         (displayFragment.activity as PrimeActivity).
@@ -116,12 +124,14 @@ val displayFragment = displayFragment
 
                         trouver = true
                     }
-                        if (trouver==false){
+                    }
+                        if (trouver==false && i== (displayFragment.activity as PrimeActivity).tab_CustomFieldValues!!.size-1){
                             (displayFragment.activity as PrimeActivity).tab_CustomFieldValues!!.add(customFieldValue)
 
                         }
 
-                }}
+
+                 }
 
 
 

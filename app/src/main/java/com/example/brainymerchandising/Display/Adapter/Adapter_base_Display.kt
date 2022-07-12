@@ -86,7 +86,7 @@ class Base_DisplayViewHolder (
     fun bind(item: DisplaySections) {
         itemBinding.textView2.text = item.name
         adapter_childText =
-            edittext_adapter(item.displayCustomFields as ArrayList<DisplayCustomFields>,item.displayTypeId,displayFragment)
+            edittext_adapter(item.displayCustomFields as ArrayList<DisplayCustomFields>,item.displayTypeId,displayFragment,position)
         itemBinding.caseTextRecycler.isMotionEventSplittingEnabled = false
         itemBinding.caseTextRecycler.layoutManager = LinearLayoutManager(parent.context)
         itemBinding.caseTextRecycler.layoutManager = LinearLayoutManager(
@@ -124,7 +124,7 @@ class Base_DisplayViewHolder (
 
 
 
-        itemBinding.addphoto.setOnClickListener {
+    itemBinding.addphoto.setOnClickListener {
             Log.d("primeArrayOnclickaddphoto",(displayFragment.activity as PrimeActivity).tab_Image!!.size.toString())
 
             Choix_Image(
@@ -137,6 +137,7 @@ class Base_DisplayViewHolder (
                 displayFragment
             ).show(activityIns.supportFragmentManager, "ChoixImageNewCR")
         }
+
 
 
         itemBinding.addphotoRcRecycle.setOnClickListener {

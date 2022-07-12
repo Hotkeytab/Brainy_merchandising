@@ -1,16 +1,15 @@
 package com.example.brainymerchandising.Display.Model.Post
 
-data class Displays (
+data class Display (
 
-    val id : Int,
-    val createdAt : String,
-    val updatedAt : String,
-    val categoryId : Int,
-    val brandId : Int,
-    val displayTypeId : Int,
     val storeId : Int,
     val userId : Int,
+    val displayTypeId : Int,
+    val categoryId : Int,
+    val brandId : Int,
     val visitId : Int,
         )
+
+
 {
 }

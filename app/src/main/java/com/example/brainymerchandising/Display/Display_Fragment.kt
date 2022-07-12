@@ -75,8 +75,8 @@ class Display_Fragment : Fragment(), Adapter_base_Display.Base_DisplayListener,I
 
             binding.fab.setOnClickListener(View.OnClickListener {
 
-
-                Log.d("liste_objet_display", (this.activity as PrimeActivity).tab_CustomFieldValues!!.toString())
+                Log.d("liste_objet_display",
+                    (this.activity as PrimeActivity).tab_CustomFieldValues!!.toString())
 
             })
 
