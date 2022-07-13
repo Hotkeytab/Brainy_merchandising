@@ -17,6 +17,8 @@ import com.example.brainymerchandising.Activities.PrimeActivity
 import com.example.brainymerchandising.Display.Adapter.Adapter_base_Display
 import com.example.brainymerchandising.Display.Adapter.Image_Adapter
 import com.example.brainymerchandising.Display.Model.*
+import com.example.brainymerchandising.Display.Model.Post.CustomFieldValue
+import com.example.brainymerchandising.Display.Model.Post.Items_Text_input
 import com.example.brainymerchandising.Display.ViewModel.Display_ViewModel
 import com.example.brainymerchandising.Utils.resources.Resource
 import com.example.brainymerchandising.databinding.FragmentDisplayBinding
@@ -47,6 +49,9 @@ class Display_Fragment : Fragment(), Adapter_base_Display.Base_DisplayListener,I
     private lateinit var adapter_Display_base: Adapter_base_Display
     private lateinit  var selected_Element  : Any
     private lateinit  var   adapter_image:  Image_Adapter
+    private lateinit var customFieldObject: DisplayCustomFields
+    private lateinit var TextPostAll_EditText: Items_Text_input
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -70,13 +75,32 @@ class Display_Fragment : Fragment(), Adapter_base_Display.Base_DisplayListener,I
         binding.subjectText.setOnItemClickListener { parent, view, position, id ->
             selected_Element = parent.getItemAtPosition(position)
             // Log.d("selected_Element",selected_Element.toString())
+            var customValues: ArrayList<Items_Text_input>? = ArrayList<Items_Text_input>()
 
 
 
             binding.fab.setOnClickListener(View.OnClickListener {
 
+                for (i in (this.activity as PrimeActivity).tab_CustomFieldValues1!!){
+
+                    customFieldObject = DisplayCustomFields(i.value.DisplayCustomFieldId,i.value.name,
+                    i.value.type,"2022","2022",i.value.displaySectionId)
+
+                    TextPostAll_EditText = Items_Text_input(customFieldObject,i.value.value,i.value.DisplayCustomFieldId)
+
+                    customValues!!.add(TextPostAll_EditText)
+                }
+
+
+
+
+
+
+
                 Log.d("liste_objet_display",
-                    (this.activity as PrimeActivity).tab_CustomFieldValues!!.toString())
+                    (this.activity as PrimeActivity).tab_CustomFieldValues1!!.toString())
+
+                Log.d("customValues",customValues!!.toString())
 
             })
 

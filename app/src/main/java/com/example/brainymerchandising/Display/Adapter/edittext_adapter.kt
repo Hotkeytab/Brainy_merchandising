@@ -20,8 +20,7 @@ class edittext_adapter(
     displayTypeId: Int,
     displayFragment: Display_Fragment,
     position: Int
-)
-    : RecyclerView.Adapter<edittext_ViewHolder>() {
+) : RecyclerView.Adapter<edittext_ViewHolder>() {
     private val liste_display_Recycle_adapter = liste_display
     private val displayTypeId = displayTypeId
     private val displayFragment = displayFragment
@@ -36,27 +35,29 @@ class edittext_adapter(
     private val items_Edittext_values = ArrayList<CustomFieldValue>()
 
 
-
     fun setItems(items: ArrayList<DisplayCustomFields>) {
         this.items.clear()
         this.items.addAll(items)
-        notifyDataSetChanged() }
+        notifyDataSetChanged()
+    }
 
     fun setItemsValues(items_value: ArrayList<CustomFieldValue>) {
         this.items_Edittext_values.clear()
         this.items_Edittext_values.addAll(items_value)
-        notifyDataSetChanged() }
+        notifyDataSetChanged()
+    }
 
     fun clear() {
         val size: Int = items.size
         items.clear()
         notifyItemRangeRemoved(0, size)
-        notifyDataSetChanged()}
-
+        notifyDataSetChanged()
+    }
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): edittext_ViewHolder {
-        val binding: DropdownItemBinding = DropdownItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding: DropdownItemBinding =
+            DropdownItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
 
 
 
@@ -64,15 +65,17 @@ class edittext_adapter(
         return edittext_ViewHolder(
             binding,
             parent,
-            liste_display_Recycle_adapter,displayTypeId,displayFragment, position
+            liste_display_Recycle_adapter, displayTypeId, displayFragment, position
 
-            )}
+        )
+    }
 
     override fun getItemCount(): Int = items.size
     override fun onBindViewHolder(holder: edittext_ViewHolder, position: Int) {
         holder.bind(items[position])
     }
 }
+
 class edittext_ViewHolder(
     private val itemBinding: DropdownItemBinding,
     private val activityIns: ViewGroup,
@@ -83,14 +86,16 @@ class edittext_ViewHolder(
 
     ) : RecyclerView.ViewHolder(itemBinding.root),
     View.OnClickListener {
-    private lateinit var customFieldValue : CustomFieldValue
-    private  var position14 = position14
+    private lateinit var customFieldValue: CustomFieldValue
+    private var position14 = position14
 
     val displayTypeId = displayTypeId
-val displayFragment = displayFragment
-    var compteur : Int = -1
+    val displayFragment = displayFragment
+    var compteur: Int = -1
+
     init {
-        itemBinding.root.setOnClickListener(this) }
+        itemBinding.root.setOnClickListener(this)
+    }
 
     fun bind(item: DisplayCustomFields) {
         itemBinding.edittextIsplay.hint = item.name
@@ -103,43 +108,48 @@ val displayFragment = displayFragment
             }
 
             override fun afterTextChanged(editable: Editable) {
-                Log.d(position14.toString(),"parent")
+                Log.d(position14.toString(), "parent")
+                customFieldValue = CustomFieldValue(
+                    item.id,
+                    editable.toString(),
+                    "2022",
+                    "2022",
+                    item.id,
+                    displayTypeId,
+                    item.displaySectionId,
+                    item.name,
+                    item.type
+                )
 
-                customFieldValue = CustomFieldValue(position,editable.toString()
-                    ,"2022","2022",item.displaySectionId,displayTypeId)
+                if ((displayFragment.activity as PrimeActivity).tab_CustomFieldValues1!!.isEmpty()) {
+
+                    (displayFragment.activity as PrimeActivity).tab_CustomFieldValues1!!
+                        .put(item.id, customFieldValue)
+
+                } else {
+                    if ((displayFragment.activity as PrimeActivity).tab_CustomFieldValues1!!.containsKey(
+                            item.id
+                        )
+                    ) {
+
+                        (displayFragment.activity as PrimeActivity).tab_CustomFieldValues1!!
+                            .replace(item.id, customFieldValue)
 
 
-                if((displayFragment.activity as PrimeActivity).tab_CustomFieldValues!!.isEmpty()){
-                    (displayFragment.activity as PrimeActivity).tab_CustomFieldValues!!.add(customFieldValue)
+                    } else {
 
-                }else{
-                    var trouver : Boolean = false
-                       var i =0
-                    for ( j in 0..(displayFragment.activity as PrimeActivity).tab_CustomFieldValues!!.size-1){
-                        i=j
-                    if ((displayFragment.activity as PrimeActivity)
-                            .tab_CustomFieldValues!!.get(j).id == position){
-                        (displayFragment.activity as PrimeActivity).
-                        tab_CustomFieldValues!!.get(j).value= editable.toString()
-
-                        trouver = true
+                        (displayFragment.activity as PrimeActivity).tab_CustomFieldValues1!!
+                            .put(item.id, customFieldValue)
                     }
-                    }
-                        if (trouver==false && i== (displayFragment.activity as PrimeActivity).tab_CustomFieldValues!!.size-1){
-                            (displayFragment.activity as PrimeActivity).tab_CustomFieldValues!!.add(customFieldValue)
-
-                        }
 
 
-                 }
-
-
+                }
 
 
             }
+
+
         })
-
-
 
 
     }

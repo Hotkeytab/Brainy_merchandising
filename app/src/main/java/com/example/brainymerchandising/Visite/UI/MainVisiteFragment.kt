@@ -60,7 +60,7 @@ import kotlin.math.sqrt
 
 
 @AndroidEntryPoint
-class MainVisiteFragment : Fragment(),MainVisiteAdapter.VisiteItemListener {
+class MainVisiteFragment : Fragment(), MainVisiteAdapter.VisiteItemListener {
     private lateinit var binding: FragmentMainVisiteBinding
 
 
@@ -76,25 +76,16 @@ class MainVisiteFragment : Fragment(),MainVisiteAdapter.VisiteItemListener {
     private lateinit var navController: NavController
     private var fm: FragmentManager? = null
     lateinit var sharedPref: SharedPreferences
-    private var date =""
+    private var date = ""
     private var userId = 0
-    private  var time =""
+    private var time = ""
     private val REQUEST_CODE = 2
     private lateinit var locationManager: LocationManager
     private var GpsStatus = false
     private lateinit var visite_interne: Visite
 
 
-
-
     private lateinit var fusedLocationClient: FusedLocationProviderClient
-
-
-
-
-
-
-
 
 
     override fun onCreateView(
@@ -108,7 +99,6 @@ class MainVisiteFragment : Fragment(),MainVisiteAdapter.VisiteItemListener {
         if (isAdded && activity != null) {
 
 
-
             fm = childFragmentManager
 
             sharedPref = requireContext().getSharedPreferences(
@@ -118,10 +108,10 @@ class MainVisiteFragment : Fragment(),MainVisiteAdapter.VisiteItemListener {
             userId = sharedPref.getInt("id", 0)
 
             val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd")
-          //  dateTimeBegin = simpleDateFormat.format("2022-06-06").toString()
+            //  dateTimeBegin = simpleDateFormat.format("2022-06-06").toString()
             // dateTimeEnd = simpleDateFormat.format("2022-06-06").toString()
             dateTimeBegin = "2022-06-09"
-            dateTimeEnd  ="2022-06-09"
+            dateTimeEnd = "2022-06-09"
 
         }
 
@@ -177,7 +167,6 @@ class MainVisiteFragment : Fragment(),MainVisiteAdapter.VisiteItemListener {
         }
 
 
-
     }
 
     override fun onStart() {
@@ -191,12 +180,13 @@ class MainVisiteFragment : Fragment(),MainVisiteAdapter.VisiteItemListener {
 
             //Ask Permission GPS
             askForPermissions()
-        }}
+        }
+    }
 
 
     @DelicateCoroutinesApi
     private fun getVisites() {
-        Log.d("meher1",date)
+        Log.d("meher1", date)
 
         lifecycleScope.launch(Dispatchers.Main) {
             if (!isDetached) {
@@ -213,15 +203,20 @@ class MainVisiteFragment : Fragment(),MainVisiteAdapter.VisiteItemListener {
 
                         if (isAdded && activity != null)
                             setupRecycleViewPredictionDetail()
-                        binding.progressIndicator.visibility = View.GONE } }}
-
+                        binding.progressIndicator.visibility = View.GONE
+                    }
+                }
             }
+
+        }
     }
 
     private fun setupRecycleViewPredictionDetail() {
 
-        main_viste_adapter = MainVisiteAdapter(this, requireActivity(),
-            activity as PrimeActivity, lista_de_visite,navController)
+        main_viste_adapter = MainVisiteAdapter(
+            this, requireActivity(),
+            activity as PrimeActivity, lista_de_visite, navController
+        )
         binding.taskRecycleview.isMotionEventSplittingEnabled = false
         binding.taskRecycleview.layoutManager = LinearLayoutManager(requireContext())
         binding.taskRecycleview.layoutManager = LinearLayoutManager(
@@ -262,7 +257,7 @@ class MainVisiteFragment : Fragment(),MainVisiteAdapter.VisiteItemListener {
                 main_viste_adapter.notifyItemRemoved(viewHolder.adapterPosition)
 
                 // below line is to display our snackbar with action.
-                Snackbar.make(  binding.taskRecycleview, "deletedCourse.id", Snackbar.LENGTH_LONG)
+                Snackbar.make(binding.taskRecycleview, "deletedCourse.id", Snackbar.LENGTH_LONG)
                     .setAction("Undo",
                         View.OnClickListener { // adding on click listener to our action of snack bar.
                             // below line is to add our item to array list with a position.
@@ -274,19 +269,19 @@ class MainVisiteFragment : Fragment(),MainVisiteAdapter.VisiteItemListener {
                         }).show()
             } // at last we are adding this
             // to our recycler view.
-        }).attachToRecyclerView( binding.taskRecycleview)
+        }).attachToRecyclerView(binding.taskRecycleview)
     }
 
 
-    private fun getDate(){
+    private fun getDate() {
         lifecycleScope.launch(Dispatchers.Main) {
             responseDate = dateviewmodel.getDatetime()
-            if(responseDate.responseCode ==200){
-                val a :Date_time_provider = Date_time_provider()
-                Log.d("maher",a.getDatee(responseDate.data!!.Date))
-                Log.d("maher",a.getTime(responseDate.data!!.Date))
-                date =   a.getDatee(responseDate.data!!.Date)
-                time  = a.getTime(responseDate.data!!.Date)
+            if (responseDate.responseCode == 200) {
+                val a: Date_time_provider = Date_time_provider()
+                Log.d("maher", a.getDatee(responseDate.data!!.Date))
+                Log.d("maher", a.getTime(responseDate.data!!.Date))
+                date = a.getDatee(responseDate.data!!.Date)
+                time = a.getTime(responseDate.data!!.Date)
 
 
             }
@@ -294,8 +289,6 @@ class MainVisiteFragment : Fragment(),MainVisiteAdapter.VisiteItemListener {
         }
 
     }
-
-
 
 
     override fun onClickedVisite(
@@ -322,7 +315,6 @@ class MainVisiteFragment : Fragment(),MainVisiteAdapter.VisiteItemListener {
         }
 
     }
-
 
 
     //Calculate Distance from Lat and Lng
@@ -355,11 +347,11 @@ class MainVisiteFragment : Fragment(),MainVisiteAdapter.VisiteItemListener {
             {
 
 
-                Log.d("maher22",visite_interne.start.toString())
-                Log.d("maher22",visite_interne.end.toString())
+                Log.d("maher22", visite_interne.start.toString())
+                Log.d("maher22", visite_interne.end.toString())
 
 
-                if (visite_interne.start==null && visite_interne.end == null) {
+                if (visite_interne.start == null && visite_interne.end == null) {
                     Check_In_Dialog(
                         this,
                         navController,
@@ -474,6 +466,7 @@ class MainVisiteFragment : Fragment(),MainVisiteAdapter.VisiteItemListener {
         }
         return true
     }
+
     fun isPermissionsAllowed(): Boolean {
         return ContextCompat.checkSelfPermission(
             requireContext(),
@@ -497,6 +490,7 @@ class MainVisiteFragment : Fragment(),MainVisiteAdapter.VisiteItemListener {
             .setNegativeButton("Cancel", null)
             .show()
     }
+
     //Check GPS Status if Activated or not
     fun CheckGpsStatus(): Boolean {
         locationManager =
@@ -531,7 +525,6 @@ class MainVisiteFragment : Fragment(),MainVisiteAdapter.VisiteItemListener {
     override fun onClosedCheckDialog() {
         getVisites()
     }
-
 
 
 }

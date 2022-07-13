@@ -6,4 +6,8 @@ data class CustomFieldValue(
     var createdAt : String,
     var updatedAt : String,
     var DisplayCustomFieldId : Int,
-    var displayId : Int)
+    var displayId : Int,
+    val displaySectionId : Int,
+    val name : String,
+    val type : String,
+)
