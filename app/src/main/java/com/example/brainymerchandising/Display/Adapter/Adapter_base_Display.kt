@@ -15,10 +15,11 @@ import com.example.brainymerchandising.Display.UI.Dialog.Choix_Image
 import com.example.brainymerchandising.databinding.ItemDisplayBinding
 
 
-class Adapter_base_Display(private val listener: Display_Fragment,
-                           activity: FragmentActivity ,
-                           liste_display : ArrayList<DisplaySections>)
-    : RecyclerView.Adapter<Base_DisplayViewHolder>() {
+class Adapter_base_Display(
+    private val listener: Display_Fragment,
+    activity: FragmentActivity,
+    liste_display: ArrayList<DisplaySections>
+) : RecyclerView.Adapter<Base_DisplayViewHolder>() {
     private val activityIns = activity
     private val liste_display_Recycle_adapter = liste_display
 
@@ -30,27 +31,28 @@ class Adapter_base_Display(private val listener: Display_Fragment,
     private val items = ArrayList<DisplaySections>()
 
 
-
     fun setItems(items: ArrayList<DisplaySections>) {
         this.items.clear()
         this.items.addAll(items)
-        notifyDataSetChanged() }
+        notifyDataSetChanged()
+    }
 
     fun clear() {
         val size: Int = items.size
         items.clear()
         notifyItemRangeRemoved(0, size)
-        notifyDataSetChanged()}
+        notifyDataSetChanged()
+    }
 
-    fun notihy_display_adapter(){
-        notifyDataSetChanged()}
-
-
+    fun notihy_display_adapter() {
+        notifyDataSetChanged()
+    }
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Base_DisplayViewHolder {
 
-        val binding: ItemDisplayBinding = ItemDisplayBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding: ItemDisplayBinding =
+            ItemDisplayBinding.inflate(LayoutInflater.from(parent.context), parent, false)
 
         return Base_DisplayViewHolder(
             binding,
@@ -58,14 +60,17 @@ class Adapter_base_Display(private val listener: Display_Fragment,
             activityIns,
             parent,
             liste_display_Recycle_adapter,
-        listener)}
+            listener
+        )
+    }
 
     override fun getItemCount(): Int = items.size
     override fun onBindViewHolder(holder: Base_DisplayViewHolder, position: Int) {
         holder.bind(items[position])
     }
-    }
-class Base_DisplayViewHolder (
+}
+
+class Base_DisplayViewHolder(
     private val itemBinding: ItemDisplayBinding,
     private val listener: Adapter_base_Display.Base_DisplayListener,
     private val activityIns: FragmentActivity,
@@ -78,15 +83,22 @@ class Base_DisplayViewHolder (
     View.OnClickListener {
     lateinit var adapter_childText: edittext_adapter
     private lateinit var adapterImage: Image_Adapter
+    private lateinit var adapterImage1: Image_Adapter
     private lateinit var baseAdapter: Adapter_base_Display
 
     init {
-        itemBinding.root.setOnClickListener(this) }
+        itemBinding.root.setOnClickListener(this)
+    }
 
     fun bind(item: DisplaySections) {
         itemBinding.textView2.text = item.name
         adapter_childText =
-            edittext_adapter(item.displayCustomFields as ArrayList<DisplayCustomFields>,item.displayTypeId,displayFragment,position)
+            edittext_adapter(
+                item.displayCustomFields as ArrayList<DisplayCustomFields>,
+                item.displayTypeId,
+                displayFragment,
+                position
+            )
         itemBinding.caseTextRecycler.isMotionEventSplittingEnabled = false
         itemBinding.caseTextRecycler.layoutManager = LinearLayoutManager(parent.context)
         itemBinding.caseTextRecycler.layoutManager = LinearLayoutManager(
@@ -99,10 +111,19 @@ class Base_DisplayViewHolder (
         itemBinding.caseTextRecycler.adapter = adapter_childText
 
 
-        baseAdapter = Adapter_base_Display(displayFragment,displayFragment.requireActivity(),items)
+        baseAdapter =
+            Adapter_base_Display(displayFragment, displayFragment.requireActivity(), items)
 
-        adapterImage = Image_Adapter(displayFragment, displayFragment.requireActivity(),
-            itemBinding.cameraLinear, itemBinding.plusImageRc, itemBinding.myPhotoCrRecycle,baseAdapter
+
+        adapterImage = Image_Adapter(
+            displayFragment,
+            displayFragment.requireActivity(),
+            itemBinding.plusImageRc,
+            itemBinding.myPhotoCrRecycle,
+            baseAdapter,
+            item.id,
+
+
         )
 
 
@@ -116,7 +137,7 @@ class Base_DisplayViewHolder (
 
         itemBinding.myPhotoCrRecycle.adapter = adapterImage
 
-        (displayFragment.activity as PrimeActivity).adapterImage=adapterImage
+        (displayFragment.activity as PrimeActivity).adapterImage = adapterImage
 
 
 
@@ -124,17 +145,17 @@ class Base_DisplayViewHolder (
 
 
 
-    itemBinding.addphoto.setOnClickListener {
-            Log.d("primeArrayOnclickaddphoto",(displayFragment.activity as PrimeActivity).tab_Image!!.size.toString())
+        itemBinding.addphotoRcRecycle.setOnClickListener {
+
 
             Choix_Image(
                 itemBinding.showImageCr,
                 adapterImage,
                 (displayFragment.activity as PrimeActivity).tab_Image,
-                itemBinding.cameraLinear,
                 itemBinding.plusImageRc,
                 itemBinding.myPhotoCrRecycle,
-                displayFragment
+                displayFragment,
+                item.id
             ).show(activityIns.supportFragmentManager, "ChoixImageNewCR")
         }
 
@@ -142,37 +163,29 @@ class Base_DisplayViewHolder (
 
         itemBinding.addphotoRcRecycle.setOnClickListener {
 
-            Log.d("primeArrayOnclickaddphotoRcycle",
-                (displayFragment.activity as PrimeActivity).tab_Image!!.size.toString())
+            Log.d(
+                "primeArrayOnclickaddphotoRcycle",
+                (displayFragment.activity as PrimeActivity).tab_Image!!.size.toString()
+            )
 
             Choix_Image(
                 itemBinding.showImageCr,
                 adapterImage,
                 (displayFragment.activity as PrimeActivity).tab_Image,
 
-                itemBinding.cameraLinear,
                 itemBinding.plusImageRc,
                 itemBinding.myPhotoCrRecycle,
                 displayFragment,
+                item.id
             ).show(activityIns.supportFragmentManager, "ChoixImageNewCR")
         }
 
 
-
-
-
-
-
-
-
-
-
-}
+    }
 
     override fun onClick(v: View?) {
-        listener.onClickeddisplay(adapterPosition)}
-
-
+        listener.onClickeddisplay(adapterPosition)
+    }
 
 
 }

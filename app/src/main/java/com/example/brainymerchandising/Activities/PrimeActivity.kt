@@ -41,17 +41,20 @@ import kotlin.text.Typography.prime
 class PrimeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     private lateinit var fm: FragmentManager
-   // private val viewModel: DrawerActivityViewModel by viewModels()
+
+    // private val viewModel: DrawerActivityViewModel by viewModels()
     lateinit var sharedPref: SharedPreferences
+
     //lateinit var responseDataUser: Resource<UserResponse>
- //   private lateinit var sessionManager: SessionManager
+    //   private lateinit var sessionManager: SessionManager
     //private lateinit var user: User
     private var picture: String? = null
 
     var tab_Image: ArrayList<Image>? = ArrayList<Image>()
     var tab_CustomFieldValues: ArrayList<CustomFieldValue>? = ArrayList<CustomFieldValue>()
-    var tab_CustomFieldValues1 : HashMap<Int,CustomFieldValue>  = HashMap< Int,CustomFieldValue> ()
-     lateinit var adapterImage: Image_Adapter
+    var tab_CustomFieldValues1: HashMap<Int, CustomFieldValue> = HashMap<Int, CustomFieldValue>()
+    lateinit var adapterImage: Image_Adapter
+    var tabImageALlSection: HashMap<Int, ArrayList<Image>> = HashMap<Int, ArrayList<Image>>()
 
 
     //Current fragment
@@ -78,8 +81,6 @@ class PrimeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
         ).commit()
 
 
-
-
         //Bottom Nav Bar Listener
 
 
@@ -103,5 +104,5 @@ class PrimeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
 
     // Save User to SharedPref
 
-    }
+}
 

@@ -42,10 +42,10 @@ class Choix_Image(
     imagehaha2: ImageView,
     adapterImage2: Image_Adapter,
     listaImage2: ArrayList<Image>?,
-    linearImage2: LinearLayout,
     plus_image2: LinearLayout,
     recycle_view2: RecyclerView,
     displayFragment: Display_Fragment,
+    SectionId : Int
 ) :
     DialogFragment() {
 
@@ -53,11 +53,11 @@ class Choix_Image(
     private var adapterImage = adapterImage2
     private val listaImage = listaImage2
     private lateinit var imageBitmap: Image
-    private val linearImage = linearImage2
     private val plus_image = plus_image2
     private val recycle_view = recycle_view2
     private val displayFragment = displayFragment
     private var uri: Uri? = null
+    private var SectionId = SectionId
 
 
     //Our constants
@@ -146,12 +146,13 @@ class Choix_Image(
             val bitmap = BitmapFactory.decodeFile(imagePath)
             imagehaha.setImageBitmap(bitmap)
 
-            imageBitmap = Image(1, bitmap,"")
-            linearImage.visibility = View.GONE
-            plus_image.visibility = View.VISIBLE
+            imageBitmap = Image(0, bitmap,"",SectionId,imagePath)
             recycle_view.visibility = View.VISIBLE
             (displayFragment.activity as PrimeActivity).tab_Image!!.add(imageBitmap)
             //listaImage!!.add(imageBitmap)
+            for(i in 0..(displayFragment.activity as PrimeActivity).tab_Image!!.size-1 ){
+                (displayFragment.activity as PrimeActivity).tab_Image!!.get(i).id=i
+            }
 
 
 
@@ -161,10 +162,11 @@ class Choix_Image(
             Afficher_Image_DIalog(
                 1,
                 (displayFragment.activity as PrimeActivity).tab_Image!!,
-                linearImage,
                 plus_image,
                 displayFragment,
-                1
+                1,
+                SectionId,
+                adapterImage
             ).show(getActivity()!!.supportFragmentManager, "afficherimage")
         } else {
             show("ImagePath is null")
@@ -244,9 +246,7 @@ class Choix_Image(
                         requireActivity().contentResolver.openInputStream(uri!!)
                     )
                     imagehaha.setImageBitmap(bitmap)
-                    imageBitmap = Image(1, bitmap,"")
-                    linearImage.visibility = View.GONE
-                    plus_image.visibility = View.VISIBLE
+                    imageBitmap = Image(0, bitmap,"",SectionId,uri!!.path.toString())
                     recycle_view.visibility = View.VISIBLE
 
                     (displayFragment.activity as PrimeActivity).tab_Image!!.add(imageBitmap)

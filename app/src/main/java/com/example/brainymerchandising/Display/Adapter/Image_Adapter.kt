@@ -16,18 +16,18 @@ import com.example.brainymerchandising.databinding.ItemImageBinding
 class Image_Adapter(
     private val listener: Display_Fragment,
     activity: FragmentActivity,
-    cameraLinear: LinearLayout,
     plusImageRc: LinearLayout,
     myPhotoCrRecycle: RecyclerView,
     baseAdapter: Adapter_base_Display,
+    SectionId: Int,
 ) :
     RecyclerView.Adapter<ImageViewHolder>() {
 
-    private val  cameraLinear = cameraLinear
     private val  plusImageRc = plusImageRc
     private val  myPhotoCrRecycle = myPhotoCrRecycle
     private val activityIns = activity
     private val   baseAdapter= baseAdapter
+    private val   SectionId= SectionId
     interface ImageItemListener {
         fun onClickedImage(position: Int)
     }
@@ -37,9 +37,13 @@ class Image_Adapter(
 
     fun setItems(items: ArrayList<Image>) {
         this.items.clear()
-        this.items.addAll(items)
-        notifyDataSetChanged()
-        Log.d("sizeaa", items?.size.toString())}
+
+        for ( i in items){
+            if(i.SectionId == SectionId){
+                this.items.add(i)
+            }
+            notifyDataSetChanged()
+        }}
 
      fun remove(position: Int) {
         items.removeAt(position)
@@ -61,7 +65,7 @@ class Image_Adapter(
         val binding: ItemImageBinding =
             ItemImageBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ImageViewHolder(binding, listener as ImageItemListener, activityIns, parent,items , listener,
-            cameraLinear,plusImageRc,myPhotoCrRecycle,baseAdapter)}
+       plusImageRc,myPhotoCrRecycle,baseAdapter,SectionId)}
 
     override fun getItemCount(): Int = items.size
 
@@ -76,19 +80,20 @@ class ImageViewHolder(
     private var parent: ViewGroup,
     items: ArrayList<Image>,
     display_fragment: Display_Fragment,
-    cameraLinear: LinearLayout,
     plusImageRc: LinearLayout,
     myPhotoCrRecycle: RecyclerView,
     baseAdapter: Adapter_base_Display,
+    SectionId: Int,
 ) : RecyclerView.ViewHolder(itemBinding.root),
     View.OnClickListener {
 
 
 
     private  var display_fragment = display_fragment
-    private  var cameraLinear = cameraLinear
     private  var plusImageRc = plusImageRc
     private  var items= items
+    private  var baseAdapter= baseAdapter
+    private  var SectionId= SectionId
 
 
     init {
@@ -96,24 +101,25 @@ class ImageViewHolder(
     }
 
     fun bind(item: Image,position: Int) {
+        Log.d("imagearraysectionID", SectionId?.toString())
 
         itemBinding.myimage.setImageBitmap(item.url)
 
-
         //myPhotoCrRecycle.adapter = adapterImage
-
        itemBinding.myimage.setOnClickListener(View.OnClickListener {
-           Log.d("whenimageclicked", items?.toString())
 
 
                Afficher_Image_DIalog(
                    position,
                    (display_fragment.activity as PrimeActivity).tab_Image!!,
-                   cameraLinear,
                    plusImageRc,
                    display_fragment,
-                   0
-           ).show(activityIns.supportFragmentManager, "afficherimage")
+                   0,
+                   SectionId,
+                   (display_fragment.activity as PrimeActivity).adapterImage
+
+               ).show(activityIns.supportFragmentManager, "afficherimage")
+
 
 
        })

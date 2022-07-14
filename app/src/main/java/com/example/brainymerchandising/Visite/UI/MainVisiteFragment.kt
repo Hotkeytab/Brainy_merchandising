@@ -139,7 +139,7 @@ class MainVisiteFragment : Fragment(), MainVisiteAdapter.VisiteItemListener {
                 mDrawerLayout.openDrawer(Gravity.LEFT)
             }
             //Make Bottom Nav Visible
-            requireActivity().bottom_nav.visibility = View.VISIBLE
+            //requireActivity().bottom_nav.visibility = View.VISIBLE
             getDate()
 
             getVisites()

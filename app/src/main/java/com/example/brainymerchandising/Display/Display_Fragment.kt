@@ -18,6 +18,7 @@ import com.example.brainymerchandising.Display.Adapter.Adapter_base_Display
 import com.example.brainymerchandising.Display.Adapter.Image_Adapter
 import com.example.brainymerchandising.Display.Model.*
 import com.example.brainymerchandising.Display.Model.Post.CustomFieldValue
+import com.example.brainymerchandising.Display.Model.Post.Data_image_post
 import com.example.brainymerchandising.Display.Model.Post.Items_Text_input
 import com.example.brainymerchandising.Display.ViewModel.Display_ViewModel
 import com.example.brainymerchandising.Utils.resources.Resource
@@ -33,24 +34,28 @@ import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
-class Display_Fragment : Fragment(), Adapter_base_Display.Base_DisplayListener,Image_Adapter.ImageItemListener {
+class Display_Fragment : Fragment(), Adapter_base_Display.Base_DisplayListener,
+    Image_Adapter.ImageItemListener {
     private val viewModel: Display_ViewModel by viewModels()
     private var liste_objet_display = ArrayList<DisplayType>()
     private var liste_Category_display = ArrayList<Display_category>()
     private var liste_Brand_display = ArrayList<Display_Brand>()
     private var liste_objet_displaySection = ArrayList<DisplaySections>()
-    private lateinit var liste_objet_displayCategory : Resource<Display_Category_Get_Response>
-    private lateinit var liste_objet_displayBrand : Resource<List_Brand_Get_Response>
+    private lateinit var liste_objet_displayCategory: Resource<Display_Category_Get_Response>
+    private lateinit var liste_objet_displayBrand: Resource<List_Brand_Get_Response>
     private var liste_Image: ArrayList<Image>? = ArrayList<Image>()
     lateinit var sharedPref: SharedPreferences
     private var fm: FragmentManager? = null
     private lateinit var binding: FragmentDisplayBinding
     private lateinit var responseData_Display_Type: Resource<ListGetResponse_DisplayType>
     private lateinit var adapter_Display_base: Adapter_base_Display
-    private lateinit  var selected_Element  : Any
-    private lateinit  var   adapter_image:  Image_Adapter
+    private lateinit var selected_Element: Any
+    private lateinit var adapter_image: Image_Adapter
     private lateinit var customFieldObject: DisplayCustomFields
     private lateinit var TextPostAll_EditText: Items_Text_input
+    private lateinit var data_image_post: Data_image_post
+    private var ImageALl_Array = ArrayList<Data_image_post>()
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -62,13 +67,15 @@ class Display_Fragment : Fragment(), Adapter_base_Display.Base_DisplayListener,I
 
         sharedPref = requireContext().getSharedPreferences(
             com.example.brainymerchandising.R.string.app_name.toString(),
-            Context.MODE_PRIVATE)
+            Context.MODE_PRIVATE
+        )
         //Init childFragmentManager
         fm = childFragmentManager
 
         Get_Display_Type()
         Get_Display_Category()
-        return binding.root    }
+        return binding.root
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -81,119 +88,135 @@ class Display_Fragment : Fragment(), Adapter_base_Display.Base_DisplayListener,I
 
             binding.fab.setOnClickListener(View.OnClickListener {
 
-                for (i in (this.activity as PrimeActivity).tab_CustomFieldValues1!!){
+                for (i in (this.activity as PrimeActivity).tab_CustomFieldValues1!!) {
 
-                    customFieldObject = DisplayCustomFields(i.value.DisplayCustomFieldId,i.value.name,
-                    i.value.type,"2022","2022",i.value.displaySectionId)
+                    customFieldObject = DisplayCustomFields(
+                        i.value.DisplayCustomFieldId, i.value.name,
+                        i.value.type, "2022", "2022", i.value.displaySectionId
+                    )
 
-                    TextPostAll_EditText = Items_Text_input(customFieldObject,i.value.value,i.value.DisplayCustomFieldId)
+                    TextPostAll_EditText = Items_Text_input(
+                        customFieldObject,
+                        i.value.value,
+                        i.value.DisplayCustomFieldId
+                    )
 
                     customValues!!.add(TextPostAll_EditText)
                 }
+                Log.d(
+                    "liste_objet_display",
+                    (this.activity as PrimeActivity).tab_CustomFieldValues1!!.toString()
+                )
 
+                Log.d("customValues", customValues!!.toString())
 
+                for ( i in (this.activity as PrimeActivity).tab_Image!!){
 
+                    data_image_post = Data_image_post(i.text,i.SectionId)
+                    ImageALl_Array.add(data_image_post)
+                }
+                Log.d("Imageupload", ImageALl_Array.toString())
 
-
-
-
-                Log.d("liste_objet_display",
-                    (this.activity as PrimeActivity).tab_CustomFieldValues1!!.toString())
-
-                Log.d("customValues",customValues!!.toString())
 
             })
 
 
-            Get_Display_section() }}
+            Get_Display_section()
+        }
+    }
 
-    private fun Get_Display_section(){
+    private fun Get_Display_section() {
 
-        loop@for(i in liste_objet_display){
-           // Log.d("liste_objet_display",liste_objet_display.toString())
+        loop@ for (i in liste_objet_display) {
+            // Log.d("liste_objet_display",liste_objet_display.toString())
 
-            if( i.name.equals(selected_Element.toString())){
+            if (i.name.equals(selected_Element.toString())) {
 
-                if(!i.withBrand){
+                if (!i.withBrand) {
                     (this.activity as PrimeActivity).tab_CustomFieldValues!!.clear()
                     binding.layoutContainer.item_brand_category.visibility = View.VISIBLE
 
                 }
-                for (j in i.displaySections){
+                for (j in i.displaySections) {
                     liste_objet_displaySection.add(j)
                     //Log.d("liste_objet_displaySection",liste_objet_displaySection.toString())
                 }
                 break@loop
 
-            }}
+            }
+        }
         setupRecycleView()
         liste_objet_displaySection.clear()
     }
 
 
-    private fun Get_Display_Type(){
+    private fun Get_Display_Type() {
         lifecycleScope.launch(Dispatchers.Main) {
-            if(isAdded){
+            if (isAdded) {
                 responseData_Display_Type = viewModel.getDisplayType()
-                if(responseData_Display_Type.responseCode == 200)
-                    liste_objet_display = responseData_Display_Type.data!!.data as ArrayList<DisplayType>
+                if (responseData_Display_Type.responseCode == 200)
+                    liste_objet_display =
+                        responseData_Display_Type.data!!.data as ArrayList<DisplayType>
                 val arrayAdapter = ArrayAdapter(requireContext(),
                     com.example.brainymerchandising.R.layout.dropdown_choix_display,
-                    liste_objet_display.map { it -> it.name})
+                    liste_objet_display.map { it -> it.name })
                 //Log.d("lista",liste_objet_display.toString())
 
                 binding.subjectText.setAdapter(arrayAdapter)
 
 
+            }
+        }
+    }
 
-            }}}
-
-    private fun Get_Display_Category(){
+    private fun Get_Display_Category() {
         lifecycleScope.launch(Dispatchers.Main) {
 
-            if(isAdded){
+            if (isAdded) {
 
                 liste_objet_displayCategory = viewModel.getDisplayCategory()
                 liste_objet_displayBrand = viewModel.getDisplayBrand()
 
-                if((liste_objet_displayCategory.responseCode == 200)&&
-                        (liste_objet_displayBrand.responseCode == 200)){
-                    liste_Category_display = liste_objet_displayCategory.data!!.data as ArrayList<Display_category>
-                liste_Brand_display = liste_objet_displayBrand.data!!.data as ArrayList<Display_Brand>
+                if ((liste_objet_displayCategory.responseCode == 200) &&
+                    (liste_objet_displayBrand.responseCode == 200)
+                ) {
+                    liste_Category_display =
+                        liste_objet_displayCategory.data!!.data as ArrayList<Display_category>
+                    liste_Brand_display =
+                        liste_objet_displayBrand.data!!.data as ArrayList<Display_Brand>
 
-                val arrayAdapter = ArrayAdapter(requireContext(),
-                    com.example.brainymerchandising.R.layout.dropdown_choix_display,
-                    liste_Category_display.map { it -> it.name})
-                Log.d("lista",liste_objet_display.toString())
+                    val arrayAdapter = ArrayAdapter(requireContext(),
+                        com.example.brainymerchandising.R.layout.dropdown_choix_display,
+                        liste_Category_display.map { it -> it.name })
+                    Log.d("lista", liste_objet_display.toString())
 
-                val arrayAdapter2 = ArrayAdapter(requireContext(),
-                    com.example.brainymerchandising.R.layout.dropdown_choix_display,
-                    liste_Brand_display.map { it -> it.name})
-                Log.d("lista",liste_objet_display.toString())
+                    val arrayAdapter2 = ArrayAdapter(requireContext(),
+                        com.example.brainymerchandising.R.layout.dropdown_choix_display,
+                        liste_Brand_display.map { it -> it.name })
+                    Log.d("lista", liste_objet_display.toString())
 
-                binding.layoutContainer.subjectCategory.setAdapter(arrayAdapter)
-                binding.layoutContainer.subjectBrand.setAdapter(arrayAdapter2)
-
-
-
-
-            }}
+                    binding.layoutContainer.subjectCategory.setAdapter(arrayAdapter)
+                    binding.layoutContainer.subjectBrand.setAdapter(arrayAdapter2)
 
 
-
+                }
+            }
 
 
         }
     }
+
     private fun setupRecycleView() {
 
-        adapter_Display_base = Adapter_base_Display(this, requireActivity(),liste_objet_displaySection)
+        adapter_Display_base =
+            Adapter_base_Display(this, requireActivity(), liste_objet_displaySection)
         binding.listeDisplayRecycle.isMotionEventSplittingEnabled = false
         binding.listeDisplayRecycle.layoutManager = LinearLayoutManager(requireContext())
         binding.listeDisplayRecycle.layoutManager = LinearLayoutManager(
             context,
             LinearLayoutManager.VERTICAL,
-            false)
+            false
+        )
 
         binding.listeDisplayRecycle.adapter = adapter_Display_base
         //Log.d("ena",liste_objet_display.toString())
