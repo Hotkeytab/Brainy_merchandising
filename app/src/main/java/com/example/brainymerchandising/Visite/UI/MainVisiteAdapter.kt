@@ -111,6 +111,7 @@ class MainVisiteViewHolder(
     override fun onClick(v: View?) {
         putStoreName(visiteResponse.store.name)
         putVisiteId(visiteResponse.id)
+        putUserId(visiteResponse.userId)
         listener.onClickedVisite(
             visiteResponse.storeId,
             finalDistance,
@@ -153,6 +154,8 @@ class MainVisiteViewHolder(
         with(sharedPref.edit()) {
             this?.putString("storeName", storeName)
         }?.commit()
+
+
     }
 
     private fun putVisiteId(visiteId: Int) {
@@ -163,6 +166,17 @@ class MainVisiteViewHolder(
             )!!
         with(sharedPref.edit()) {
             this?.putInt("visiteId", visiteId)
+        }?.commit()
+    }
+
+    private fun putUserId(UserId: Int) {
+        sharedPref =
+            parent.context.getSharedPreferences(
+                R.string.app_name.toString(),
+                Context.MODE_PRIVATE
+            )!!
+        with(sharedPref.edit()) {
+            this?.putInt("userId", UserId)
         }?.commit()
     }
 

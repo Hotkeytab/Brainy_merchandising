@@ -2,12 +2,19 @@ package com.example.brainymerchandising.Display
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.graphics.Bitmap
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.FrameLayout
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
@@ -17,25 +24,37 @@ import com.example.brainymerchandising.Activities.PrimeActivity
 import com.example.brainymerchandising.Display.Adapter.Adapter_base_Display
 import com.example.brainymerchandising.Display.Adapter.Image_Adapter
 import com.example.brainymerchandising.Display.Model.*
-import com.example.brainymerchandising.Display.Model.Post.CustomFieldValue
 import com.example.brainymerchandising.Display.Model.Post.Data_image_post
+import com.example.brainymerchandising.Display.Model.Post.Display
 import com.example.brainymerchandising.Display.Model.Post.Items_Text_input
 import com.example.brainymerchandising.Display.ViewModel.Display_ViewModel
+import com.example.brainymerchandising.R
+import com.example.brainymerchandising.Utils.ProgressRequestBody
+import com.example.brainymerchandising.Utils.extensions.getFileName
+import com.example.brainymerchandising.Utils.resources.ConstModele.SuccessResponse
 import com.example.brainymerchandising.Utils.resources.Resource
 import com.example.brainymerchandising.databinding.FragmentDisplayBinding
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_display_.*
 import kotlinx.android.synthetic.main.fragment_display_.view.*
-import kotlinx.android.synthetic.main.item_display.*
-import kotlinx.android.synthetic.main.item_display.view.*
 import kotlinx.android.synthetic.main.item_display_type_with_without.view.*
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import retrofit2.Retrofit
+import java.io.ByteArrayOutputStream
+import java.io.File
+import java.io.FileInputStream
+import java.io.FileOutputStream
 
 
 @AndroidEntryPoint
 class Display_Fragment : Fragment(), Adapter_base_Display.Base_DisplayListener,
-    Image_Adapter.ImageItemListener {
+    Image_Adapter.ImageItemListener,   ProgressRequestBody.UploadCallbacks  {
     private val viewModel: Display_ViewModel by viewModels()
     private var liste_objet_display = ArrayList<DisplayType>()
     private var liste_Category_display = ArrayList<Display_category>()
@@ -54,7 +73,17 @@ class Display_Fragment : Fragment(), Adapter_base_Display.Base_DisplayListener,
     private lateinit var customFieldObject: DisplayCustomFields
     private lateinit var TextPostAll_EditText: Items_Text_input
     private lateinit var data_image_post: Data_image_post
+    private lateinit var display: Display
+    private  var displayId: Int = 0
     private var ImageALl_Array = ArrayList<Data_image_post>()
+    lateinit var responseDisplay: Resource<SuccessResponse>
+    var recentPercent = 0
+    private var percent = 0
+    private var filesNumber = 0
+
+
+
+
 
 
     override fun onCreateView(
@@ -84,15 +113,28 @@ class Display_Fragment : Fragment(), Adapter_base_Display.Base_DisplayListener,
             // Log.d("selected_Element",selected_Element.toString())
             var customValues: ArrayList<Items_Text_input>? = ArrayList<Items_Text_input>()
 
+            val listMultipartBody = ArrayList<MultipartBody.Part?>()
 
 
             binding.fab.setOnClickListener(View.OnClickListener {
+
+
+                  display = Display(sharedPref.getInt("storeId",0),sharedPref.getInt("userId",0)
+                      ,displayId,null,null,sharedPref.getInt("visiteId",0))
+
+              //  Log.d("display", display.toString())
+
+                val DisplayFormData = jacksonObjectMapper().writeValueAsString(display)
+                val displayJson = RequestBody.create(
+                    "application/json; charset=utf-8".toMediaTypeOrNull(),
+                    DisplayFormData
+                )
 
                 for (i in (this.activity as PrimeActivity).tab_CustomFieldValues1!!) {
 
                     customFieldObject = DisplayCustomFields(
                         i.value.DisplayCustomFieldId, i.value.name,
-                        i.value.type, "2022", "2022", i.value.displaySectionId
+                        i.value.type, null, null, i.value.displaySectionId
                     )
 
                     TextPostAll_EditText = Items_Text_input(
@@ -103,26 +145,133 @@ class Display_Fragment : Fragment(), Adapter_base_Display.Base_DisplayListener,
 
                     customValues!!.add(TextPostAll_EditText)
                 }
-                Log.d(
-                    "liste_objet_display",
-                    (this.activity as PrimeActivity).tab_CustomFieldValues1!!.toString()
+
+                val customValuesFormData = jacksonObjectMapper().writeValueAsString(customValues)
+                val customValuesJson = RequestBody.create(
+                    "application/json; charset=utf-8".toMediaTypeOrNull(),
+                    customValuesFormData
                 )
 
-                Log.d("customValues", customValues!!.toString())
+              //  Log.d("liste_objet_display", (this.activity as PrimeActivity).tab_CustomFieldValues1!!.toString())
+
+              //  Log.d("customValues", customValues!!.toString())
 
                 for ( i in (this.activity as PrimeActivity).tab_Image!!){
+
+                    convertToFile(i, listMultipartBody)
 
                     data_image_post = Data_image_post(i.text,i.SectionId)
                     ImageALl_Array.add(data_image_post)
                 }
-                Log.d("Imageupload", ImageALl_Array.toString())
+
+                val dataFormData = jacksonObjectMapper().writeValueAsString(ImageALl_Array)
+                val dataJson = RequestBody.create(
+                    "application/json; charset=utf-8".toMediaTypeOrNull(),
+                    dataFormData
+                )
 
 
+               // Log.d("Imageupload", ImageALl_Array.toString())
+                Log.d("displayJson", DisplayFormData!!.toString())
+                Log.d("customValuesJson", customValuesFormData!!.toString())
+                Log.d("dataJson", dataFormData!!.toString())
+                Log.d("dataJson", listMultipartBody!!.toString())
+                filesNumber = listMultipartBody.size
+                binding.progressUpload.max = filesNumber * 2
+
+                GlobalScope.launch(Dispatchers.Main) {
+                    responseDisplay = viewModel.postDisplay(
+                        listMultipartBody,
+                        displayJson,
+                        customValuesJson,
+                        dataJson
+                    ) as Resource<SuccessResponse>
+
+                    Log.d("responsecode", responseDisplay.toString())
+
+                    if (responseDisplay.responseCode == 201) {
+                    val snack = Snackbar.make(
+                        requireView(),
+                        "Questionnaire Envoyé avec succès",
+                        Snackbar.LENGTH_LONG
+                    ).setBackgroundTint(R.color.purpleLogin)
+                    val view: View = snack.view
+                    val params = view.layoutParams as FrameLayout.LayoutParams
+                    params.gravity = Gravity.BOTTOM
+                    view.layoutParams = params
+
+                    snack.show()
+                } else {
+                    val snack =
+                        Snackbar.make(requireView(), "Une Erreur s'est produite", Snackbar.LENGTH_LONG)
+
+                    val view: View = snack.view
+                    val params = view.layoutParams as FrameLayout.LayoutParams
+                    params.gravity = Gravity.BOTTOM
+                    view.layoutParams = params
+                    snack.show()
+
+                }
+
+
+
+                }
             })
 
 
             Get_Display_section()
         }
+    }
+
+    //Convert ALl Bmp Images to files
+    private fun convertToFile(
+        image: Image,
+        listMultipartBody: ArrayList<MultipartBody.Part?>
+    ): MultipartBody.Part? {
+
+        val selectedImageUri = getImageUri(requireContext(), image.url)
+
+        if (selectedImageUri != null) {
+            val parcelFileDescriptor =
+                requireActivity().contentResolver.openFileDescriptor(selectedImageUri, "r", null)
+                    ?: return null
+
+            val inputStream = FileInputStream(parcelFileDescriptor.fileDescriptor)
+
+            val file = File(
+                requireActivity().cacheDir,
+                requireActivity().contentResolver.getFileName(selectedImageUri)
+            )
+
+            val body = ProgressRequestBody(file, "image", this)
+
+
+            val outputStream = FileOutputStream(file)
+            inputStream.copyTo(outputStream)
+
+            val mbp = MultipartBody.Part.createFormData(
+                "files", file.name,
+                body
+            )
+
+            listMultipartBody.add(mbp)
+
+            requireActivity().contentResolver.delete(selectedImageUri, null, null)
+
+        }
+
+        return null
+
+
+    }
+
+
+    private fun getImageUri(inContext: Context, inImage: Bitmap): Uri? {
+        val bytes = ByteArrayOutputStream()
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
+        val path =
+            MediaStore.Images.Media.insertImage(inContext.contentResolver, inImage, "Title", null)
+        return Uri.parse(path)
     }
 
     private fun Get_Display_section() {
@@ -131,6 +280,7 @@ class Display_Fragment : Fragment(), Adapter_base_Display.Base_DisplayListener,
             // Log.d("liste_objet_display",liste_objet_display.toString())
 
             if (i.name.equals(selected_Element.toString())) {
+                displayId = i.id
 
                 if (!i.withBrand) {
                     (this.activity as PrimeActivity).tab_CustomFieldValues!!.clear()
@@ -233,6 +383,32 @@ class Display_Fragment : Fragment(), Adapter_base_Display.Base_DisplayListener,
     }
 
     override fun onClickedImage(position: Int) {
+        TODO("Not yet implemented")
+    }
+
+    @RequiresApi(Build.VERSION_CODES.N)
+    override fun onProgressUpdate(percentage: Int) {
+
+
+        if (percentage < recentPercent) {
+            percent++
+            if ((((percent.toFloat() / (filesNumber * 2)) * 100).toInt()) <= 100) {
+                binding.textPercentage.text =
+                    (((percent.toFloat() / (filesNumber * 2)) * 100).toInt()).toString() + "%"
+            }
+            binding.progressUpload.setProgress(percent, true)
+            recentPercent = 0
+        } else {
+            recentPercent = percentage
+        }
+
+
+    }
+    override fun onError() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onFinish(finished: Boolean) {
         TODO("Not yet implemented")
     }
 
