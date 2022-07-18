@@ -32,20 +32,20 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.brainymerchandising.Activities.PrimeActivity
+import com.example.brainymerchandising.Display.UI.Dialog.Choix_Image
 import com.example.brainymerchandising.R
-import com.example.brainymerchandising.Utils.Anim.RecyclerItemTouchHelper
 import com.example.brainymerchandising.Utils.resources.Resource
 import com.example.brainymerchandising.Utils.resources.Server_date.Model.Get_date_Model
 import com.example.brainymerchandising.Utils.resources.Server_date.ViewModel.Date_ViewModel
 import com.example.brainymerchandising.Utils.resources.Server_date.ViewModel.Date_time_provider
 import com.example.brainymerchandising.Visite.UI.Dialog.Add_visite_dialog
 import com.example.brainymerchandising.Visite.UI.Dialog.CheckIn.Check_In_Dialog
+import com.example.brainymerchandising.Visite.UI.Dialog.delete.Delete_Visite
 import com.example.brainymerchandising.Visite.visite.Model.ListVisiteGet
 import com.example.brainymerchandising.Visite.visite.Model.Visite
 import com.example.brainymerchandising.Visite.visite.ViewModel.VisiteViewModel
 import com.example.brainymerchandising.databinding.FragmentMainVisiteBinding
 import com.google.android.gms.location.*
-import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.fragment_main_visite.*
@@ -227,49 +227,37 @@ class MainVisiteFragment : Fragment(), MainVisiteAdapter.VisiteItemListener {
         binding.taskRecycleview.adapter = main_viste_adapter
         main_viste_adapter.setVisite(lista_de_visite)
 
-
-        ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+        val simpleItemTouchCallback: ItemTouchHelper.SimpleCallback = object :
+            ItemTouchHelper.SimpleCallback(
+                0,
+                ItemTouchHelper.LEFT
+            ) {
             override fun onMove(
                 recyclerView: RecyclerView,
                 viewHolder: RecyclerView.ViewHolder,
                 target: RecyclerView.ViewHolder
             ): Boolean {
-                // this method is called
-                // when the item is moved.
+                //Toast.makeText(this, "on Move", Toast.LENGTH_SHORT).show()
                 return false
             }
 
-            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                // this method is called when we swipe our item to right direction.
-                // on below line we are getting the item at a particular position.
-                val deletedCourse: Visite =
-                    lista_de_visite.get(viewHolder.adapterPosition)
-
-                // below line is to get the position
-                // of the item at that position.
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, swipeDir: Int) {
+                //Toast.makeText(this@ListActivity, "on Swiped ", Toast.LENGTH_SHORT).show()
+                //Remove swiped item from list and notify the RecyclerView
                 val position = viewHolder.adapterPosition
+                lista_de_visite.removeAt(position)
+                main_viste_adapter.setVisite(lista_de_visite)
 
-                // this method is called when item is swiped.
-                // below line is to remove item from our array list.
-                lista_de_visite.removeAt(viewHolder.adapterPosition)
+                main_viste_adapter.notifyDataSetChanged()
+                Delete_Visite(
+                    lista_de_visite.get(position).id,
 
-                // below line is to notify our item is removed from adapter.
-                main_viste_adapter.notifyItemRemoved(viewHolder.adapterPosition)
 
-                // below line is to display our snackbar with action.
-                Snackbar.make(binding.taskRecycleview, "deletedCourse.id", Snackbar.LENGTH_LONG)
-                    .setAction("Undo",
-                        View.OnClickListener { // adding on click listener to our action of snack bar.
-                            // below line is to add our item to array list with a position.
-                            lista_de_visite.add(position, deletedCourse)
-
-                            // below line is to notify item is
-                            // added to our adapter class.
-                            main_viste_adapter.notifyItemInserted(position)
-                        }).show()
-            } // at last we are adding this
-            // to our recycler view.
-        }).attachToRecyclerView(binding.taskRecycleview)
+                ).show(requireActivity().supportFragmentManager, "DeleteVisite")
+            }
+        }
+        val itemTouchHelper = ItemTouchHelper(simpleItemTouchCallback)
+        itemTouchHelper.attachToRecyclerView(binding.taskRecycleview)
     }
 
 

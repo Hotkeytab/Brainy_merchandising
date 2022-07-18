@@ -378,12 +378,11 @@ class Display_Fragment : Fragment(), Adapter_base_Display.Base_DisplayListener,
 
 
     override fun onClickeddisplay(position: Int) {
-        TODO("Not yet implemented")
-
+val a =0
     }
 
     override fun onClickedImage(position: Int) {
-        TODO("Not yet implemented")
+        val b =0
     }
 
     @RequiresApi(Build.VERSION_CODES.N)

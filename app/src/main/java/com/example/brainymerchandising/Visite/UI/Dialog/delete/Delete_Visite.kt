@@ -23,18 +23,12 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class Delete_Visite (
     visiteId: Int,
-    positionVisite: Int,
-    taskAdapter2: MainVisiteAdapter,
-    items2: ArrayList<Visite>,
     //items3: ArrayList<Visite>
 ): DialogFragment() {
 
     val visiteId = visiteId
-    val positionVisite = positionVisite
     private lateinit var response: Resource<DeleteVisiteResponse>
     private val viewModel: VisiteViewModel by viewModels()
-    private val main_visiteAdapter = taskAdapter2
-    private val items = items2
    // private val items4 = items3
 
     override fun onCreateView(
@@ -55,7 +49,7 @@ class Delete_Visite (
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
+        textcontext1.text = "Souhaitez vous confirmer le pointage de Début ?"
         //Accept to Delete Visite
         accept.setOnClickListener {
             progress_bar.visibility = View.VISIBLE
@@ -68,9 +62,9 @@ class Delete_Visite (
 
                 if (response.responseCode == 202) {
                     progress_bar.visibility = View.GONE
-                    items.removeAt(positionVisite)
+                    //items.removeAt(positionVisite)
                   //  items4.removeAt(positionVisite)
-                    main_visiteAdapter.notifyDataSetChanged()
+                    //main_visiteAdapter.notifyDataSetChanged()
                     dialog!!.dismiss()
                 } else {
                     progress_bar.visibility = View.GONE

@@ -155,8 +155,7 @@ class edittext_ViewHolder(
     }
 
     override fun onClick(v: View?) {
-        TODO("Not yet implemented")
-    }
+val a=0    }
 
 
 }
