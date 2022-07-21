@@ -107,16 +107,12 @@ class Afficher_Image_DIalog(
 
             //Delete Current Image
             delete.setOnClickListener {
-
-
                 if (listeUnique.size == 1) {
                     listaImage.removeAt(listeUnique.get(0).id)
-
                     for (i in 0..listaImage.size - 1) {
                         listaImage!!.get(i).id = i
                     }
                     (display_fragment.activity as PrimeActivity).tab_Image = listaImage
-
                     (display_fragment.activity as PrimeActivity).adapterImage.setItems(listaImage)
                     listeUnique.clear()
                     for (i in listaImage!!) {
@@ -125,22 +121,18 @@ class Afficher_Image_DIalog(
                         }
                     }
                     dismiss()
-
                 } else if (listeUnique.size > 1) {
                     if (position == 0) {
-
                         listaImage.removeAt(listeUnique.get(0).id)
                         listeUnique.removeAt(0)
                         afficher_image.setImageBitmap(listeUnique[position].url)
-
                         for (i in 0..listaImage.size - 1) {
                             listaImage!!.get(i).id = i
                         }
                         (display_fragment.activity as PrimeActivity).tab_Image = listaImage
-
-
-                        (display_fragment.activity as PrimeActivity).adapterImage.setItems(listaImage)
-
+                        (display_fragment.activity as PrimeActivity).adapterImage.setItems(
+                            listaImage
+                        )
                         listeUnique.clear()
                         for (i in listaImage!!) {
                             if (i.SectionId == SectionId) {
@@ -148,23 +140,23 @@ class Afficher_Image_DIalog(
                             }
                         }
                     } else if (position == listeUnique.size - 1) {
-
-                        listaImage.removeAt(listeUnique.get(listeUnique.size- 1).id)
-                        listeUnique.removeAt(listeUnique.size- 1)
+                        listaImage.removeAt(listeUnique.get(listeUnique.size - 1).id)
+                        listeUnique.removeAt(listeUnique.size - 1)
                         position--
                         for (i in 0..listaImage.size - 1) {
                             listaImage!!.get(i).id = i
                         }
                         (display_fragment.activity as PrimeActivity).tab_Image = listaImage
                         afficher_image.setImageBitmap(listeUnique[position].url)
-
-                        (display_fragment.activity as PrimeActivity).adapterImage.setItems(listaImage)
+                        (display_fragment.activity as PrimeActivity).adapterImage.setItems(
+                            listaImage
+                        )
                         listeUnique.clear()
                         for (i in listaImage!!) {
                             if (i.SectionId == SectionId) {
                                 listeUnique!!.add(i)
-                            }}
-
+                            }
+                        }
                     } else {
                         listaImage.removeAt(listeUnique.get(position).id)
                         listeUnique.removeAt(position)
@@ -173,17 +165,15 @@ class Afficher_Image_DIalog(
                             listaImage!!.get(i).id = i
                         }
                         (display_fragment.activity as PrimeActivity).tab_Image = listaImage
-
                         (display_fragment.activity as PrimeActivity).adapterImage.setItems(
                             listaImage
                         )
-                        Log.d("whenimageremoved", listaImage?.size.toString())
-                        Log.d("liste_AfficherImage", listaImage.size.toString())
                         listeUnique.clear()
                         for (i in listaImage!!) {
                             if (i.SectionId == SectionId) {
                                 listeUnique!!.add(i)
-                            }}
+                            }
+                        }
                     }
                 } else
                     dismiss()

@@ -245,15 +245,17 @@ class MainVisiteFragment : Fragment(), MainVisiteAdapter.VisiteItemListener {
                 //Toast.makeText(this@ListActivity, "on Swiped ", Toast.LENGTH_SHORT).show()
                 //Remove swiped item from list and notify the RecyclerView
                 val position = viewHolder.adapterPosition
-                lista_de_visite.removeAt(position)
-                main_viste_adapter.setVisite(lista_de_visite)
 
-                main_viste_adapter.notifyDataSetChanged()
                 Delete_Visite(
                     lista_de_visite.get(position).id,
 
 
                 ).show(requireActivity().supportFragmentManager, "DeleteVisite")
+                lista_de_visite.removeAt(position)
+                 main_viste_adapter.setVisite(lista_de_visite)
+                 main_viste_adapter.notifyDataSetChanged()
+
+
             }
         }
         val itemTouchHelper = ItemTouchHelper(simpleItemTouchCallback)

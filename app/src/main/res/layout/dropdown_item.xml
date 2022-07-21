@@ -1,9 +1,27 @@
-<EditText
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/edittext_isplay"
+<com.google.android.material.textfield.TextInputLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="15dp"
-    android:maxLines="3"
-    android:textColor="@color/black"
-    android:textSize="18sp"/>
+    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+
+    android:layout_marginLeft="@dimen/_30sdp"
+    android:layout_marginTop="@dimen/_20sdp"
+    android:layout_marginRight="@dimen/_30sdp"
+    android:textColorHint="@color/clear_grey"
+    app:boxBackgroundColor="@null"
+    app:boxCornerRadiusBottomEnd="@dimen/_20sdp"
+    app:boxCornerRadiusBottomStart="@dimen/_20sdp"
+    app:boxCornerRadiusTopEnd="@dimen/_20sdp"
+    app:boxCornerRadiusTopStart="@dimen/_20sdp"
+    app:errorEnabled="true"
+    app:startIconTint="@color/purpleLogin"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+<com.google.android.material.textfield.TextInputEditText
+    android:id="@+id/edittext_isplay"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+</com.google.android.material.textfield.TextInputEditText>
+</com.google.android.material.textfield.TextInputLayout>
+
+
+
