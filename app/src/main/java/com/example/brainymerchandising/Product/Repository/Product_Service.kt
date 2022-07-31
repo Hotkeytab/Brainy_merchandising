@@ -1,6 +1,7 @@
 package com.example.brainymerchandising.Product.Repository
 
 import com.example.brainymerchandising.Product.Model.GetRefProduct_Response
+import com.example.brainymerchandising.Product.Model.GetStock_Setting
 import com.example.brainymerchandising.Product.Model.POST.productPost
 import com.example.brainymerchandising.Utils.resources.ConstModele.SuccessResponse
 import com.example.brainymerchandising.Visite.visite.Model.VisitPost
@@ -14,6 +15,10 @@ interface Product_Service {
 
     @GET("/referencedProduct/{storeId}")
     suspend fun getRefProduct(@Path("storeId") storeId: Int?) : Response<GetRefProduct_Response>
+
+
+    @GET("/stockSetting")
+    suspend fun getStockSetting() : Response<GetStock_Setting>
 
     @POST("/stock")
     suspend fun updateStock(@Body product_post: List<productPost>) : Response<SuccessResponse>

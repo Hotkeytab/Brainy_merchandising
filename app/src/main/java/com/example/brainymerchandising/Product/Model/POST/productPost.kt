@@ -9,7 +9,7 @@ data class productPost(
     val store: Store,
     val storeId: Int,
     val productId: Int,
-    val quantity: Int,
+    val quantity: Int?,
     val stockOut: Boolean,
     val visitId: Int
 )

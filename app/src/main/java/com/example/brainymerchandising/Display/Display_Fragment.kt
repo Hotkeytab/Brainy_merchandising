@@ -122,7 +122,7 @@ class Display_Fragment : Fragment(), Adapter_base_Display.Base_DisplayListener,
                   display = Display(sharedPref.getInt("storeId",0),sharedPref.getInt("userId",0)
                       ,displayId,null,null,sharedPref.getInt("visiteId",0))
 
-              //  Log.d("display", display.toString())
+               Log.d("display", display.toString())
 
                 val DisplayFormData = jacksonObjectMapper().writeValueAsString(display)
                 val displayJson = RequestBody.create(
@@ -152,11 +152,13 @@ class Display_Fragment : Fragment(), Adapter_base_Display.Base_DisplayListener,
                     customValuesFormData
                 )
 
-              //  Log.d("liste_objet_display", (this.activity as PrimeActivity).tab_CustomFieldValues1!!.toString())
+               Log.d("liste_objet_display", (this.activity as PrimeActivity).tab_CustomFieldValues1!!.toString())
 
-              //  Log.d("customValues", customValues!!.toString())
+               Log.d("customValues", customValues!!.toString())
+               Log.d("customValues", (this.activity as PrimeActivity).tab_Image!!!!.toString())
 
                 for ( i in (this.activity as PrimeActivity).tab_Image!!){
+                    Log.d("customValues", i.path!!.toString())
 
                     convertToFile(i, listMultipartBody)
 
@@ -250,7 +252,7 @@ class Display_Fragment : Fragment(), Adapter_base_Display.Base_DisplayListener,
             inputStream.copyTo(outputStream)
 
             val mbp = MultipartBody.Part.createFormData(
-                "files", file.name,
+                "files", file.absolutePath,
                 body
             )
 

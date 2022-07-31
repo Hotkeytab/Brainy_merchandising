@@ -14,7 +14,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.brainymerchandising.Product.Adapters.adapter_Product_base
 import com.example.brainymerchandising.Product.Model.GetRefProduct_Response
+import com.example.brainymerchandising.Product.Model.GetStock_Setting
 import com.example.brainymerchandising.Product.Model.ProductRef
+import com.example.brainymerchandising.Product.Model.StockSetting
 import com.example.brainymerchandising.Product.ViewModel.Product_ViewModel
 import com.example.brainymerchandising.Utils.resources.Resource
 import com.example.brainymerchandising.databinding.FragmentStoreBinding
@@ -29,8 +31,11 @@ class ProductFragment : Fragment() , adapter_Product_base.Base_ProductListener{
     private var fm: FragmentManager? = null
     private val viewModel: Product_ViewModel by viewModels()
     private lateinit var _Ref_Product_Response : Resource<GetRefProduct_Response>
+    private lateinit var _Get_StockSetting_Response : Resource<GetStock_Setting>
     private lateinit var adapter_Product_base: adapter_Product_base
     private var liste_product_ref = ArrayList<ProductRef>()
+
+    private var liste_SockSetting = ArrayList<StockSetting>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,7 +47,9 @@ class ProductFragment : Fragment() , adapter_Product_base.Base_ProductListener{
             Context.MODE_PRIVATE)
 
         fm = childFragmentManager
+        GetStock_Setting()
         Get_list_Ref_product()
+
 
         return binding.root
     }
@@ -56,7 +63,7 @@ class ProductFragment : Fragment() , adapter_Product_base.Base_ProductListener{
         lifecycleScope.launch(Dispatchers.Main) {
 
             if(isAdded){
-                _Ref_Product_Response = viewModel.getRefProduct(1)
+                _Ref_Product_Response = viewModel.getRefProduct(2)
 
                 if(_Ref_Product_Response.responseCode == 200){
                     liste_product_ref = _Ref_Product_Response.data!!.data as ArrayList<ProductRef>
@@ -68,9 +75,32 @@ class ProductFragment : Fragment() , adapter_Product_base.Base_ProductListener{
 
     }
 
+    private fun GetStock_Setting(){
+
+        lifecycleScope.launch(Dispatchers.Main) {
+
+            if(isAdded){
+                _Get_StockSetting_Response = viewModel.getStockSetting()
+
+                if(_Get_StockSetting_Response.responseCode == 200){
+                    liste_SockSetting = _Get_StockSetting_Response.data!!.data as ArrayList<StockSetting>
+                    Log.d("stockSetting",liste_SockSetting.toString())
+
+                }
+            }}
+
+
+
+
+
+    }
+
     private fun setupRecycleView() {
 
-        adapter_Product_base = adapter_Product_base(this, requireActivity(),liste_product_ref,binding.amount,requireActivity())
+
+
+        adapter_Product_base = adapter_Product_base(this, requireActivity(),liste_product_ref,binding.amount,requireActivity()
+            ,liste_SockSetting)
 
         binding.listeProductRecycle.isMotionEventSplittingEnabled = false
         binding.listeProductRecycle.layoutManager = LinearLayoutManager(requireContext())

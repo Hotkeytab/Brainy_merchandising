@@ -1,5 +1,6 @@
 package com.example.brainymerchandising.Product.Adapters
 
+import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +9,7 @@ import android.widget.TextView
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.brainymerchandising.Product.Model.ProductRef
+import com.example.brainymerchandising.Product.Model.StockSetting
 import com.example.brainymerchandising.Product.UI.Dialog.SetAmount_product
 import com.example.brainymerchandising.Product.UI.ProductFragment
 import com.example.brainymerchandising.databinding.ItemProductBinding
@@ -18,14 +20,16 @@ class adapter_Product_base(
     activity: FragmentActivity,
     liste_display: ArrayList<ProductRef>,
     amount: TextView,
-    requireActivity: FragmentActivity
+    requireActivity: FragmentActivity,
+    liste_SockSetting: ArrayList<StockSetting>,
 )
     : RecyclerView.Adapter<ProductViewHolder>() {
     private val activityIns = activity
     private val liste_display_Recycle_adapter = liste_display
     private val amount=amount
+    private val liste_SockSetting=liste_SockSetting
     private val requireActivity=requireActivity
-
+    private var isSelected : Boolean = false
     interface Base_ProductListener {
         fun onClickedProduct(position: Int)
     }
@@ -49,10 +53,13 @@ class adapter_Product_base(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {
         val binding: ItemProductBinding = ItemProductBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+
+
+
         return ProductViewHolder(
             binding,
             listener as Base_ProductListener,
-            amount,requireActivity)}
+            amount,requireActivity,liste_SockSetting,items)}
 
     override fun getItemCount(): Int = items.size
     override fun onBindViewHolder(holder: ProductViewHolder, position: Int) {
@@ -64,27 +71,53 @@ class ProductViewHolder(
     private val listener: adapter_Product_base.Base_ProductListener,
 
     amount: TextView,
-    private val activityIns: FragmentActivity
+    private val activityIns: FragmentActivity,
+    liste_SockSetting: ArrayList<StockSetting>,
+    items: ArrayList<ProductRef>,
 
 
-    ): RecyclerView.ViewHolder(itemBinding.root),
+): RecyclerView.ViewHolder(itemBinding.root),
     View.OnClickListener {
 
     val amount = amount
+    val items = items
+    val liste_SockSetting = liste_SockSetting
+    private var isSelected : Boolean = false
+
+
     fun bind(item: ProductRef){
-          val rep : Boolean
+          val rep : Boolean?
           rep=true
 
 
+
+
+
+
+
+
+
         itemBinding.product.setOnClickListener {
-         /*   if(itemBinding.checkBox.isChecked){
-                itemBinding.quantite.visibility = View.VISIBLE
-                amount.visibility = View.VISIBLE
-            }else{
-                itemBinding.quantite.visibility = View.GONE
-                amount.visibility = View.GONE
-            }  */
-            SetAmount_product(position,item).show(activityIns.supportFragmentManager, "updateProduct")
+
+
+
+       if(liste_SockSetting.get(0).stockManagement.equals("StockOut")){
+
+
+           itemView.setBackgroundColor(Color.YELLOW)
+
+
+                         itemView.setBackgroundColor(Color.TRANSPARENT)
+
+           } else{
+
+
+
+           SetAmount_product(position,item).show(activityIns.supportFragmentManager, "updateProduct")
+
+       }
+
+
 
         }
 
