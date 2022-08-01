@@ -5,14 +5,17 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
+import com.example.brainymerchandising.Product.Model.POST.productPost
 import com.example.brainymerchandising.Product.Model.ProductRef
 import com.example.brainymerchandising.Product.Model.StockSetting
 import com.example.brainymerchandising.Product.UI.Dialog.SetAmount_product
 import com.example.brainymerchandising.Product.UI.ProductFragment
 import com.example.brainymerchandising.databinding.ItemProductBinding
+import kotlinx.android.synthetic.main.item_product.view.*
 
 
 class adapter_Product_base(
@@ -22,6 +25,8 @@ class adapter_Product_base(
     amount: TextView,
     requireActivity: FragmentActivity,
     liste_SockSetting: ArrayList<StockSetting>,
+    sendStockOut: ImageView,
+    listeProductRecycle: RecyclerView,
 )
     : RecyclerView.Adapter<ProductViewHolder>() {
     private val activityIns = activity
@@ -30,6 +35,8 @@ class adapter_Product_base(
     private val liste_SockSetting=liste_SockSetting
     private val requireActivity=requireActivity
     private var isSelected : Boolean = false
+    private var sendStockOut  = sendStockOut
+    private var listeProductRecycle  = listeProductRecycle
     interface Base_ProductListener {
         fun onClickedProduct(position: Int)
     }
@@ -59,7 +66,7 @@ class adapter_Product_base(
         return ProductViewHolder(
             binding,
             listener as Base_ProductListener,
-            amount,requireActivity,liste_SockSetting,items)}
+            amount,requireActivity,liste_SockSetting,items,sendStockOut,listeProductRecycle)}
 
     override fun getItemCount(): Int = items.size
     override fun onBindViewHolder(holder: ProductViewHolder, position: Int) {
@@ -74,15 +81,22 @@ class ProductViewHolder(
     private val activityIns: FragmentActivity,
     liste_SockSetting: ArrayList<StockSetting>,
     items: ArrayList<ProductRef>,
+    sendStockOut: ImageView,
+    listeProductRecycle: RecyclerView,
 
 
-): RecyclerView.ViewHolder(itemBinding.root),
+    ): RecyclerView.ViewHolder(itemBinding.root),
     View.OnClickListener {
 
     val amount = amount
     val items = items
     val liste_SockSetting = liste_SockSetting
+    val sendStockOut = sendStockOut
+    val listeProductRecycle = listeProductRecycle
     private var isSelected : Boolean = false
+    private var liste_product_StockOut = ArrayList<productPost>()
+    private lateinit var ProductPost :productPost
+
 
 
     fun bind(item: ProductRef){
@@ -93,27 +107,57 @@ class ProductViewHolder(
 
 
 
+   sendStockOut.setOnClickListener {
+    for (i in 0..items.size-1){
+    if(listeProductRecycle.findViewHolderForAdapterPosition(i)!!.itemView.checkBox.isChecked){
+        ProductPost = productPost(
+         items.get(i).product,
+        items.get(i).store,
+         items.get(i).productId,
+        items.get(i).storeId,
+        true,
+        null,
+        114)
+
+
+        liste_product_StockOut.add(ProductPost)
+
+
+    }
+}
+       for (i in liste_product_StockOut)
+         Log.d("helloo", i.product.label)
+
+       SetAmount_product(position,item,liste_product_StockOut,"StockOut").show(activityIns.supportFragmentManager, "StockOut")
+
+   }
 
 
 
-
-        itemBinding.product.setOnClickListener {
+   itemBinding.product.setOnClickListener {
 
 
 
        if(liste_SockSetting.get(0).stockManagement.equals("StockOut")){
+           if (itemView.checkBox.isChecked){
+
+               itemView.setBackgroundColor(Color.TRANSPARENT)
+               itemView.checkBox.setChecked(false)
 
 
-           itemView.setBackgroundColor(Color.YELLOW)
+           }else{
+
+               itemView.setBackgroundColor(Color.YELLOW)
+           itemView.checkBox.setChecked(true)
+           }
 
 
-                         itemView.setBackgroundColor(Color.TRANSPARENT)
 
            } else{
 
 
 
-           SetAmount_product(position,item).show(activityIns.supportFragmentManager, "updateProduct")
+           SetAmount_product(position, item, liste_product_StockOut, "updateProduct").show(activityIns.supportFragmentManager, "updateProduct")
 
        }
 

@@ -100,7 +100,8 @@ class ProductFragment : Fragment() , adapter_Product_base.Base_ProductListener{
 
 
         adapter_Product_base = adapter_Product_base(this, requireActivity(),liste_product_ref,binding.amount,requireActivity()
-            ,liste_SockSetting)
+            ,liste_SockSetting,binding.sendStockOut,        binding.listeProductRecycle
+        )
 
         binding.listeProductRecycle.isMotionEventSplittingEnabled = false
         binding.listeProductRecycle.layoutManager = LinearLayoutManager(requireContext())
@@ -110,7 +111,9 @@ class ProductFragment : Fragment() , adapter_Product_base.Base_ProductListener{
             false)
 
         binding.listeProductRecycle.adapter = adapter_Product_base
+
         adapter_Product_base.setItems(liste_product_ref)
+
     }
 
     override fun onClickedProduct(position: Int) {

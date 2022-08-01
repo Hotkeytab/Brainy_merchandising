@@ -5,11 +5,12 @@ import com.example.brainymerchandising.Visite.Store.Model.Store
 
 data class productPost(
 
-    val product: Product,
-    val store: Store,
-    val storeId: Int,
-    val productId: Int,
-    val quantity: Int?,
-    val stockOut: Boolean,
-    val visitId: Int
+    var product: Product,
+    var store: Store,
+    var productId: Int,
+    var storeId: Int,
+    var stockOut: Boolean,
+
+    var quantity: Int?,
+    var visitId: Int
 )

@@ -66,6 +66,15 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1" />
 
+
+
+                <ImageView
+                    android:id="@+id/send_stockOut"
+                    android:layout_width="@dimen/_25sdp"
+                    android:layout_height="@dimen/_25sdp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_baseline_check_circle_24" />
+
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 

@@ -22,16 +22,20 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class SetAmount_product (
+class SetAmount_product(
         position: Int,
         product: ProductRef,
+        liste_product_StockOut: ArrayList<productPost>, Flag: String,
         )
 
         : DialogFragment() {
         private val viewModel: Product_ViewModel by viewModels()
         private lateinit var responseAdd: Resource<SuccessResponse>
+        private lateinit var responseStockout: Resource<SuccessResponse>
         private var position = position
         private val product = product
+        private val liste_product_StockOut = liste_product_StockOut
+        private val Flag = Flag
         private  var product_update = ArrayList<productPost>()
         override fun onCreateView(
                 inflater: LayoutInflater,
@@ -56,13 +60,35 @@ class SetAmount_product (
 
 
                 ok_amount.setOnClickListener {
+                        if(Flag.equals("StockOut")){
+
+                                GlobalScope.launch(Dispatchers.Main) {
+                                        responseAdd = viewModel.updateStock(liste_product_StockOut)
+
+
+                                        if (responseAdd.responseCode == 201) {
+                                                dialog!!.setCancelable(true)
+                                                cancel_amount.isEnabled = true
+                                                dialog!!.dismiss()
+
+                                        } else {
+                                                dialog!!.setCancelable(true)
+                                                cancel_amount.isEnabled = true
+                                                progress_indicatorproduct.visibility = View.GONE
+                                        }
+
+                                }
+                        }
+
+
+
                         progress_indicatorproduct.visibility = View.VISIBLE
 
                         if (!val_quantite.text.isEmpty()) {
                                 val Postproduct = productPost(
                                         product.product, product.store,
-                                        product.storeId, product.productId,val_quantite.text.toString().toInt(),
-                                        false,60
+                                        product.productId,product.storeId ,false,
+                                        val_quantite.text.toString().toInt(),60
                                 )
                                 product_update.add(Postproduct)
                                 GlobalScope.launch(Dispatchers.Main) {
