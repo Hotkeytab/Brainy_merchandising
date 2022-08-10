@@ -27,6 +27,7 @@ class adapter_Product_base(
     liste_SockSetting: ArrayList<StockSetting>,
     sendStockOut: ImageView,
     listeProductRecycle: RecyclerView,
+    VisitId: Int,
 )
     : RecyclerView.Adapter<ProductViewHolder>() {
     private val activityIns = activity
@@ -37,6 +38,7 @@ class adapter_Product_base(
     private var isSelected : Boolean = false
     private var sendStockOut  = sendStockOut
     private var listeProductRecycle  = listeProductRecycle
+    private var VisitId  = VisitId
     interface Base_ProductListener {
         fun onClickedProduct(position: Int)
     }
@@ -66,7 +68,7 @@ class adapter_Product_base(
         return ProductViewHolder(
             binding,
             listener as Base_ProductListener,
-            amount,requireActivity,liste_SockSetting,items,sendStockOut,listeProductRecycle)}
+            amount,requireActivity,liste_SockSetting,items,sendStockOut,listeProductRecycle,VisitId)}
 
     override fun getItemCount(): Int = items.size
     override fun onBindViewHolder(holder: ProductViewHolder, position: Int) {
@@ -83,6 +85,7 @@ class ProductViewHolder(
     items: ArrayList<ProductRef>,
     sendStockOut: ImageView,
     listeProductRecycle: RecyclerView,
+    VisitId: Int,
 
 
     ): RecyclerView.ViewHolder(itemBinding.root),
@@ -93,6 +96,7 @@ class ProductViewHolder(
     val liste_SockSetting = liste_SockSetting
     val sendStockOut = sendStockOut
     val listeProductRecycle = listeProductRecycle
+    val VisitId = VisitId
     private var isSelected : Boolean = false
     private var liste_product_StockOut = ArrayList<productPost>()
     private lateinit var ProductPost :productPost
@@ -117,7 +121,7 @@ class ProductViewHolder(
         items.get(i).storeId,
         true,
         null,
-        114)
+            VisitId)
 
 
         liste_product_StockOut.add(ProductPost)
@@ -126,9 +130,9 @@ class ProductViewHolder(
     }
 }
        for (i in liste_product_StockOut)
-         Log.d("helloo", i.product.label)
+           Log.d("helloo", i.toString())
 
-       SetAmount_product(position,item,liste_product_StockOut,"StockOut").show(activityIns.supportFragmentManager, "StockOut")
+       SetAmount_product(position,item,liste_product_StockOut,VisitId,"StockOut").show(activityIns.supportFragmentManager, "StockOut")
 
    }
 
@@ -136,34 +140,17 @@ class ProductViewHolder(
 
    itemBinding.product.setOnClickListener {
 
-
-
        if(liste_SockSetting.get(0).stockManagement.equals("StockOut")){
            if (itemView.checkBox.isChecked){
 
                itemView.setBackgroundColor(Color.TRANSPARENT)
                itemView.checkBox.setChecked(false)
-
-
-           }else{
-
+           }else{ 
                itemView.setBackgroundColor(Color.YELLOW)
-           itemView.checkBox.setChecked(true)
-           }
-
-
-
-           } else{
-
-
-
-           SetAmount_product(position, item, liste_product_StockOut, "updateProduct").show(activityIns.supportFragmentManager, "updateProduct")
-
-       }
-
-
-
-        }
+               itemView.checkBox.setChecked(true)
+           } } else{
+               SetAmount_product(position, item, liste_product_StockOut, VisitId,"updateProduct").show(activityIns.supportFragmentManager, "updateProduct")
+           }}
 
 
         itemBinding.Numero.text = item.product.barcode

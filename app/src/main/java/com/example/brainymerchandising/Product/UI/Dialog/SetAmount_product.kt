@@ -25,7 +25,7 @@ import kotlinx.coroutines.launch
 class SetAmount_product(
         position: Int,
         product: ProductRef,
-        liste_product_StockOut: ArrayList<productPost>, Flag: String,
+        liste_product_StockOut: ArrayList<productPost>, VisitId: Int, Flag: String,
         )
 
         : DialogFragment() {
@@ -36,6 +36,7 @@ class SetAmount_product(
         private val product = product
         private val liste_product_StockOut = liste_product_StockOut
         private val Flag = Flag
+        private val VisitId = VisitId
         private  var product_update = ArrayList<productPost>()
         override fun onCreateView(
                 inflater: LayoutInflater,
@@ -88,7 +89,7 @@ class SetAmount_product(
                                 val Postproduct = productPost(
                                         product.product, product.store,
                                         product.productId,product.storeId ,false,
-                                        val_quantite.text.toString().toInt(),60
+                                        val_quantite.text.toString().toInt(),VisitId
                                 )
                                 product_update.add(Postproduct)
                                 GlobalScope.launch(Dispatchers.Main) {

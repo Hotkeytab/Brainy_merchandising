@@ -61,9 +61,8 @@ class ProductFragment : Fragment() , adapter_Product_base.Base_ProductListener{
 
     private fun Get_list_Ref_product() {
         lifecycleScope.launch(Dispatchers.Main) {
-
             if(isAdded){
-                _Ref_Product_Response = viewModel.getRefProduct(2)
+                _Ref_Product_Response = viewModel.getRefProduct(sharedPref.getInt("storeId",0))
 
                 if(_Ref_Product_Response.responseCode == 200){
                     liste_product_ref = _Ref_Product_Response.data!!.data as ArrayList<ProductRef>
@@ -100,7 +99,7 @@ class ProductFragment : Fragment() , adapter_Product_base.Base_ProductListener{
 
 
         adapter_Product_base = adapter_Product_base(this, requireActivity(),liste_product_ref,binding.amount,requireActivity()
-            ,liste_SockSetting,binding.sendStockOut,        binding.listeProductRecycle
+            ,liste_SockSetting,binding.sendStockOut,        binding.listeProductRecycle,sharedPref.getInt("visiteId",0)
         )
 
         binding.listeProductRecycle.isMotionEventSplittingEnabled = false
