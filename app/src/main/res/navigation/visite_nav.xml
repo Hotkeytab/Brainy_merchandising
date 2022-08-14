@@ -35,5 +35,12 @@
         <action
             android:id="@+id/action_productFragment_to_mainVisiteFragment"
             app:destination="@id/mainVisiteFragment" />
+        <action
+            android:id="@+id/action_productFragment_to_historique_Fragment"
+            app:destination="@id/historique_Fragment" />
     </fragment>
+    <fragment
+        android:id="@+id/historique_Fragment"
+        android:name="com.example.brainymerchandising.Product.UI.Historique_Fragment"
+        android:label="Historique_Fragment" />
 </navigation>

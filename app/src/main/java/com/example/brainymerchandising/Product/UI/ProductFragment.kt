@@ -11,6 +11,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.brainymerchandising.Product.Adapters.adapter_Product_base
 import com.example.brainymerchandising.Product.Model.GetRefProduct_Response
@@ -18,6 +20,7 @@ import com.example.brainymerchandising.Product.Model.GetStock_Setting
 import com.example.brainymerchandising.Product.Model.ProductRef
 import com.example.brainymerchandising.Product.Model.StockSetting
 import com.example.brainymerchandising.Product.ViewModel.Product_ViewModel
+import com.example.brainymerchandising.R
 import com.example.brainymerchandising.Utils.resources.Resource
 import com.example.brainymerchandising.databinding.FragmentStoreBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -34,6 +37,7 @@ class ProductFragment : Fragment() , adapter_Product_base.Base_ProductListener{
     private lateinit var _Get_StockSetting_Response : Resource<GetStock_Setting>
     private lateinit var adapter_Product_base: adapter_Product_base
     private var liste_product_ref = ArrayList<ProductRef>()
+    private lateinit var navController: NavController
 
     private var liste_SockSetting = ArrayList<StockSetting>()
 
@@ -47,6 +51,8 @@ class ProductFragment : Fragment() , adapter_Product_base.Base_ProductListener{
             Context.MODE_PRIVATE)
 
         fm = childFragmentManager
+        navController = NavHostFragment.findNavController(this)
+
         GetStock_Setting()
         Get_list_Ref_product()
 
@@ -56,6 +62,10 @@ class ProductFragment : Fragment() , adapter_Product_base.Base_ProductListener{
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecycleView()
+
+        binding.Historiaue.setOnClickListener {
+
+            navController.navigate(R.id.action_productFragment_to_historique_Fragment) }
     }
 
 

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Product.UI.Historique_Fragment"
+    tools:ignore="MissingDefaultResource">
+
+    <!-- TODO: Update blank fragment layout -->
+
+
+    <com.example.brainymerchandising.Utils.FixedHeader.TableFixHeaders
+        android:id="@+id/tableHisto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="horizontal|vertical">
+    </com.example.brainymerchandising.Utils.FixedHeader.TableFixHeaders>
+</FrameLayout>

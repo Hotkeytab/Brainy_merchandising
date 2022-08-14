@@ -62,9 +62,16 @@
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/Historiaue"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1" />
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:paddingTop="8dp"
+                    android:text="Historique"
+                    android:textColor="#FFFFFF"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
 
 
 
