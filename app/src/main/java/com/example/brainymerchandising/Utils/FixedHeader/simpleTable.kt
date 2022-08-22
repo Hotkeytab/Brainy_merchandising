@@ -3,9 +3,11 @@ package com.example.brainymerchandising.Utils.FixedHeader
 import android.app.Activity
 import android.os.Bundle
 import android.view.View
+import com.example.brainymerchandising.Display.Model.Display_category
 import com.example.brainymerchandising.R
 
 class SimpleTable : Activity() {
+    private var liste_Category_display = ArrayList<ArrayList<String>>()
 
 
 
@@ -14,6 +16,12 @@ class SimpleTable : Activity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.table)
         val tableFixHeaders: TableFixHeaders = findViewById<View>(R.id.tableHisto) as TableFixHeaders
+        liste_Category_display[0].add("Maher1")
+        liste_Category_display[0].add("Maher2")
+        liste_Category_display[0].add("Maher3")
+        liste_Category_display[0].add("Maher4")
+        liste_Category_display[0].add("Maher5")
+        liste_Category_display = arrayListOf()
         val matrixTableAdapter = MatrixTableAdapter(
             this, arrayOf(
                 arrayOf(

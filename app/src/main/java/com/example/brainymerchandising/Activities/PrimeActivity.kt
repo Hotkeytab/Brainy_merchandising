@@ -24,6 +24,7 @@ import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.example.brainymerchandising.Display.Adapter.Image_Adapter
 import com.example.brainymerchandising.Display.Model.Image
 import com.example.brainymerchandising.Display.Model.Post.CustomFieldValue
+import com.example.brainymerchandising.Product.Model.ProductRef
 import com.example.brainymerchandising.R
 import com.example.brainymerchandising.Visite.UI.MainVisiteFragment
 import com.example.brainymerchandising.baseNav.Base_nav
@@ -52,6 +53,7 @@ class PrimeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
 
     var tab_Image: ArrayList<Image>? = ArrayList<Image>()
     var tab_CustomFieldValues: ArrayList<CustomFieldValue>? = ArrayList<CustomFieldValue>()
+    var ProductrefHistorique: ArrayList<ProductRef>? = ArrayList<ProductRef>()
     var tab_CustomFieldValues1: HashMap<Int, CustomFieldValue> = HashMap<Int, CustomFieldValue>()
     lateinit var adapterImage: Image_Adapter
     var tabImageALlSection: HashMap<Int, ArrayList<Image>> = HashMap<Int, ArrayList<Image>>()

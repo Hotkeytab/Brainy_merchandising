@@ -52,6 +52,10 @@ class adapter_Product_base(
         this.items.addAll(items)
         notifyDataSetChanged() }
 
+
+    fun getItems(): ArrayList<ProductRef> {
+        return items }
+
     fun clear() {
         val size: Int = items.size
         items.clear()

@@ -19,13 +19,27 @@
         <entry key="..\:/Brainymerchandising/app/src/main/res/layout/item_product.xml" value="0.264" />
         <entry key="..\:/Brainymerchandising/app/src/main/res/layout/will_check.xml" value="0.1710646041856233" />
         <entry key="app/src/main/res/drawable-v24/ic_arowback.xml" value="0.222" />
+        <entry key="app/src/main/res/drawable/bg_table_family.xml" value="0.1365" />
+        <entry key="app/src/main/res/drawable/corned_transparent_white.xml" value="0.1365" />
+        <entry key="app/src/main/res/drawable/corned_white_grey.xml" value="0.1365" />
+        <entry key="app/src/main/res/drawable/corned_white_purple.xml" value="0.1365" />
+        <entry key="app/src/main/res/drawable/corned_white_purple_question.xml" value="0.1365" />
+        <entry key="app/src/main/res/drawable/gradient_red.xml" value="0.1365" />
         <entry key="app/src/main/res/drawable/ic_baseline_check_24.xml" value="0.222" />
         <entry key="app/src/main/res/drawable/item_table1.xml" value="0.222" />
+        <entry key="app/src/main/res/layout-w936dp/dialog_internet_connection.xml" value="0.215625" />
         <entry key="app/src/main/res/layout/dialog_add_visite.xml" value="0.23324275362318841" />
         <entry key="app/src/main/res/layout/dialog_set_amount.xml" value="0.23324275362318841" />
-        <entry key="app/src/main/res/layout/fragment_historique.xml" value="0.17465753424657535" />
+        <entry key="app/src/main/res/layout/fragment_historique.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_login.xml" value="0.18229166666666666" />
         <entry key="app/src/main/res/layout/fragment_store.xml" value="0.22056159420289856" />
+        <entry key="app/src/main/res/layout/fragment_test.xml" value="0.284375" />
+        <entry key="app/src/main/res/layout/item_image.xml" value="0.1" />
         <entry key="app/src/main/res/layout/item_product.xml" value="0.4131781005859375" />
+        <entry key="app/src/main/res/layout/item_table1.xml" value="0.284375" />
+        <entry key="app/src/main/res/layout/item_table_family.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/item_table_first.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/nav_header_main.xml" value="0.184375" />
         <entry key="app/src/main/res/layout/table.xml" value="0.2677083333333333" />
       </map>
     </option>
@@ -35,5 +49,12 @@
   </component>
   <component name="ProjectType">
     <option name="id" value="Android" />
+  </component>
+  <component name="VisualizationToolProject">
+    <option name="state">
+      <ProjectState>
+        <option name="scale" value="0.26875" />
+      </ProjectState>
+    </option>
   </component>
 </project>

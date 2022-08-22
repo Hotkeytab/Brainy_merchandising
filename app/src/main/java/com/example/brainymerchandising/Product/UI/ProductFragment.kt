@@ -4,10 +4,10 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -26,6 +26,7 @@ import com.example.brainymerchandising.databinding.FragmentStoreBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+
 
 @AndroidEntryPoint
 class ProductFragment : Fragment() , adapter_Product_base.Base_ProductListener{
@@ -46,15 +47,19 @@ class ProductFragment : Fragment() , adapter_Product_base.Base_ProductListener{
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentStoreBinding.inflate(inflater, container, false)
+
+
         sharedPref = requireContext().getSharedPreferences(
             com.example.brainymerchandising.R.string.app_name.toString(),
             Context.MODE_PRIVATE)
 
         fm = childFragmentManager
+
         navController = NavHostFragment.findNavController(this)
 
         GetStock_Setting()
         Get_list_Ref_product()
+        Log.d("contraaaaaa",liste_SockSetting.toString())
 
 
         return binding.root
@@ -63,9 +68,20 @@ class ProductFragment : Fragment() , adapter_Product_base.Base_ProductListener{
         super.onViewCreated(view, savedInstanceState)
         setupRecycleView()
 
+
+
         binding.Historiaue.setOnClickListener {
 
-            navController.navigate(R.id.action_productFragment_to_historique_Fragment) }
+            val bundle = Bundle()
+            bundle.putSerializable("productList", adapter_Product_base.getItems())
+
+// Set Fragmentclass Arguments
+
+// Set Fragmentclass Arguments
+
+
+
+            navController.navigate(R.id.action_productFragment_to_historique_Fragment,bundle) }
     }
 
 
@@ -76,7 +92,9 @@ class ProductFragment : Fragment() , adapter_Product_base.Base_ProductListener{
 
                 if(_Ref_Product_Response.responseCode == 200){
                     liste_product_ref = _Ref_Product_Response.data!!.data as ArrayList<ProductRef>
-                    Log.d("jiren",liste_product_ref.toString())
+                    Log.d("liste_product_ref prod",liste_product_ref.toString())
+
+
 
                 }
                 setupRecycleView()
@@ -122,6 +140,7 @@ class ProductFragment : Fragment() , adapter_Product_base.Base_ProductListener{
         binding.listeProductRecycle.adapter = adapter_Product_base
 
         adapter_Product_base.setItems(liste_product_ref)
+
 
     }
 
