@@ -26,11 +26,12 @@
         <entry key="app/src/main/res/drawable/corned_white_purple_question.xml" value="0.1365" />
         <entry key="app/src/main/res/drawable/gradient_red.xml" value="0.1365" />
         <entry key="app/src/main/res/drawable/ic_baseline_check_24.xml" value="0.222" />
+        <entry key="app/src/main/res/drawable/ic_baseline_search_24.xml" value="0.1365" />
         <entry key="app/src/main/res/drawable/item_table1.xml" value="0.222" />
         <entry key="app/src/main/res/layout-w936dp/dialog_internet_connection.xml" value="0.215625" />
         <entry key="app/src/main/res/layout/dialog_add_visite.xml" value="0.23324275362318841" />
         <entry key="app/src/main/res/layout/dialog_set_amount.xml" value="0.23324275362318841" />
-        <entry key="app/src/main/res/layout/fragment_historique.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_historique.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_login.xml" value="0.18229166666666666" />
         <entry key="app/src/main/res/layout/fragment_store.xml" value="0.22056159420289856" />
         <entry key="app/src/main/res/layout/fragment_test.xml" value="0.284375" />

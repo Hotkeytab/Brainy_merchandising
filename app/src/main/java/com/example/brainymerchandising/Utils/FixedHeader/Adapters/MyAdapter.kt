@@ -1,6 +1,7 @@
 package com.example.brainymerchandising.Utils.FixedHeader.Adapters
 
 import android.content.Context
+import com.example.brainymerchandising.Product.Model.Product
 import com.example.brainymerchandising.Product.Model.ProductRef
 import com.example.brainymerchandising.R
 import kotlinx.coroutines.GlobalScope
@@ -8,14 +9,17 @@ import kotlinx.coroutines.GlobalScope
 class MyAdapter(context: Context) : SampleTableAdapter(context) {
     private val width: Int
     private val height: Int
-    private  var listeProduit :ArrayList<ProductRef>? = ArrayList<ProductRef>()
+    private  var index = 0
+
+
+    private  var listeProduit :ArrayList<Product>? = ArrayList<Product>()
 
     fun inflateHistoTable(){
 
     }
 
 
-    fun setItems(items: ArrayList<ProductRef>) {
+    fun setItems(items: ArrayList<Product>) {
         listeProduit = items
 
    }
@@ -41,9 +45,13 @@ return listeProduit!!.size
     }
 
     override   fun getCellString(row: Int, column: Int): String {
-        return if ((row == -1) ||(column == -1)) {
-            "Maher"
-        } else "Lorem ($row, $column)"
+        return if ((column == -1)&&(row ==-1)) {
+            "Label"
+        }else if ((column == -1)&&(row >-1)) {
+            listeProduit!!.get(row).label
+
+        } else{ "Lorem ($row, $column)"}
+        index++
     }
 
     override fun getLayoutResource(row: Int, column: Int): Int {
