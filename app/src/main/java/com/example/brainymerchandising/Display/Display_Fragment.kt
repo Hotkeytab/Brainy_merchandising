@@ -19,6 +19,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.brainymerchandising.Activities.PrimeActivity
 import com.example.brainymerchandising.Display.Adapter.Adapter_base_Display
@@ -80,6 +81,8 @@ class Display_Fragment : Fragment(), Adapter_base_Display.Base_DisplayListener,
     var recentPercent = 0
     private var percent = 0
     private var filesNumber = 0
+    private lateinit var navController: NavController
+
 
 
 
@@ -222,6 +225,11 @@ class Display_Fragment : Fragment(), Adapter_base_Display.Base_DisplayListener,
 
 
             Get_Display_section()
+
+            binding.backStoreDetails.setOnClickListener {
+                navController.navigate(R.id.action_store_Details_to_mainVisiteFragment)
+
+            }
         }
     }
 

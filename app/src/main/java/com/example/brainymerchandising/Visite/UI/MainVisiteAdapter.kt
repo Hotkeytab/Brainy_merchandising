@@ -122,10 +122,8 @@ class MainVisiteViewHolder(
 
         if(visiteResponse.start != null && visiteResponse.end ==null ){
 
-        if(itemBinding.MenuNavigationItem1.isVisible)
-        itemBinding.MenuNavigationItem1.visibility= (View.GONE)
-        else
-            itemBinding.MenuNavigationItem1.visibility= (View.VISIBLE)
+
+            nav.navigate(R.id.action_mainVisiteFragment_to_store_Details)
 
 
         }
@@ -273,14 +271,9 @@ class MainVisiteViewHolder(
                     visite.store.name
                 ).show(activityIns.supportFragmentManager, "PositionMapDialog")}}
 
-        itemBinding.navNewDisplay.setOnClickListener {
-
-            nav.navigate(R.id.action_mainVisiteFragment_to_display_Fragment2) }
 
 
-        itemBinding.navNewProduct.setOnClickListener {
-
-            nav.navigate(R.id.action_mainVisiteFragment_to_productFragment) }
+ }
     }
 
 
@@ -288,4 +281,4 @@ class MainVisiteViewHolder(
 
 
 
-}
+

@@ -15,6 +15,13 @@
         <action
             android:id="@+id/action_mainVisiteFragment_to_productFragment"
             app:destination="@id/productFragment" />
+        <action
+            android:id="@+id/action_mainVisiteFragment_to_store_Details"
+            app:destination="@id/store_Details"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/display_Fragment2"
@@ -43,4 +50,27 @@
         android:id="@+id/historique_Fragment"
         android:name="com.example.brainymerchandising.Product.UI.Historique_Fragment"
         android:label="Historique_Fragment" />
+    <fragment
+        android:id="@+id/store_Details"
+        android:name="com.example.brainymerchandising.Visite.UI.Store_Details"
+        android:label="fragment_store__details"
+        tools:layout="@layout/fragment_store__details" >
+        <action
+            android:id="@+id/action_store_Details_to_display_Fragment2"
+            app:destination="@id/display_Fragment2"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_store_Details_to_productFragment"
+            app:destination="@id/productFragment" />
+        <action
+            android:id="@+id/action_store_Details_to_mainVisiteFragment"
+            app:destination="@id/mainVisiteFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
 </navigation>
