@@ -46,15 +46,9 @@ class Store_Details : Fragment() {
 
         }
         binding.MenuDisplay.setOnClickListener {
-            navController.navigate(R.id.action_store_Details_to_display_Fragment2)
+           // navController.navigate(R.id.action_store_Details_to_suivieFragment)
 
         }
         binding.MenuStock.setOnClickListener {
-            navController.navigate(R.id.action_store_Details_to_productFragment)
-
-        }
-
-
-
-
+            navController.navigate(R.id.action_store_Details_to_productFragment)}
     }}

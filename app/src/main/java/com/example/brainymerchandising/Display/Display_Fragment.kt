@@ -20,6 +20,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.brainymerchandising.Activities.PrimeActivity
 import com.example.brainymerchandising.Display.Adapter.Adapter_base_Display
@@ -89,6 +90,7 @@ class Display_Fragment : Fragment(), Adapter_base_Display.Base_DisplayListener,
 
 
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -106,24 +108,24 @@ class Display_Fragment : Fragment(), Adapter_base_Display.Base_DisplayListener,
 
         Get_Display_Type()
         Get_Display_Category()
-        return binding.root
-    }
+        return binding.root }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        navController = NavHostFragment.findNavController(this)
+
+        binding.backStoreDetailsF.setOnClickListener {
+            navController.navigate(R.id.action_display_Fragment2_to_mainVisiteFragment)}
         binding.subjectText.setOnItemClickListener { parent, view, position, id ->
             selected_Element = parent.getItemAtPosition(position)
             // Log.d("selected_Element",selected_Element.toString())
             var customValues: ArrayList<Items_Text_input>? = ArrayList<Items_Text_input>()
-
             val listMultipartBody = ArrayList<MultipartBody.Part?>()
-
 
             binding.fab.setOnClickListener(View.OnClickListener {
 
-
-                  display = Display(sharedPref.getInt("storeId",0),sharedPref.getInt("userId",0)
-                      ,displayId,null,null,sharedPref.getInt("visiteId",0))
+                display = Display(sharedPref.getInt("storeId",0),sharedPref.getInt("userId",0)
+                    ,displayId,null,null,sharedPref.getInt("visiteId",0))
 
                Log.d("display", display.toString())
 
@@ -137,26 +139,21 @@ class Display_Fragment : Fragment(), Adapter_base_Display.Base_DisplayListener,
 
                     customFieldObject = DisplayCustomFields(
                         i.value.DisplayCustomFieldId, i.value.name,
-                        i.value.type, null, null, i.value.displaySectionId
-                    )
+                        i.value.type, null, null, i.value.displaySectionId)
 
                     TextPostAll_EditText = Items_Text_input(
                         customFieldObject,
                         i.value.value,
-                        i.value.DisplayCustomFieldId
-                    )
+                        i.value.DisplayCustomFieldId)
 
-                    customValues!!.add(TextPostAll_EditText)
-                }
+                    customValues!!.add(TextPostAll_EditText)}
 
                 val customValuesFormData = jacksonObjectMapper().writeValueAsString(customValues)
                 val customValuesJson = RequestBody.create(
                     "application/json; charset=utf-8".toMediaTypeOrNull(),
-                    customValuesFormData
-                )
+                    customValuesFormData)
 
                Log.d("liste_objet_display", (this.activity as PrimeActivity).tab_CustomFieldValues1!!.toString())
-
                Log.d("customValues", customValues!!.toString())
                Log.d("customValues", (this.activity as PrimeActivity).tab_Image!!!!.toString())
 
@@ -172,8 +169,7 @@ class Display_Fragment : Fragment(), Adapter_base_Display.Base_DisplayListener,
                 val dataFormData = jacksonObjectMapper().writeValueAsString(ImageALl_Array)
                 val dataJson = RequestBody.create(
                     "application/json; charset=utf-8".toMediaTypeOrNull(),
-                    dataFormData
-                )
+                    dataFormData )
 
 
                // Log.d("Imageupload", ImageALl_Array.toString())
@@ -181,6 +177,7 @@ class Display_Fragment : Fragment(), Adapter_base_Display.Base_DisplayListener,
                 Log.d("customValuesJson", customValuesFormData!!.toString())
                 Log.d("dataJson", dataFormData!!.toString())
                 Log.d("dataJson", listMultipartBody!!.toString())
+
                 filesNumber = listMultipartBody.size
                 binding.progressUpload.max = filesNumber * 2
 
@@ -207,31 +204,15 @@ class Display_Fragment : Fragment(), Adapter_base_Display.Base_DisplayListener,
 
                     snack.show()
                 } else {
-                    val snack =
-                        Snackbar.make(requireView(), "Une Erreur s'est produite", Snackbar.LENGTH_LONG)
+                    val snack = Snackbar.make(requireView(), "Une Erreur s'est produite", Snackbar.LENGTH_LONG)
 
                     val view: View = snack.view
                     val params = view.layoutParams as FrameLayout.LayoutParams
                     params.gravity = Gravity.BOTTOM
                     view.layoutParams = params
-                    snack.show()
+                    snack.show() }}})
 
-                }
-
-
-
-                }
-            })
-
-
-            Get_Display_section()
-
-            binding.backStoreDetails.setOnClickListener {
-                navController.navigate(R.id.action_store_Details_to_mainVisiteFragment)
-
-            }
-        }
-    }
+            Get_Display_section() }}
 
     //Convert ALl Bmp Images to files
     private fun convertToFile(
@@ -250,10 +231,8 @@ class Display_Fragment : Fragment(), Adapter_base_Display.Base_DisplayListener,
 
             val file = File(
                 requireActivity().cacheDir,
-                requireActivity().contentResolver.getFileName(selectedImageUri)
-            )
-
-            val body = ProgressRequestBody(file, "image", this)
+                requireActivity().contentResolver.getFileName(selectedImageUri))
+                val body = ProgressRequestBody(file, "image", this)
 
 
             val outputStream = FileOutputStream(file)
@@ -261,19 +240,11 @@ class Display_Fragment : Fragment(), Adapter_base_Display.Base_DisplayListener,
 
             val mbp = MultipartBody.Part.createFormData(
                 "files", file.absolutePath,
-                body
-            )
-
+                body)
             listMultipartBody.add(mbp)
+            requireActivity().contentResolver.delete(selectedImageUri, null, null)}
 
-            requireActivity().contentResolver.delete(selectedImageUri, null, null)
-
-        }
-
-        return null
-
-
-    }
+        return null }
 
 
     private fun getImageUri(inContext: Context, inImage: Bitmap): Uri? {
@@ -294,17 +265,15 @@ class Display_Fragment : Fragment(), Adapter_base_Display.Base_DisplayListener,
 
                 if (!i.withBrand) {
                     (this.activity as PrimeActivity).tab_CustomFieldValues!!.clear()
-                    binding.layoutContainer.item_brand_category.visibility = View.VISIBLE
+                    binding.layoutContainer.item_brand_category.visibility = View.VISIBLE }
 
-                }
                 for (j in i.displaySections) {
                     liste_objet_displaySection.add(j)
                     //Log.d("liste_objet_displaySection",liste_objet_displaySection.toString())
-                }
+                    }
                 break@loop
 
-            }
-        }
+            }}
         setupRecycleView()
         liste_objet_displaySection.clear()
     }
@@ -322,12 +291,7 @@ class Display_Fragment : Fragment(), Adapter_base_Display.Base_DisplayListener,
                     liste_objet_display.map { it -> it.name })
                 //Log.d("lista",liste_objet_display.toString())
 
-                binding.subjectText.setAdapter(arrayAdapter)
-
-
-            }
-        }
-    }
+                binding.subjectText.setAdapter(arrayAdapter) }}}
 
     private fun Get_Display_Category() {
         lifecycleScope.launch(Dispatchers.Main) {
@@ -357,47 +321,33 @@ class Display_Fragment : Fragment(), Adapter_base_Display.Base_DisplayListener,
 
                     binding.layoutContainer.subjectCategory.setAdapter(arrayAdapter)
                     binding.layoutContainer.subjectBrand.setAdapter(arrayAdapter2)
+                }}}}
 
-
-                }
-            }
-
-
-        }
-    }
 
     private fun setupRecycleView() {
 
-        adapter_Display_base =
-            Adapter_base_Display(this, requireActivity(), liste_objet_displaySection)
+        adapter_Display_base = Adapter_base_Display(this, requireActivity(), liste_objet_displaySection)
         binding.listeDisplayRecycle.isMotionEventSplittingEnabled = false
         binding.listeDisplayRecycle.layoutManager = LinearLayoutManager(requireContext())
         binding.listeDisplayRecycle.layoutManager = LinearLayoutManager(
             context,
             LinearLayoutManager.VERTICAL,
-            false
-        )
+            false)
 
         binding.listeDisplayRecycle.adapter = adapter_Display_base
         //Log.d("ena",liste_objet_display.toString())
 
-        adapter_Display_base.setItems(liste_objet_displaySection)
+        adapter_Display_base.setItems(liste_objet_displaySection)}
 
 
-    }
+        override fun onClickeddisplay(position: Int){
+        val a =0}
 
-
-    override fun onClickeddisplay(position: Int) {
-val a =0
-    }
-
-    override fun onClickedImage(position: Int) {
-        val b =0
-    }
+       override fun onClickedImage(position: Int){
+        val b =0}
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onProgressUpdate(percentage: Int) {
-
 
         if (percentage < recentPercent) {
             percent++
@@ -408,11 +358,9 @@ val a =0
             binding.progressUpload.setProgress(percent, true)
             recentPercent = 0
         } else {
-            recentPercent = percentage
-        }
+            recentPercent = percentage}}
 
 
-    }
     override fun onError() {
         TODO("Not yet implemented")
     }

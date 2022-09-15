@@ -29,13 +29,21 @@
         <entry key="app/src/main/res/drawable/ic_baseline_search_24.xml" value="0.1365" />
         <entry key="app/src/main/res/drawable/item_table1.xml" value="0.222" />
         <entry key="app/src/main/res/layout-w936dp/dialog_internet_connection.xml" value="0.215625" />
+        <entry key="app/src/main/res/layout/activity_home.xml" value="0.271875" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.271875" />
+        <entry key="app/src/main/res/layout/activity_prime.xml" value="0.271875" />
         <entry key="app/src/main/res/layout/dialog_add_visite.xml" value="0.23324275362318841" />
         <entry key="app/src/main/res/layout/dialog_set_amount.xml" value="0.23324275362318841" />
+        <entry key="app/src/main/res/layout/fragment_base_nav.xml" value="0.335" />
         <entry key="app/src/main/res/layout/fragment_display_.xml" value="0.2875" />
+        <entry key="app/src/main/res/layout/fragment_globalsuivie.xml" value="0.2869791666666667" />
         <entry key="app/src/main/res/layout/fragment_historique.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_login.xml" value="0.18229166666666666" />
+        <entry key="app/src/main/res/layout/fragment_main_visite.xml" value="0.28802083333333334" />
+        <entry key="app/src/main/res/layout/fragment_order.xml" value="0.271875" />
         <entry key="app/src/main/res/layout/fragment_store.xml" value="0.22056159420289856" />
         <entry key="app/src/main/res/layout/fragment_store__details.xml" value="0.2875" />
+        <entry key="app/src/main/res/layout/fragment_suivie.xml" value="0.28802083333333334" />
         <entry key="app/src/main/res/layout/fragment_test.xml" value="0.284375" />
         <entry key="app/src/main/res/layout/item_image.xml" value="0.1" />
         <entry key="app/src/main/res/layout/item_magasin.xml" value="0.2875" />
@@ -45,6 +53,9 @@
         <entry key="app/src/main/res/layout/item_table_first.xml" value="0.1" />
         <entry key="app/src/main/res/layout/nav_header_main.xml" value="0.184375" />
         <entry key="app/src/main/res/layout/table.xml" value="0.2677083333333333" />
+        <entry key="app/src/main/res/layout/verticalweekcalendar_day.xml" value="0.2875" />
+        <entry key="app/src/main/res/layout/verticalweekcalendar_week.xml" value="0.2875" />
+        <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.271875" />
       </map>
     </option>
   </component>

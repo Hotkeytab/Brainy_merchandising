@@ -19,5 +19,7 @@
     <color name="blueclear">#3085D6</color>
     <color name="orange">#F1B44C</color>
     <color name="purpleLoginclair">#462A3042</color>
+    <color name="colorSelectedDayBG">#f1f4f9</color>
+
 
 </resources>

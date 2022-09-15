@@ -57,6 +57,6 @@
             android:layout_weight="1"
             android:hint="QTY"
             android:inputType="textPersonName"
-            android:visibility="gone" />
+            android:visibility="visible" />
     </LinearLayout>
 </androidx.cardview.widget.CardView>

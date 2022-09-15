@@ -41,6 +41,7 @@ import com.example.brainymerchandising.Utils.resources.Server_date.ViewModel.Dat
 import com.example.brainymerchandising.Visite.UI.Dialog.Add_visite_dialog
 import com.example.brainymerchandising.Visite.UI.Dialog.CheckIn.Check_In_Dialog
 import com.example.brainymerchandising.Visite.UI.Dialog.delete.Delete_Visite
+import com.example.brainymerchandising.Visite.suivie.UI.SuivieFragment
 import com.example.brainymerchandising.Visite.visite.Model.ListVisiteGet
 import com.example.brainymerchandising.Visite.visite.Model.Visite
 import com.example.brainymerchandising.Visite.visite.ViewModel.VisiteViewModel
@@ -149,7 +150,24 @@ class MainVisiteFragment : Fragment(), MainVisiteAdapter.VisiteItemListener {
             navController = NavHostFragment.findNavController(this)
 
 
-            binding.AddVisiteButton.setOnClickListener {
+   binding.bottomNav1.setOnItemSelectedListener {
+
+
+          when (it.itemId) {
+
+
+        R.id.suivie -> {
+            navController.navigate(R.id.action_mainVisiteFragment_to_suivieFragment)
+
+
+        }
+
+    }
+       false
+    }
+
+
+    binding.AddVisiteButton.setOnClickListener {
 
                 //Init Visite Dialog and SHow it
                 addVisiteDialog = Add_visite_dialog(lista_de_visite)

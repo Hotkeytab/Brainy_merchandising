@@ -12,7 +12,6 @@ interface VisiteService {
     @GET("/visit/{user_id}/{date_begin}/{date_end}")
     suspend fun getVisites(@Path("user_id") user_id: String, @Path("date_begin") date_begin: String, @Path("date_end") date_end: String): Response<ListVisiteGet>
 
-    @DELETE("/visit/{visitId}")
     suspend fun deleteVisite(@Path("visitId") visitId : Int) : Response<DeleteVisiteResponse>
 
     @POST("visit")

@@ -3,21 +3,13 @@
 
 
     <item
-        android:id="@+id/task"
+        android:id="@+id/planning"
         android:icon="@drawable/ic_baseline_arrow_drop_up_24"
-        android:title="task"/>
+        android:title="Planning du jour"/>
 
     <item
         android:id="@+id/suivie"
         android:icon="@drawable/ic_baseline_arrow_drop_up_24"
-        android:title="task"/>
-
-    <item
-        android:id="@+id/kpi"
-        android:icon="@drawable/ic_baseline_arrow_drop_up_24"
-        android:title="task"/>
-
-
-
+        android:title="Suivie planning"/>
 
 </menu>

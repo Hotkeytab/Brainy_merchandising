@@ -22,6 +22,10 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_mainVisiteFragment_to_suivieFragment"
+            app:destination="@id/suivieFragment" />
+
     </fragment>
     <fragment
         android:id="@+id/display_Fragment2"
@@ -31,6 +35,9 @@
         <action
             android:id="@+id/action_display_Fragment2_to_mainVisiteFragment"
             app:destination="@id/mainVisiteFragment" />
+        <action
+            android:id="@+id/action_display_Fragment2_to_store_Details"
+            app:destination="@id/store_Details" />
     </fragment>
     <fragment
         android:id="@+id/productFragment"
@@ -72,5 +79,15 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
+
     </fragment>
+    <fragment
+        android:id="@+id/suivieFragment"
+        android:name="com.example.brainymerchandising.Visite.suivie.UI.SuivieFragment"
+        android:label="SuivieFragment"
+        tools:layout="@layout/fragment_globalsuivie" />
+
+
+
+
 </navigation>

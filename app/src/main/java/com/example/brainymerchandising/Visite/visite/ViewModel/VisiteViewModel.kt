@@ -15,6 +15,8 @@ class VisiteViewModel @Inject constructor(
         visiteRepository.getVisites(user_id, date_begin, date_end)
 
 
+
+
     suspend fun addVisite(visitPost: ArrayList<VisitPost>) = visiteRepository.addVisit(visitPost)
 
 

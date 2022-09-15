@@ -2,7 +2,7 @@ package com.example.brainymerchandising.Visite.visite.Model
 
 import com.example.brainymerchandising.Visite.Store.Model.Store
 
-data class Visite(
+ data class Visite(
     val createdAt: String,
     val day: String,
     val id: Int,
