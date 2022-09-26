@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,6 +25,8 @@ import com.example.brainymerchandising.Utils.Calendar.controller.VerticalWeekAda
 import com.example.brainymerchandising.Utils.resources.Resource
 import com.example.brainymerchandising.Visite.UI.MainVisiteAdapter
 import com.example.brainymerchandising.Visite.suivie.Adapter.Suivie_Visite_adapter
+import com.example.brainymerchandising.Visite.suivie.model.VisiteSuivie
+import com.example.brainymerchandising.Visite.suivie.model.VisiteSuivieGet
 import com.example.brainymerchandising.Visite.visite.Model.ListVisiteGet
 import com.example.brainymerchandising.Visite.visite.Model.Visite
 import com.example.brainymerchandising.Visite.visite.ViewModel.VisiteViewModel
@@ -43,11 +46,11 @@ class SuivieFragment : Fragment() , Suivie_Visite_adapter.VisiteItemListener_sui
     lateinit var calendarView: VerticalWeekCalendar
     private lateinit var binding: FragmentGlobalsuivieBinding
     private val viewModel: VisiteViewModel by viewModels()
-    private lateinit var responseData: Resource<ListVisiteGet>
+    private lateinit var responseData: Resource<VisiteSuivieGet>
     lateinit var sharedPref: SharedPreferences
     private lateinit var navController: NavController
     private var userId = 0
-    private var lista_de_visite = ArrayList<Visite>()
+    private var lista_de_visite = ArrayList<VisiteSuivie>()
     private lateinit var main_viste_adapter: Suivie_Visite_adapter
 
 
@@ -70,13 +73,13 @@ class SuivieFragment : Fragment() , Suivie_Visite_adapter.VisiteItemListener_sui
 
         binding = FragmentGlobalsuivieBinding.inflate(inflater, container, false)
 
-
         return binding.root }
 
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        navController = NavHostFragment.findNavController(this)
 
         val calendar = Calendar.getInstance()
         selected = GregorianCalendar(
@@ -91,10 +94,20 @@ class SuivieFragment : Fragment() , Suivie_Visite_adapter.VisiteItemListener_sui
             override fun onCalenderDayClicked(year: Int, month: Int, day: Int) {
                 val selectedDay = GregorianCalendar(year, month, day)
                 if (selected.compareTo(selectedDay) != 0) {
+                    val moutht = month+1
+                    lista_de_visite.clear()
+
+                    if (isAdded && activity != null) {
+
+                        getVisites_Suivie(year.toString(),moutht.toString(),day.toString()) }
+                    Log.d("year",year.toString())
+
+                    Log.d("mounth",moutht.toString())
+
+                    Log.d("day",day.toString())
+
                     selected = selectedDay
-                }
-            }
-        })
+                }}})
 
 
         calendarView.setDateWatcher(object : DateWatcher {
@@ -103,16 +116,11 @@ class SuivieFragment : Fragment() , Suivie_Visite_adapter.VisiteItemListener_sui
                         GregorianCalendar(
                             year,
                             month,
-                            day
-                        )
-                    ) == 0
-                ) CalendarDay.SELECTED else CalendarDay.DEFAULT
-            }
-        })
-        if (isAdded && activity != null) {
-            navController = NavHostFragment.findNavController(this)
+                            day)) == 0
 
-            getVisites_Suivie() }
+                ) CalendarDay.SELECTED else CalendarDay.DEFAULT}
+        })
+
 
 
 
@@ -121,33 +129,34 @@ class SuivieFragment : Fragment() , Suivie_Visite_adapter.VisiteItemListener_sui
 }
 
     @DelicateCoroutinesApi
-    private fun getVisites_Suivie() {
+    private fun getVisites_Suivie(year: String, month: String, day: String) {
+        binding.root.progress_indicator.visibility = View.VISIBLE
 
         lifecycleScope.launch(Dispatchers.Main) {
             if (!isDetached) {
-                if (isAdded) {
-                    responseData =
-                        viewModel.getVisites(userId.toString(), "2022-09-13", "2022-09-13")
-                    if (responseData.responseCode == 200) {
-                        lista_de_visite = responseData.data!!.data as ArrayList<Visite>
 
+                    responseData =
+                        viewModel.getVisitesSuivie(userId.toString(), year+"-"+month+"-"+day, year+"-"+month+"-"+day)
+                    if (responseData.responseCode == 200) {
+                       // Log.d("jassa",day.toString())
+                        lista_de_visite = responseData.data!!.data as ArrayList<VisiteSuivie>
+                       Log.d("jassa",lista_de_visite.toString())
                         if (lista_de_visite.size == 0)
-                        // binding.novisit.visibility = View.VISIBLE
+                         //binding.novisit.visibility = View.VISIBLE
                         else
                         //  binding.novisit.visibility = View.GONE
 
-                            if (isAdded && activity != null)
-                                setupRecycleViewSuivieDetail()
-                        binding.root.progress_indicator.visibility = View.GONE
+                            if (isAdded && activity != null){
+                                 setupRecycleViewSuivieDetail()
+                        binding.root.progress_indicator.visibility = View.GONE}
                     }
-                }
+
             }
 
         }
     }
 
     private fun setupRecycleViewSuivieDetail() {
-
         main_viste_adapter = Suivie_Visite_adapter(
             this, requireActivity(),
             activity as PrimeActivity, lista_de_visite, navController
@@ -162,15 +171,17 @@ class SuivieFragment : Fragment() , Suivie_Visite_adapter.VisiteItemListener_sui
         )
         binding.root.Suivie_planning_Recy.adapter = main_viste_adapter
         main_viste_adapter.setVisite(lista_de_visite)
+
         main_viste_adapter.notifyDataSetChanged()
 
 
     }
 
+
     override fun onClickedVisite(
         taskId: Int,
         distance: String,
-        visite: Visite,
+        visite: VisiteSuivie,
         theDistance: Float
     ) {
         TODO("Not yet implemented")

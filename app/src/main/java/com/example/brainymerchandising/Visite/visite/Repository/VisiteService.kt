@@ -1,6 +1,7 @@
 package com.example.brainymerchandising.Visite.visite.Repository
 
 import com.example.brainymerchandising.Utils.resources.ConstModele.SuccessResponse
+import com.example.brainymerchandising.Visite.suivie.model.VisiteSuivieGet
 import com.example.brainymerchandising.Visite.visite.Model.DeleteVisiteResponse
 import com.example.brainymerchandising.Visite.visite.Model.ListVisiteGet
 import com.example.brainymerchandising.Visite.visite.Model.VisitPost
@@ -11,6 +12,10 @@ interface VisiteService {
 
     @GET("/visit/{user_id}/{date_begin}/{date_end}")
     suspend fun getVisites(@Path("user_id") user_id: String, @Path("date_begin") date_begin: String, @Path("date_end") date_end: String): Response<ListVisiteGet>
+
+
+    @GET("/visit/{user_id}/{date_begin}/{date_end}")
+    suspend fun getVisitesSuivie(@Path("user_id") user_id: String, @Path("date_begin") date_begin: String, @Path("date_end") date_end: String): Response<VisiteSuivieGet>
 
     suspend fun deleteVisite(@Path("visitId") visitId : Int) : Response<DeleteVisiteResponse>
 

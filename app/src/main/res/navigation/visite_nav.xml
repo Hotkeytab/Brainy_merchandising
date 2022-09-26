@@ -85,7 +85,11 @@
         android:id="@+id/suivieFragment"
         android:name="com.example.brainymerchandising.Visite.suivie.UI.SuivieFragment"
         android:label="SuivieFragment"
-        tools:layout="@layout/fragment_globalsuivie" />
+        tools:layout="@layout/fragment_globalsuivie" >
+        <action
+            android:id="@+id/action_suivieFragment_to_store_Details"
+            app:destination="@id/store_Details" />
+    </fragment>
 
 
 

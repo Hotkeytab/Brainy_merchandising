@@ -156,7 +156,7 @@ public class VerticalWeekAdapter extends RecyclerView.Adapter<VerticalWeekAdapte
     public class DayViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         private final String[] intToMonth = { "JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"};
-        private final String[] intToWeekday = { "MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"};
+        private final String[] intToWeekday = {"MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"};
 
         private final ResProvider resProvider;
         private final DateClickCallback clickCallback;
@@ -216,6 +216,7 @@ public class VerticalWeekAdapter extends RecyclerView.Adapter<VerticalWeekAdapte
         }
 
         private void setupData(CalendarDay day) {
+
             dayOfWeek.setText(intToWeekday[day.getDay().get(Calendar.DAY_OF_WEEK)-1]);
             dayOfMonth.setText(String.valueOf(day.getDay().get(Calendar.DAY_OF_MONTH)));
             month.setText(intToMonth[day.getDay().get(Calendar.MONTH)]);

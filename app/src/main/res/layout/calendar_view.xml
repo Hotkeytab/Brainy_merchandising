@@ -9,7 +9,7 @@
 
     <com.example.brainymerchandising.Utils.Calendar.UI.VerticalWeekCalendar
         android:id="@+id/verticalCalendar"
-        android:layout_width="wrap_content"
+        android:layout_width="80dp"
         android:layout_height="match_parent"
         android:layout_alignParentStart="true"
         app:customFont="quicksand_bold"

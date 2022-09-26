@@ -3,6 +3,7 @@ package com.example.brainymerchandising.Visite.suivie.Adapter
 import android.content.Context
 import android.content.SharedPreferences
 import android.graphics.Color
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,10 +14,9 @@ import com.example.brainymerchandising.Activities.PrimeActivity
 import com.example.brainymerchandising.R
 import com.example.brainymerchandising.Visite.UI.Dialog.Position.PositionMapDialog
 import com.example.brainymerchandising.Visite.UI.LocationValueListener
-import com.example.brainymerchandising.Visite.UI.MainVisiteAdapter
-import com.example.brainymerchandising.Visite.UI.MainVisiteFragment
 import com.example.brainymerchandising.Visite.UI.StaticMapClicked
 import com.example.brainymerchandising.Visite.suivie.UI.SuivieFragment
+import com.example.brainymerchandising.Visite.suivie.model.VisiteSuivie
 import com.example.brainymerchandising.Visite.visite.Model.Visite
 import com.example.brainymerchandising.databinding.ItemMagasinBinding
 import kotlin.math.atan2
@@ -24,11 +24,12 @@ import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.math.sqrt
 
+
 class Suivie_Visite_adapter (
     private val listener: SuivieFragment,
     activity: FragmentActivity,
     activityDrawer2: PrimeActivity,
-    listeVisite: ArrayList<Visite>,
+    listeVisite: ArrayList<VisiteSuivie>,
     navController: NavController
 ) : RecyclerView.Adapter<Suivie_VisiteViewHolder>() {
     private val activityIns = activity
@@ -37,18 +38,20 @@ class Suivie_Visite_adapter (
     private val  navController= navController
 
     interface VisiteItemListener_suivie {
-        fun onClickedVisite(taskId: Int, distance: String, visite: Visite, theDistance: Float)
+        fun onClickedVisite(taskId: Int, distance: String, visite: VisiteSuivie, theDistance: Float )
         fun onClosedCheckDialog()
     }
 
-    private val visite = ArrayList<Visite>()
+    private val visite = ArrayList<VisiteSuivie>()
 
 
 
-    fun setVisite(visite: ArrayList<Visite>) {
+    fun setVisite(visite: ArrayList<VisiteSuivie>) {
         this.visite.clear()
         this.visite.addAll(visite)
         notifyDataSetChanged() }
+
+
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Suivie_VisiteViewHolder {
@@ -61,7 +64,7 @@ class Suivie_Visite_adapter (
             parent,
             activityDrawer,
             this,
-            liste_visite_Recycle_adapter,visite,
+         visite,
             navController
         )
 
@@ -77,11 +80,7 @@ class Suivie_Visite_adapter (
         notifyItemRemoved(position)
     }
 
-    fun restoreItem(v: Visite?, position: Int) {
-        visite.add(position, v!!)
-        // notify item added by position
-        notifyItemInserted(position)
-    }
+
 
     override fun onBindViewHolder(holder: Suivie_VisiteViewHolder, position: Int) =
         holder.bind(visite[position])
@@ -95,12 +94,12 @@ class Suivie_VisiteViewHolder(
     private val parent: ViewGroup,
     private val activityDrawer: PrimeActivity,
     private val taskAdapter: Suivie_Visite_adapter,
-    private val items: ArrayList<Visite>,
-    private val items2: ArrayList<Visite>,
+
+    private val items2: ArrayList<VisiteSuivie>,
     navController: NavController
 ): RecyclerView.ViewHolder(itemBinding.root),
     View.OnClickListener {
-    private lateinit var visiteResponse: Visite
+    private lateinit var visiteResponse: VisiteSuivie
     lateinit var sharedPref: SharedPreferences
     private var finalDistance = ""
     private var theDistance = 0f
@@ -164,11 +163,10 @@ class Suivie_VisiteViewHolder(
     }
 
 
-    fun bind(visite: Visite) {
+    fun bind(visite: VisiteSuivie) {
+
 
         this.visiteResponse = visite
-
-
 
         // Mettre la CardView à jour si le poinatge s'est lancé
         if(visite.start != null){
@@ -222,8 +220,7 @@ class Suivie_VisiteViewHolder(
                     finalDistance,
                     visite,
                     theDistance
-                )
-            }
+                )}
 
             itemBinding.name.setOnClickListener {
                 putStoreName(visite.store.name)
@@ -241,6 +238,8 @@ class Suivie_VisiteViewHolder(
 
             // itemBinding.cardviewColorEnable.setCardBackgroundColor(Color.rgb(220, 220, 220))
         }
+
+
 
         itemBinding.distance.visibility = View.VISIBLE
         itemBinding.distance.text = finalDistance
@@ -261,7 +260,17 @@ class Suivie_VisiteViewHolder(
     }
 
     override fun onClick(p0: View?) {
-        TODO("Not yet implemented")
+        putStoreName(visiteResponse.store.name)
+        putVisiteId(visiteResponse.id)
+        putUserId(visiteResponse.userId)
+        val bundle = Bundle()
+        bundle.putSerializable("productList", visiteResponse)
+        bundle.putInt("Flag",2)
+
+
+        nav.navigate(R.id.action_suivieFragment_to_store_Details,bundle)
+
+
     }
 }
 
