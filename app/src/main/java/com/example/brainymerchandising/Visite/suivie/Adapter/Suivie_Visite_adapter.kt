@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -49,6 +50,7 @@ class Suivie_Visite_adapter (
     fun setVisite(visite: ArrayList<VisiteSuivie>) {
         this.visite.clear()
         this.visite.addAll(visite)
+        Log.d("jassa1",visite.toString())
         notifyDataSetChanged() }
 
 

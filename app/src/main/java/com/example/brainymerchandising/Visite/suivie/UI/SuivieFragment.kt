@@ -135,8 +135,10 @@ class SuivieFragment : Fragment() , Suivie_Visite_adapter.VisiteItemListener_sui
         lifecycleScope.launch(Dispatchers.Main) {
             if (!isDetached) {
 
-                    responseData =
-                        viewModel.getVisitesSuivie(userId.toString(), year+"-"+month+"-"+day, year+"-"+month+"-"+day)
+                if(isAdded){
+                    responseData = viewModel.
+                    getVisitesSuivie(userId.toString(),
+                        year+"-"+month+"-"+day, year+"-"+month+"-"+day)
                     if (responseData.responseCode == 200) {
                        // Log.d("jassa",day.toString())
                         lista_de_visite = responseData.data!!.data as ArrayList<VisiteSuivie>
@@ -149,11 +151,8 @@ class SuivieFragment : Fragment() , Suivie_Visite_adapter.VisiteItemListener_sui
                             if (isAdded && activity != null){
                                  setupRecycleViewSuivieDetail()
                         binding.root.progress_indicator.visibility = View.GONE}
-                    }
 
-            }
-
-        }
+                    }}}}
     }
 
     private fun setupRecycleViewSuivieDetail() {
@@ -161,6 +160,7 @@ class SuivieFragment : Fragment() , Suivie_Visite_adapter.VisiteItemListener_sui
             this, requireActivity(),
             activity as PrimeActivity, lista_de_visite, navController
         )
+
 
         binding.root.Suivie_planning_Recy.isMotionEventSplittingEnabled = false
         binding.root.Suivie_planning_Recy.layoutManager = LinearLayoutManager(requireContext())

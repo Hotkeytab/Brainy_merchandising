@@ -20,10 +20,4 @@ data class Visite(
     var ps: Int = 0,
     var pe_time: String = "",
     var ps_time: String = "",
-    var horsPlanning: Boolean =  false
-
-
-
-
-
-) : Serializable
+    var horsPlanning: Boolean =  false)

@@ -52,12 +52,26 @@ class Store_Details : Fragment() {
             binding.MenuLogOut.visibility = View.GONE
             if (visiteResponseSuivie.displays.isEmpty()){
                 binding.MenuDisplay.visibility = View.GONE
-            }else if (visiteResponseSuivie.orders.isEmpty()){
+            }
+            if (visiteResponseSuivie.orders.isEmpty()){
                 binding.MenuOrder.visibility = View.GONE
-            }else if (visiteResponseSuivie.stocks.isEmpty()){
+            }
+            if (visiteResponseSuivie.stocks.isEmpty()){
                 binding.MenuStock.visibility = View.GONE
             }
         }
+
+        if (Flag == 1){
+            binding.backToMainMenu.setOnClickListener {
+                navController.navigate(R.id.action_store_Details_to_mainVisiteFragment)
+
+            }
+            binding.MenuDisplay.setOnClickListener {
+                navController.navigate(R.id.action_store_Details_to_display_Fragment2)
+            }
+            binding.MenuStock.setOnClickListener {
+                navController.navigate(R.id.action_store_Details_to_productFragment)}
+            }
 
          // Log.d("jassa",visiteResponse.toString())
 

@@ -1,5 +1,7 @@
 package com.example.brainymerchandising.Visite.Store.Model
 
+import java.io.Serializable
+
 data class Store(
     val address: String,
     val createdAt: String,
@@ -17,7 +19,4 @@ data class Store(
     val updatedAt: String,
     val storeGroupId : Int
 
-){
-
-
-}
+)

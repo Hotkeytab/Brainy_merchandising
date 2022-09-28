@@ -3,6 +3,7 @@ package com.example.brainymerchandising.Visite.UI
 import android.content.Context
 import android.content.SharedPreferences
 import android.graphics.Color
+import android.os.Bundle
 import android.view.*
 import androidx.core.view.isVisible
 import androidx.fragment.app.FragmentActivity
@@ -122,8 +123,10 @@ class MainVisiteViewHolder(
 
         if(visiteResponse.start != null && visiteResponse.end ==null ){
 
-
-            nav.navigate(R.id.action_mainVisiteFragment_to_store_Details)
+            val bundle = Bundle()
+           // bundle.putSerializable("productList", visiteResponse)
+            bundle.putInt("Flag",1)
+            nav.navigate(R.id.action_mainVisiteFragment_to_store_Details,bundle)
 
 
         }

@@ -1,5 +1,6 @@
 package com.example.brainymerchandising.Visite.suivie.model
 
+import com.example.brainymerchandising.Display.Model.Post.Display
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
@@ -20,5 +21,5 @@ data class VisiteSuivie(
     @SerializedName("user") val user : User,
     @SerializedName("stocks") val stocks : List<Stocks>,
     @SerializedName("orders") val orders : List<String>,
-    @SerializedName("displays") val displays : List<String>,
+    @SerializedName("displays") val displays : List<Display>,
 ) : Serializable
