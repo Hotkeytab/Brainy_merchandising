@@ -184,8 +184,7 @@ class SuivieFragment : Fragment() , Suivie_Visite_adapter.VisiteItemListener_sui
         visite: VisiteSuivie,
         theDistance: Float
     ) {
-        TODO("Not yet implemented")
-    }
+val a =1    }
 
     override fun onClosedCheckDialog() {
         TODO("Not yet implemented")

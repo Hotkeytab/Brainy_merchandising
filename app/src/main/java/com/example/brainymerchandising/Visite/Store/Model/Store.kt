@@ -19,4 +19,4 @@ data class Store(
     val updatedAt: String,
     val storeGroupId : Int
 
-)
+): Serializable

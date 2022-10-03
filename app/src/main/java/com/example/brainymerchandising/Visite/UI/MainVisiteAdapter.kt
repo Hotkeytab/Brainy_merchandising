@@ -102,9 +102,7 @@ class MainVisiteViewHolder(
     private var finalDistance = ""
     private var theDistance = 0f
     private var  nav = navController
-    init {
-        itemBinding.root.setOnClickListener(this)
-    }
+    init {itemBinding.root.setOnClickListener(this)}
 
 
 

@@ -28,15 +28,22 @@
         <entry key="app/src/main/res/drawable/ic_baseline_check_24.xml" value="0.222" />
         <entry key="app/src/main/res/drawable/ic_baseline_search_24.xml" value="0.1365" />
         <entry key="app/src/main/res/drawable/item_table1.xml" value="0.222" />
+        <entry key="app/src/main/res/layout-land/dropdown_item_display.xml" value="0.25364583333333335" />
         <entry key="app/src/main/res/layout-w936dp/dialog_internet_connection.xml" value="0.215625" />
+        <entry key="app/src/main/res/layout-w936dp/dropdown_item_display.xml" value="0.215625" />
         <entry key="app/src/main/res/layout/activity_home.xml" value="0.271875" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.271875" />
         <entry key="app/src/main/res/layout/activity_prime.xml" value="0.271875" />
         <entry key="app/src/main/res/layout/calendar_view.xml" value="0.17395833333333333" />
         <entry key="app/src/main/res/layout/dialog_add_visite.xml" value="0.23324275362318841" />
         <entry key="app/src/main/res/layout/dialog_set_amount.xml" value="0.23324275362318841" />
+        <entry key="app/src/main/res/layout/drop.xml" value="0.2875" />
+        <entry key="app/src/main/res/layout/dropdown_choix_display.xml" value="0.2875" />
+        <entry key="app/src/main/res/layout/dropdown_item.xml" value="0.2875" />
         <entry key="app/src/main/res/layout/fragment_base_nav.xml" value="0.335" />
         <entry key="app/src/main/res/layout/fragment_display_.xml" value="0.2875" />
+        <entry key="app/src/main/res/layout/fragment_display_suivie_details.xml" value="0.2875" />
+        <entry key="app/src/main/res/layout/fragment_displays_suivie.xml" value="0.2875" />
         <entry key="app/src/main/res/layout/fragment_globalsuivie.xml" value="0.2869791666666667" />
         <entry key="app/src/main/res/layout/fragment_historique.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_login.xml" value="0.18229166666666666" />
@@ -46,6 +53,10 @@
         <entry key="app/src/main/res/layout/fragment_store__details.xml" value="0.2875" />
         <entry key="app/src/main/res/layout/fragment_suivie.xml" value="0.28802083333333334" />
         <entry key="app/src/main/res/layout/fragment_test.xml" value="0.284375" />
+        <entry key="app/src/main/res/layout/item_display.xml" value="0.2875" />
+        <entry key="app/src/main/res/layout/item_display_list.xml" value="0.2864583333333333" />
+        <entry key="app/src/main/res/layout/item_display_type_with_without.xml" value="0.2875" />
+        <entry key="app/src/main/res/layout/item_displaysuivie_text.xml" value="0.2864583333333333" />
         <entry key="app/src/main/res/layout/item_image.xml" value="0.1" />
         <entry key="app/src/main/res/layout/item_magasin.xml" value="0.2875" />
         <entry key="app/src/main/res/layout/item_product.xml" value="0.4131781005859375" />
@@ -56,6 +67,7 @@
         <entry key="app/src/main/res/layout/table.xml" value="0.2677083333333333" />
         <entry key="app/src/main/res/layout/verticalweekcalendar_day.xml" value="0.2875" />
         <entry key="app/src/main/res/layout/verticalweekcalendar_week.xml" value="0.2875" />
+        <entry key="app/src/main/res/layout/will_check.xml" value="0.2875" />
         <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.271875" />
       </map>
     </option>

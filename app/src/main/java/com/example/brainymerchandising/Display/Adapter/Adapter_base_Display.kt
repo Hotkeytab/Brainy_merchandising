@@ -121,10 +121,7 @@ class Base_DisplayViewHolder(
             itemBinding.plusImageRc,
             itemBinding.myPhotoCrRecycle,
             baseAdapter,
-            item.id,
-
-
-        )
+            item.id)
 
 
         itemBinding.myPhotoCrRecycle.isMotionEventSplittingEnabled = false
@@ -178,6 +175,7 @@ class Base_DisplayViewHolder(
                 displayFragment,
                 item.id
             ).show(activityIns.supportFragmentManager, "ChoixImageNewCR")
+
         }
 
 

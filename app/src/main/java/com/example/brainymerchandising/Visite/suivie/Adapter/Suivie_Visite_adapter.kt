@@ -231,8 +231,7 @@ class Suivie_VisiteViewHolder(
                     visiteResponse.id,
                     finalDistance,
                     visite,
-                    theDistance
-                )
+                    theDistance)
 
             }
         } else {

@@ -79,6 +79,9 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_store_Details_to_displaysSuivie"
+            app:destination="@id/displaysSuivie" />
 
     </fragment>
     <fragment
@@ -90,8 +93,18 @@
             android:id="@+id/action_suivieFragment_to_store_Details"
             app:destination="@id/store_Details" />
     </fragment>
-
-
-
-
+    <fragment
+        android:id="@+id/displaysSuivie"
+        android:name="com.example.brainymerchandising.Visite.suivie.UI.DisplaysUI.DisplaysSuivie"
+        android:label="fragment_displays_suivie"
+        tools:layout="@layout/fragment_displays_suivie" >
+        <action
+            android:id="@+id/action_displaysSuivie_to_displaySuivieDetails"
+            app:destination="@id/displaySuivieDetails" />
+    </fragment>
+    <fragment
+        android:id="@+id/displaySuivieDetails"
+        android:name="com.example.brainymerchandising.Visite.suivie.UI.DisplaysUI.DisplaySuivieDetails"
+        android:label="fragment_display_suivie_details"
+        tools:layout="@layout/fragment_displays_suivie" />
 </navigation>
