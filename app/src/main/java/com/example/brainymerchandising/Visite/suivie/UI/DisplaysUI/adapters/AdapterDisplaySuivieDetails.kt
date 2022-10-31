@@ -84,13 +84,16 @@ class Suivie_DisplayDetailsViewHolder(
     ) : RecyclerView.ViewHolder(itemBinding.root),
     View.OnClickListener {
     lateinit var adapter_childText: AdapterTextViewDisplay
+    lateinit var adapter_childImage: AdapterImageDisplay
     private lateinit var adapterImage: Image_Adapter
     private lateinit var adapterImage1: Image_Adapter
     private lateinit var baseAdapter: Adapter_base_Display
+    private  var ArrayImage: java.util.ArrayList<String> = java.util.ArrayList()
 
     init {
         itemBinding.root.setOnClickListener(this)
     }
+
 
     fun bind(item: DisplaySections) {
 
@@ -122,9 +125,20 @@ class Suivie_DisplayDetailsViewHolder(
           }
 
       }
+        ArrayImage.add("https://img-19.commentcamarche.net/WNCe54PoGxObY8PCXUxMGQ0Gwss=/480x270/smart/d8c10e7fd21a485c909a5b4c5d99e611/ccmcms-commentcamarche/20456790.jpg")
 
+        ArrayImage.add("https://img-19.commentcamarche.net/cI8qqj-finfDcmx6jMK6Vr-krEw=/1500x/smart/b829396acc244fd484c5ddcdcb2b08f3/ccmcms-commentcamarche/20494859.jpg")
+        adapter_childImage = AdapterImageDisplay()
 
-
+        itemBinding.myPhotoCrRecycle.isMotionEventSplittingEnabled = false
+        itemBinding.myPhotoCrRecycle.layoutManager = LinearLayoutManager(parent.context)
+        itemBinding.myPhotoCrRecycle.layoutManager = LinearLayoutManager(
+            parent.context,
+            LinearLayoutManager.VERTICAL,
+            false
+        )
+        adapter_childImage.setItems(ArrayImage)
+        itemBinding.myPhotoCrRecycle.adapter = adapter_childImage
 
 
     }

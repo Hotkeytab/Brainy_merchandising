@@ -25,12 +25,14 @@ class Image_Adapter(
 
     private val  plusImageRc = plusImageRc
     private val  myPhotoCrRecycle = myPhotoCrRecycle
-    private val activityIns = activity
-    private val   baseAdapter= baseAdapter
-    private val   SectionId= SectionId
+    private val  activityIns = activity
+    private val  baseAdapter= baseAdapter
+    private val  SectionId= SectionId
+
     interface ImageItemListener {
         fun onClickedImage(position: Int)
     }
+
 
     private val items = ArrayList<Image>()
 
@@ -49,6 +51,8 @@ class Image_Adapter(
         items.removeAt(position)
         notifyItemRemoved(position)}
 
+
+
     fun notify1(){
         val size: Int = items.size
         notifyItemRangeRemoved(0, size)
@@ -58,8 +62,7 @@ class Image_Adapter(
         val size: Int = items.size
         items.clear()
         notifyItemRangeRemoved(0, size)
-        notifyDataSetChanged()
-    }
+        notifyDataSetChanged() }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageViewHolder {
         val binding: ItemImageBinding =
@@ -105,6 +108,7 @@ class ImageViewHolder(
 
         itemBinding.myimage.setImageBitmap(item.url)
 
+
         //myPhotoCrRecycle.adapter = adapterImage
        itemBinding.myimage.setOnClickListener(View.OnClickListener {
 
@@ -116,9 +120,7 @@ class ImageViewHolder(
                    display_fragment,
                    0,
                    SectionId,
-                   (display_fragment.activity as PrimeActivity).adapterImage
-
-               ).show(activityIns.supportFragmentManager, "afficherimage")
+                   (display_fragment.activity as PrimeActivity).adapterImage).show(activityIns.supportFragmentManager, "afficherimage")
 
 
 

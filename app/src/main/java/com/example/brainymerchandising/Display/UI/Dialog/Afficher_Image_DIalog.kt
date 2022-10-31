@@ -70,16 +70,13 @@ class Afficher_Image_DIalog(
         if (Flag == 0) {
             ok_amount.visibility = View.GONE
             var listeUnique: ArrayList<Image>? = ArrayList<Image>()
-
             for (i in listaImage!!) {
                 if (i.SectionId == SectionId) {
-                    listeUnique!!.add(i)
-                }
+                    listeUnique!!.add(i)}
             }
 
             afficher_image.setImageBitmap(listeUnique!![position].url)
-            val_quantite.text =
-                Editable.Factory.getInstance().newEditable(listeUnique!![position].text)
+            val_quantite.text = Editable.Factory.getInstance().newEditable(listeUnique!![position].text)
 
             //Navigate to Previous Image
             left_arrow.setOnClickListener {

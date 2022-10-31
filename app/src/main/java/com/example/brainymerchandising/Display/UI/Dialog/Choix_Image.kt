@@ -89,18 +89,15 @@ class Choix_Image(
             //check permission at runtime
             val checkSelfPermission = ContextCompat.checkSelfPermission(
                 requireContext(),
-                android.Manifest.permission.WRITE_EXTERNAL_STORAGE
-            )
+                android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
             if (checkSelfPermission != PackageManager.PERMISSION_GRANTED) {
                 //Requests permissions to be granted to this application at runtime
                 ActivityCompat.requestPermissions(
                     requireActivity(),
-                    arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE), 1
-                )
+                    arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE), 1)
             } else {
                 //Open Gallery to get Image
-                openGallery()
-            }
+                openGallery()}
         }
 
     }

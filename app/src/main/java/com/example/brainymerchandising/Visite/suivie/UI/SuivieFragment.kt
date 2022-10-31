@@ -1,6 +1,5 @@
 package com.example.brainymerchandising.Visite.suivie.UI
 
-import android.app.Activity
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -8,11 +7,13 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.CalendarView
+import androidx.core.os.trace
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
-import androidx.navigation.Navigation
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.brainymerchandising.Activities.PrimeActivity
@@ -23,17 +24,14 @@ import com.example.brainymerchandising.Utils.Calendar.Model.CalendarDay
 import com.example.brainymerchandising.Utils.Calendar.UI.VerticalWeekCalendar
 import com.example.brainymerchandising.Utils.Calendar.controller.VerticalWeekAdapter
 import com.example.brainymerchandising.Utils.resources.Resource
-import com.example.brainymerchandising.Visite.UI.MainVisiteAdapter
 import com.example.brainymerchandising.Visite.suivie.Adapter.Suivie_Visite_adapter
 import com.example.brainymerchandising.Visite.suivie.model.VisiteSuivie
 import com.example.brainymerchandising.Visite.suivie.model.VisiteSuivieGet
-import com.example.brainymerchandising.Visite.visite.Model.ListVisiteGet
-import com.example.brainymerchandising.Visite.visite.Model.Visite
 import com.example.brainymerchandising.Visite.visite.ViewModel.VisiteViewModel
 import com.example.brainymerchandising.databinding.FragmentGlobalsuivieBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.calendar_view.*
 import kotlinx.android.synthetic.main.calendar_view.view.*
-import kotlinx.android.synthetic.main.fragment_main_visite.*
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -54,9 +52,8 @@ class SuivieFragment : Fragment() , Suivie_Visite_adapter.VisiteItemListener_sui
     private lateinit var main_viste_adapter: Suivie_Visite_adapter
 
 
-
-
-
+    private val intToMonth =
+        arrayOf("Today","JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC")
 
 
     override fun onCreateView(
@@ -87,15 +84,52 @@ class SuivieFragment : Fragment() , Suivie_Visite_adapter.VisiteItemListener_sui
             calendar[Calendar.MONTH], calendar[Calendar.DAY_OF_MONTH] )
 
 
+
+
+
+
+        VerticalWeekCalendar.today= 1
+
+       //VerticalWeekCalendar.m =10
         calendarView = VerticalWeekCalendar.Builder()
             .setView(R.id.verticalCalendar)
             .init(view)
+        val v = view
+
+        val arrayAdapter = ArrayAdapter(requireContext(),
+            R.layout.dropdown_choix_display,
+            intToMonth)
+        binding.CalendarParent.subjectText.setAdapter(arrayAdapter)
+
+
+
+
+        //Log.d("lista",liste_objet_display.toString())
+        binding.CalendarParent.subjectText.setOnItemClickListener { parent, view, position, id ->
+
+            if (    parent.getItemAtPosition(position).equals(0)){
+                VerticalWeekCalendar.today= 1
+            }else{
+                VerticalWeekCalendar.today=0
+                VerticalWeekCalendar.m= position-1
+
+            Log.d("yearrr", VerticalWeekCalendar.m.toString())}
+
+
+         calendarView.setupRecyclerView()
+
+        }
+
+
+
+
         calendarView.setOnDateClickListener(object : OnDateClickListener {
             override fun onCalenderDayClicked(year: Int, month: Int, day: Int) {
                 val selectedDay = GregorianCalendar(year, month, day)
                 if (selected.compareTo(selectedDay) != 0) {
                     val moutht = month+1
                     lista_de_visite.clear()
+
 
                     if (isAdded && activity != null) {
 

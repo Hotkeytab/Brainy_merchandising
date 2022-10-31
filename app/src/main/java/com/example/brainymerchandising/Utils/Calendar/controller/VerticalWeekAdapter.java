@@ -5,6 +5,7 @@ package com.example.brainymerchandising.Utils.Calendar.controller;
 import static com.example.brainymerchandising.Utils.Calendar.Model.CalendarDay.DEFAULT;
 import static com.example.brainymerchandising.Utils.Calendar.Model.CalendarDay.SELECTED;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,12 +38,16 @@ public class VerticalWeekAdapter extends RecyclerView.Adapter<VerticalWeekAdapte
     private OnDateClickListener onDateClickListener;
     private ResProvider resProvider;
 
-    public VerticalWeekAdapter(ResProvider resProvider) {
+    public VerticalWeekAdapter(ResProvider resProvider , int month) {
         this.resProvider = resProvider;
-        initCalendar();
+       // initCalendar(month);
+        notifyDataSetChanged();
+
     }
 
-    private void initCalendar(){
+
+
+    public void initCalendar(){
 
         Calendar now = Calendar.getInstance();
 
@@ -52,6 +57,9 @@ public class VerticalWeekAdapter extends RecyclerView.Adapter<VerticalWeekAdapte
                     now.get(Calendar.YEAR),
                     now.get(Calendar.MONTH),
                     now.get(Calendar.DAY_OF_MONTH));
+
+            Log.d("yearrrV", String.valueOf(    now.get(Calendar.MONTH)));
+
             today.add(Calendar.DAY_OF_MONTH, i * -1);
 
             CalendarDay createdDay = new CalendarDay(
@@ -77,6 +85,42 @@ public class VerticalWeekAdapter extends RecyclerView.Adapter<VerticalWeekAdapte
                     today.get(Calendar.DAY_OF_MONTH));
             days.add(createdDay);
         }
+    }
+
+
+    public void initCalendar(int month){
+
+        //Log.d("yearrrV", String.valueOf(month));
+
+        List<CalendarDay> createdDays = new ArrayList<>();
+        for(int i = 0; i <= 15; i++) {
+            Calendar today = new GregorianCalendar(2022,month,01);
+         //   Log.d("yearrrV", String.valueOf(today.get(Calendar.MONTH)));
+
+            today.add(Calendar.DAY_OF_MONTH, i * -1);
+
+            CalendarDay createdDay = new CalendarDay(
+                    today.get(Calendar.YEAR),
+                    today.get(Calendar.MONTH),
+                    today.get(Calendar.DAY_OF_MONTH));
+
+            createdDays.add(createdDay);
+        }
+        Collections.reverse(createdDays);
+        days.addAll(createdDays);
+
+        for(int i = 1; i <= 15; i++) {
+            Calendar today =new GregorianCalendar(2022,month,01);
+            today.add(Calendar.DAY_OF_MONTH, i);
+
+            CalendarDay createdDay = new CalendarDay(
+                    today.get(Calendar.YEAR),
+                    today.get(Calendar.MONTH),
+                    today.get(Calendar.DAY_OF_MONTH));
+            days.add(createdDay);
+        }
+        notifyDataSetChanged();
+
     }
 
     public void addCalendarDays(boolean loadAfter) {
@@ -138,7 +182,8 @@ public class VerticalWeekAdapter extends RecyclerView.Adapter<VerticalWeekAdapte
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
         this.recyclerView = recyclerView;
-    }
+        this.recyclerView.scrollToPosition(55);
+        notifyDataSetChanged();}
 
     public void setOnDateClickListener(OnDateClickListener onDateClickListener) {
         this.onDateClickListener = onDateClickListener;
@@ -155,7 +200,8 @@ public class VerticalWeekAdapter extends RecyclerView.Adapter<VerticalWeekAdapte
 
     public class DayViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
-        private final String[] intToMonth = { "JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"};
+        private final String[] intToMonth = { "JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL",
+                "AUG", "SEP", "OCT", "NOV", "DEC"};
         private final String[] intToWeekday = {"MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"};
 
         private final ResProvider resProvider;
@@ -228,6 +274,7 @@ public class VerticalWeekAdapter extends RecyclerView.Adapter<VerticalWeekAdapte
             int month = currentDay.getMonth();
             int day = currentDay.getDay().get(Calendar.DAY_OF_MONTH);
             clickCallback.onCalenderDayClicked(year, month, day);
+
             notifyDataSetChanged();
         }
     }

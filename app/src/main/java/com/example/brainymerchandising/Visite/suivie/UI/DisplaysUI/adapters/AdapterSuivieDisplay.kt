@@ -76,8 +76,7 @@ class AdapterSuivieDisplay(
 
         override fun getItemCount(): Int = items.size
         override fun onBindViewHolder(holder: Suivie_DisplayViewHolder, position: Int) {
-            holder.bind(items[position])
-        }
+            holder.bind(items[position]) }
     }
 
     class Suivie_DisplayViewHolder(

@@ -5,29 +5,44 @@
     android:id="@+id/Allitem"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:layout_margin="7dp"
+    android:background="@drawable/border_div">
+    <com.google.android.material.card.MaterialCardView
+
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent">
+
+
 
     <LinearLayout
         android:id="@+id/parent_display"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/_20sdp"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_margin="15dp"
+
+
         android:orientation="vertical">
 
         <TextView
             android:id="@+id/textView2"
-            android:layout_width="match_parent"
+
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:fontFamily="@font/roboto_medium"
+            android:paddingLeft="5dp"
             android:text="TITLE"
             android:textAppearance="@style/TextAppearance.AppCompat.Display1"
             android:textColor="@color/design_default_color_on_secondary"
             android:textSize="20sp"
             android:textStyle="bold" />
-    </LinearLayout>
-
+>
     <LinearLayout
         android:id="@+id/parent_edittext"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="13dp"
         android:gravity="center"
         android:orientation="vertical">
 
@@ -36,9 +51,9 @@
             android:id="@+id/case_text_recycler"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
-
-
     </LinearLayout>
+
+
 
 
     <LinearLayout
@@ -69,7 +84,6 @@
         </androidx.cardview.widget.CardView>
 
 
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/my_photo_cr_recycle"
             android:layout_width="match_parent"
@@ -87,4 +101,6 @@
 
 
 </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
 
+</LinearLayout>

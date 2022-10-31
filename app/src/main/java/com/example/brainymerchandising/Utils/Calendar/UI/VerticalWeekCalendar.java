@@ -22,6 +22,8 @@ import com.example.brainymerchandising.Utils.Calendar.Abstract.OnDateClickListen
 import com.example.brainymerchandising.Utils.Calendar.Abstract.ResProvider;
 import com.example.brainymerchandising.Utils.Calendar.controller.VerticalWeekAdapter;
 
+import java.util.GregorianCalendar;
+
 public class VerticalWeekCalendar extends LinearLayoutCompat implements ResProvider {
 
     private Context context;
@@ -31,11 +33,16 @@ public class VerticalWeekCalendar extends LinearLayoutCompat implements ResProvi
     private int defaultBackground;
     private int selectedTextColor;
     private int selectedBackground;
+    public   static int m  ;
+    public   static int today  ;
 
-    private VerticalWeekAdapter adapter;
+
+
+    public  VerticalWeekAdapter adapter;
 
     public VerticalWeekCalendar(Context context) {
         super(context);
+
         this.context = context;
         initLayout(context);
     }
@@ -76,10 +83,25 @@ public class VerticalWeekCalendar extends LinearLayoutCompat implements ResProvi
         ta.recycle();
     }
 
-    private void setupRecyclerView() {
+    public void setupRecyclerView() {
         RecyclerView recyclerView  = findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
+        recyclerView.setLayoutManager(
+                new LinearLayoutManager
+                        (getContext(), RecyclerView.VERTICAL, false));
         recyclerView.setAdapter(getAdapter());
+        adapter.days.clear();
+
+
+        if(this.today==1){
+            adapter.initCalendar();
+        }else if (this.today==0)      {
+
+        adapter.initCalendar(this.m);
+        adapter.notifyDataSetChanged();         }
+
+      //  Log.d("adapterMaher 1", "FirstVisibleItem: " + adapter);
+
+
 
         recyclerView.scrollToPosition(15);
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener(){
@@ -104,13 +126,14 @@ public class VerticalWeekCalendar extends LinearLayoutCompat implements ResProvi
 
                 if (lm.findFirstVisibleItemPosition() < 10 && mIsScrollingUp) {
                     getAdapter().addCalendarDays(false);
+                    Log.d("adapterMaher 0", "FirstVisibleItem: " + getAdapter());
+
                     Log.i("onScrollChange", "FirstVisibleItem: " + lm.findFirstVisibleItemPosition());
                     Log.i("onScrollChange", "new Size: " + getAdapter().days.size());
                 } else if ((getAdapter().days.size() - 1 - lm.findLastVisibleItemPosition()) < 10 && !mIsScrollingUp) {
                     getAdapter().addCalendarDays(true);
                     Log.i("onScrollChange", "LastVisibleItem: " + lm.findLastVisibleItemPosition());
-                    Log.i("onScrollChange", "new Size: " + getAdapter().days.size());
-                }
+                    Log.i("onScrollChange", "new Size: " + getAdapter().days.size());}
             }
         });
     }
@@ -120,9 +143,10 @@ public class VerticalWeekCalendar extends LinearLayoutCompat implements ResProvi
         return adapter == null ? createAdapter() : adapter;
     }
 
-    private VerticalWeekAdapter createAdapter() {
+    public VerticalWeekAdapter createAdapter() {
 
-        adapter = new VerticalWeekAdapter(this);
+        adapter = new VerticalWeekAdapter(this, VerticalWeekCalendar.m);
+
 
         return adapter;
     }

@@ -101,8 +101,7 @@ class Display_Fragment : Fragment(), Adapter_base_Display.Base_DisplayListener,
 
         sharedPref = requireContext().getSharedPreferences(
             com.example.brainymerchandising.R.string.app_name.toString(),
-            Context.MODE_PRIVATE
-        )
+            Context.MODE_PRIVATE)
         //Init childFragmentManager
         fm = childFragmentManager
 
@@ -163,8 +162,7 @@ class Display_Fragment : Fragment(), Adapter_base_Display.Base_DisplayListener,
                     convertToFile(i, listMultipartBody)
 
                     data_image_post = Data_image_post(i.text,i.SectionId)
-                    ImageALl_Array.add(data_image_post)
-                }
+                    ImageALl_Array.add(data_image_post)}
 
                 val dataFormData = jacksonObjectMapper().writeValueAsString(ImageALl_Array)
                 val dataJson = RequestBody.create(

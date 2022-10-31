@@ -73,11 +73,12 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cutom_bar_top"
             tools:layout_editor_absoluteX="14dp">
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/liste_display_recycle_Suive"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_10sdp" />
+                android:background="#e9e9e9" />
         </androidx.cardview.widget.CardView>
 
 
