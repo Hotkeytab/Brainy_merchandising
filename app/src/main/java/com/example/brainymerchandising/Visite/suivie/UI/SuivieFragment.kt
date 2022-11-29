@@ -55,6 +55,10 @@ class SuivieFragment : Fragment() , Suivie_Visite_adapter.VisiteItemListener_sui
     private val intToMonth =
         arrayOf("Today","JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC")
 
+    private val intToYear =
+        arrayOf("2015","2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025", "2026", "2027")
+
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -102,24 +106,38 @@ class SuivieFragment : Fragment() , Suivie_Visite_adapter.VisiteItemListener_sui
         binding.CalendarParent.subjectText.setAdapter(arrayAdapter)
 
 
+        val arrayAdapte1r = ArrayAdapter(requireContext(),
+            R.layout.dropdown_choix_display,
+            intToYear)
+        binding.CalendarParent.subjectyear.setAdapter(arrayAdapte1r)
+
+
 
 
         //Log.d("lista",liste_objet_display.toString())
         binding.CalendarParent.subjectText.setOnItemClickListener { parent, view, position, id ->
 
-            if (    parent.getItemAtPosition(position).equals(0)){
+            if (    parent.getItemAtPosition(position).equals("Today")){
                 VerticalWeekCalendar.today= 1
             }else{
                 VerticalWeekCalendar.today=0
                 VerticalWeekCalendar.m= position-1
 
-            Log.d("yearrr", VerticalWeekCalendar.m.toString())}
+            Log.d("TodayBoo",  VerticalWeekCalendar.today.toString())}
 
+            Log.d("ItemPosit",   parent.getItemAtPosition(position).toString())
 
          calendarView.setupRecyclerView()
 
         }
 
+        binding.CalendarParent.subjectyear.setOnItemClickListener { parent, view, position, id ->
+
+                 VerticalWeekCalendar.y= Integer.parseInt(parent.getItemAtPosition(position).toString())
+
+            calendarView.setupRecyclerView()
+
+        }
 
 
 

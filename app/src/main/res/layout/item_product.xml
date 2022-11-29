@@ -1,14 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/product_item_card"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/_25sdp">
+    android:layout_height="wrap_content">
+
+
 
     <LinearLayout
         android:id="@+id/product"
+
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="@dimen/_25sdp"
+        android:background="@drawable/corned_white_green"
         android:orientation="horizontal">
 
         <CheckBox
@@ -25,9 +30,10 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center|left"
-            android:paddingLeft="@dimen/_5sdp"
+            android:paddingLeft="@dimen/_15sdp"
             android:text="TextView"
             android:textColor="#000000"
+            android:textSize="16sp"
             android:textStyle="bold" />
 
         <TextView
@@ -38,6 +44,7 @@
             android:gravity="center"
             android:text="TextView"
             android:textColor="#010101"
+            android:textSize="16sp"
             android:textStyle="bold" />
 
         <TextView
@@ -48,6 +55,7 @@
             android:gravity="center"
             android:text="TextView"
             android:textColor="#000000"
+            android:textSize="16sp"
             android:textStyle="bold" />
 
         <EditText
@@ -57,6 +65,15 @@
             android:layout_weight="1"
             android:hint="QTY"
             android:inputType="textPersonName"
-            android:visibility="visible" />
+            android:visibility="gone" />
     </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="vertical"></LinearLayout>
+
+
 </androidx.cardview.widget.CardView>
+

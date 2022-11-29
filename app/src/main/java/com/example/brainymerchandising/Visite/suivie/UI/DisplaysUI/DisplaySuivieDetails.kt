@@ -50,10 +50,7 @@ class DisplaySuivieDetails : Fragment(),AdapterDisplaySuivieDetails.Suivie_Displ
 
         Log.d("maherDisplayID",DisplayID.toString())
         Log.d("maherDisplayID",visiteResponseSuivie.toString())
-        setupRecycleView()
-
-
-    }
+        setupRecycleView()}
 
     private fun setupRecycleView() {
 
@@ -72,10 +69,8 @@ class DisplaySuivieDetails : Fragment(),AdapterDisplaySuivieDetails.Suivie_Displ
         adapter_Suivie_Details.setItems(visiteResponseSuivie.displays[DisplayID].displayType!!.displaySections)
         //Log.d("ena",liste_objet_display.toString())
 
-       // adapter_Suivie_Details.setItems(visiteResponseSuivie.displays as ArrayList<Displays>)
-
-
-    }
+       // adapter_Suivie_Details.setItems(visiteResponseSuivie.displays as ArrayList<Displays>
+        }
 
     override fun onClickeddisplay(position: Int) {
 val a =1    }

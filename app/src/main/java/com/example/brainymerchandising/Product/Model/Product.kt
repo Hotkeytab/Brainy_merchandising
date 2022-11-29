@@ -1,6 +1,7 @@
 package com.example.brainymerchandising.Product.Model
 
 import com.example.brainymerchandising.Visite.Store.Model.Store
+import com.example.brainymerchandising.Visite.suivie.model.Stocks
 
 data class Product(
     val id : Int,
@@ -16,6 +17,7 @@ data class Product(
     val brand : Brand,
     val category : Category,
     val internalCodes :  List<InternalCode>,
-    val quantity : Int
+    val quantity : Int,
+    val stocks :  List<Stocks>
 
 )

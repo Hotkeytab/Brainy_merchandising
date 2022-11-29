@@ -36,22 +36,51 @@
 
   />
 
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/_20sdp"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:layout_marginRight="@dimen/_20sdp">
+            android:orientation="horizontal">
 
-            <AutoCompleteTextView
-                android:id="@+id/subjectText"
-                android:layout_width="match_parent"
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:editable="false"
-                android:text="Mois" />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginRight="@dimen/_20sdp">
+
+                <AutoCompleteTextView
+                    android:id="@+id/subjectText"
+                    android:layout_width="105dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:editable="false"
+                    android:text="Mois" />
+
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_20sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginRight="@dimen/_20sdp">
+
+                <AutoCompleteTextView
+                    android:id="@+id/subjectyear"
+                    android:layout_width="105dp"
+                    android:layout_height="50dp"
+                    android:editable="false"
+                    android:text="Year" />
+
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+        </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/Suivie_planning_Recy"

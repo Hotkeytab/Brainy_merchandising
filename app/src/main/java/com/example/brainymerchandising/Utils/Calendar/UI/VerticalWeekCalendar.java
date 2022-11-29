@@ -34,6 +34,7 @@ public class VerticalWeekCalendar extends LinearLayoutCompat implements ResProvi
     private int selectedTextColor;
     private int selectedBackground;
     public   static int m  ;
+    public   static int y  ;
     public   static int today  ;
 
 
@@ -85,19 +86,18 @@ public class VerticalWeekCalendar extends LinearLayoutCompat implements ResProvi
 
     public void setupRecyclerView() {
         RecyclerView recyclerView  = findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(
-                new LinearLayoutManager
-                        (getContext(), RecyclerView.VERTICAL, false));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
         recyclerView.setAdapter(getAdapter());
         adapter.days.clear();
 
 
         if(this.today==1){
             adapter.initCalendar();
-        }else if (this.today==0)      {
+            adapter.notifyDataSetChanged();
 
-        adapter.initCalendar(this.m);
-        adapter.notifyDataSetChanged();         }
+    }else if (this.today==0){
+            adapter.initCalendar(this.m,this.y);
+        adapter.notifyDataSetChanged();}
 
       //  Log.d("adapterMaher 1", "FirstVisibleItem: " + adapter);
 

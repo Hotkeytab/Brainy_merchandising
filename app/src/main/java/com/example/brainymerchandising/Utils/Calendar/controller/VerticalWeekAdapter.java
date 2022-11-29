@@ -41,9 +41,7 @@ public class VerticalWeekAdapter extends RecyclerView.Adapter<VerticalWeekAdapte
     public VerticalWeekAdapter(ResProvider resProvider , int month) {
         this.resProvider = resProvider;
        // initCalendar(month);
-        notifyDataSetChanged();
-
-    }
+        notifyDataSetChanged();}
 
 
 
@@ -58,7 +56,7 @@ public class VerticalWeekAdapter extends RecyclerView.Adapter<VerticalWeekAdapte
                     now.get(Calendar.MONTH),
                     now.get(Calendar.DAY_OF_MONTH));
 
-            Log.d("yearrrV", String.valueOf(    now.get(Calendar.MONTH)));
+            Log.d("yearrrV", String.valueOf( now.get(Calendar.MONTH)));
 
             today.add(Calendar.DAY_OF_MONTH, i * -1);
 
@@ -88,14 +86,16 @@ public class VerticalWeekAdapter extends RecyclerView.Adapter<VerticalWeekAdapte
     }
 
 
-    public void initCalendar(int month){
+    public void initCalendar(int month, int year){
 
         //Log.d("yearrrV", String.valueOf(month));
 
         List<CalendarDay> createdDays = new ArrayList<>();
         for(int i = 0; i <= 15; i++) {
-            Calendar today = new GregorianCalendar(2022,month,01);
-         //   Log.d("yearrrV", String.valueOf(today.get(Calendar.MONTH)));
+            Calendar today = new GregorianCalendar(year,month,01);
+
+            Log.d("yearrrV", String.valueOf(today.get(Calendar.MONTH)));
+            Log.d("yearrrV", String.valueOf(today.get(Calendar.YEAR)));
 
             today.add(Calendar.DAY_OF_MONTH, i * -1);
 
@@ -110,7 +110,7 @@ public class VerticalWeekAdapter extends RecyclerView.Adapter<VerticalWeekAdapte
         days.addAll(createdDays);
 
         for(int i = 1; i <= 15; i++) {
-            Calendar today =new GregorianCalendar(2022,month,01);
+            Calendar today =new GregorianCalendar(year,month,01);
             today.add(Calendar.DAY_OF_MONTH, i);
 
             CalendarDay createdDay = new CalendarDay(

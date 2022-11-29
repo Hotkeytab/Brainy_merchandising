@@ -92,11 +92,7 @@ class ProductFragment : Fragment() , adapter_Product_base.Base_ProductListener{
 
                 if(_Ref_Product_Response.responseCode == 200){
                     liste_product_ref = _Ref_Product_Response.data!!.data as ArrayList<ProductRef>
-                    Log.d("liste_product_ref prod",liste_product_ref.toString())
-
-
-
-                }
+                    Log.d("liste_product_ref prod",liste_product_ref.toString()) }
                 setupRecycleView()
             }}
 
@@ -145,8 +141,7 @@ class ProductFragment : Fragment() , adapter_Product_base.Base_ProductListener{
     }
 
     override fun onClickedProduct(position: Int) {
-        TODO("Not yet implemented")
-    }
+val a =1    }
 
 
 }

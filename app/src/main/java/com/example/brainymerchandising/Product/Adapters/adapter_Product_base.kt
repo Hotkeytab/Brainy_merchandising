@@ -1,5 +1,6 @@
 package com.example.brainymerchandising.Product.Adapters
 
+import android.content.res.Resources
 import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater
@@ -7,6 +8,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.content.res.AppCompatResources.getDrawable
+import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.brainymerchandising.Product.Model.POST.productPost
@@ -14,8 +19,10 @@ import com.example.brainymerchandising.Product.Model.ProductRef
 import com.example.brainymerchandising.Product.Model.StockSetting
 import com.example.brainymerchandising.Product.UI.Dialog.SetAmount_product
 import com.example.brainymerchandising.Product.UI.ProductFragment
+import com.example.brainymerchandising.R
 import com.example.brainymerchandising.databinding.ItemProductBinding
 import kotlinx.android.synthetic.main.item_product.view.*
+import kotlin.coroutines.coroutineContext
 
 
 class adapter_Product_base(
@@ -147,10 +154,11 @@ class ProductViewHolder(
        if(liste_SockSetting.get(0).stockManagement.equals("StockOut")){
            if (itemView.checkBox.isChecked){
 
-               itemView.setBackgroundColor(Color.TRANSPARENT)
+               itemView.product.background = ContextCompat.getDrawable(activityIns, R.drawable.corned_white_purple)
                itemView.checkBox.setChecked(false)
-           }else{ 
-               itemView.setBackgroundColor(Color.YELLOW)
+           }else{
+
+               itemView.product.background = ContextCompat.getDrawable(activityIns, R.drawable.corned_white_red)
                itemView.checkBox.setChecked(true)
            } } else{
                SetAmount_product(position, item, liste_product_StockOut, VisitId,"updateProduct").show(activityIns.supportFragmentManager, "updateProduct")

@@ -40,18 +40,13 @@ class DisplaysSuivie : Fragment() , AdapterSuivieDisplay.Suivie_DisplayListener{
         binding = FragmentDisplaysSuivieBinding.inflate(inflater, container, false)
         return binding.root
         // Inflate the layout for this fragment
-    }
-
+        }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         navController = NavHostFragment.findNavController(this)
-
-        setupRecycleView()
-
-
-    }
+        setupRecycleView()}
 
 
     private fun setupRecycleView() {
@@ -67,15 +62,9 @@ class DisplaysSuivie : Fragment() , AdapterSuivieDisplay.Suivie_DisplayListener{
 
         binding.listeDisplayRecycleSuive.adapter = adapter_Suivie_base
         //Log.d("ena",liste_objet_display.toString())
+        adapter_Suivie_base.setItems(visiteResponseSuivie.displays as ArrayList<Displays>) }
 
-        adapter_Suivie_base.setItems(visiteResponseSuivie.displays as ArrayList<Displays>)
 
-
-    }
 
     override fun onClickeddisplay(position: Int) {
-        val a = 0
-    }
-
-
-}
+        val a = 0 } }

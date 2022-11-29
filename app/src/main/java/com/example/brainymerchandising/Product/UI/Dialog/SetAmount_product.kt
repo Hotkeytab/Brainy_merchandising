@@ -3,6 +3,7 @@ package com.example.brainymerchandising.Product.UI.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -26,9 +27,7 @@ class SetAmount_product(
         position: Int,
         product: ProductRef,
         liste_product_StockOut: ArrayList<productPost>, VisitId: Int, Flag: String,
-        )
-
-        : DialogFragment() {
+        ): DialogFragment() {
         private val viewModel: Product_ViewModel by viewModels()
         private lateinit var responseAdd: Resource<SuccessResponse>
         private lateinit var responseStockout: Resource<SuccessResponse>
@@ -48,11 +47,9 @@ class SetAmount_product(
 
         override fun onStart() {
                 super.onStart()
-
                 //Prepare Dialog Size
                 val width = (resources.displayMetrics.widthPixels)
                 val height = (resources.displayMetrics.heightPixels)
-
                 dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
                 dialog!!.window?.setLayout(width, height)
         }
@@ -65,21 +62,16 @@ class SetAmount_product(
 
                                 GlobalScope.launch(Dispatchers.Main) {
                                         responseAdd = viewModel.updateStock(liste_product_StockOut)
-
+                                        Log.d("liste_product_ref prodMaher",liste_product_StockOut.toString())
 
                                         if (responseAdd.responseCode == 201) {
                                                 dialog!!.setCancelable(true)
                                                 cancel_amount.isEnabled = true
                                                 dialog!!.dismiss()
-
                                         } else {
                                                 dialog!!.setCancelable(true)
                                                 cancel_amount.isEnabled = true
-                                                progress_indicatorproduct.visibility = View.GONE
-                                        }
-
-                                }
-                        }
+                                                progress_indicatorproduct.visibility = View.GONE } } }
 
 
 
@@ -89,14 +81,12 @@ class SetAmount_product(
                                 val Postproduct = productPost(
                                         product.product, product.store,
                                         product.productId,product.storeId ,false,
-                                        val_quantite.text.toString().toInt(),VisitId
-                                )
+                                        val_quantite.text.toString().toInt(),VisitId)
                                 product_update.add(Postproduct)
                                 GlobalScope.launch(Dispatchers.Main) {
                                         responseAdd = viewModel.updateStock(product_update)
 
-
-                                if (responseAdd.responseCode == 201) {
+                                        if (responseAdd.responseCode == 201) {
                                         dialog!!.setCancelable(true)
                                         cancel_amount.isEnabled = true
                                         dialog!!.dismiss()
